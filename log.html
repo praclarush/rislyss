@@ -93,7 +93,7 @@ body {
 .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 56px; }
 h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; font-weight: 600; }
 h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
-h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
 .sub { color: var(--muted); max-width: 68ch; margin: 8px 0 0; }
 .mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 section { display: grid; gap: 20px; }

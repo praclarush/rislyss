@@ -51,6 +51,7 @@ In the chronicle keep time frames ambiguous (no day dates or short durations, bu
 ## Flight log
 
 - `log.html` holds its data in its script: `sys`, `LEGS` and the legend get every leg; `SHOW` (10) limits the map, legend and jump list to the latest legs. The jump total counts all legs.
+- Sections carry ids (`career`, `path`, `sessions`, `log-events`, `ledger`, `totals`, `awards-section`, `engineers`) for the sticky "On this page" index; a new section needs an id and an index link. Career history is a timeline of `div.era` (`p.when` with the date range and a `<small>` count, then `div.what` with the `h3` and list). The route, session and ledger notes sit in `<details class="notes">` as short paragraphs. Sessions and the event log render from the `sessions` and `log` arrays, folded by day with the latest open. Charts redraw at their real width on resize, so give them no fixed sizes.
 - After editing `log.html`, extract its `<script>` blocks and run them under Node with a DOM stub to confirm they run. Headless Edge returns blank output.
 
 ## Checking changes
