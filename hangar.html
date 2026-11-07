@@ -255,7 +255,7 @@ text { font-family: var(--f-mono); }
   <h2>Fleet value</h2>
   <div class="panel hbars">
     <div class="label" style="margin-bottom:10px">Ships at Ray Gateway · value · purchase date per Inara</div>
-    <svg id="fleet" viewBox="0 0 520 420"></svg>
+    <svg id="fleet" viewBox="0 0 520 420" role="img" aria-label="Fleet value by ship: Hephaestus highest at 78.3M CR, Helios lowest at 0"></svg>
   </div>
 </section>
 
@@ -389,25 +389,35 @@ text { font-family: var(--f-mono); }
   const fmtM = n => (n / 1e6).toFixed(n >= 1e7 ? 1 : 2) + "M";
   function hbars(id, rows, opt) {
     const svg = document.getElementById(id);
-    const left = opt.left || 170, right = opt.right || 470, rowH = opt.rowH || 26, top = 6;
+    svg.textContent = "";
+    const W = Math.max(Math.round(svg.getBoundingClientRect().width) || 520, 280);
+    const stack = W < 560, left = stack ? 0 : opt.left || 170, right = W - (opt.valueRoom || 96), lh = stack ? 16 : 0, rowH = (opt.rowH || 26) + lh, top = 6;
     const max = opt.max || Math.max(...rows.map(r => r[1]));
     rows.forEach((r, i) => {
       const y = top + i * rowH;
-      el("text", { x: left - 10, y: y + rowH / 2 + 3.5, "font-size": 11, fill: r[3] ? C.fg : C.muted, "text-anchor": "end" }, svg, r[0]);
-      el("rect", { x: left, y: y + 5, width: right - left, height: rowH - 10, fill: C.line, opacity: .5 }, svg);
-      el("rect", { x: left, y: y + 5, width: Math.max(1.5, (r[1] / max) * (right - left)), height: rowH - 10, fill: r[2] || C.accent }, svg);
-      const vt = el("text", { x: left + Math.max(1.5, (r[1] / max) * (right - left)) + 6, y: y + rowH / 2 + 3.5, "font-size": 10.5, fill: C.fg }, svg, opt.fmt(r[1]));
+      if (stack) el("text", { x: 0, y: y + 13, "font-size": 12, fill: r[3] ? C.fg : C.muted }, svg, r[0]);
+      else el("text", { x: left - 10, y: y + rowH / 2 + 4, "font-size": 12, fill: r[3] ? C.fg : C.muted, "text-anchor": "end" }, svg, r[0]);
+      const by = y + lh;
+      el("rect", { x: left, y: by + 5, width: right - left, height: rowH - lh - 10, fill: C.line, opacity: .5 }, svg);
+      el("rect", { x: left, y: by + 5, width: Math.max(1.5, (r[1] / max) * (right - left)), height: rowH - lh - 10, fill: r[2] || C.accent }, svg);
+      const vt = el("text", { x: left + Math.max(1.5, (r[1] / max) * (right - left)) + 6, y: by + (rowH - lh) / 2 + 4, "font-size": 11.5, fill: C.fg }, svg, opt.fmt(r[1]));
       if (r[4]) el("tspan", { fill: C.muted }, vt, " · " + r[4]);
     });
-    svg.setAttribute("viewBox", `0 0 520 ${top * 2 + rows.length * rowH}`);
+    svg.setAttribute("viewBox", `0 0 ${W} ${top * 2 + rows.length * rowH}`);
   }
-  hbars("fleet", [
+  const drawFleet = () => hbars("fleet", [
     ["Python · Hephaestus", 78336357, ""], ["Krait Phantom · Invictus", 76102259, "Sep 2024"], ["Fer-de-Lance · Artemis", 72005800, "Sep 2024"],
     ["Imperial Clipper · Void Runner", 48147587, "Aug 2024"], ["Diamondback Explorer · Dreaming Void", 15403141, "Aug 2022"],
     ["Mandalay · Aurora", 11542437, "modules only"], ["Type-8 · Compass Rose", 6000467, "Aug 2024"],
     ["Dolphin · Avalon", 5975922, "Aug 2022"], ["Sidewinder · Intrepid", 3322134, "Sep 2024"], ["Viper Mk III · Seraphim Rising", 2931232, "Aug 2022"],
     ["Hauler · Horizon", 677293, "Jul 2022"], ["Lynx Highliner · Helios", 0, "Oct 2026"]
-  ].map(r => [r[0], r[1], r[0].includes("Aurora") ? C.dim : C.accent, true, r[2]]), { fmt: v => v ? fmtM(v) : "0", left: 210, right: 405, rowH: 32 });
+  ].map(r => [r[0], r[1], r[0].includes("Aurora") ? C.dim : C.accent, true, r[2]]), { fmt: v => v ? fmtM(v) : "0", left: 290, valueRoom: 150, rowH: 30 });
+  drawFleet();
+  let lastW = innerWidth, rt;
+  addEventListener("resize", () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; drawFleet(); } }, 150);
+  });
 })();
 </script>
 <dialog class="lightbox" id="lightbox" aria-label="Ship image">
