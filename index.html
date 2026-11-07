@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a Pilots Federation personnel file. Identity and live cockpit feed up top, then background, physical record with concept sheets, marks, character, private life, the fleet (active ship featured, the rest grouped by role) and service record. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
+/* Layout: a Pilots Federation personnel file. Identity and live cockpit feed up top, then background, physical record with concept sheets, marks, character, private life, a one-line fleet note pointing to the hangar, and service record. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -47,6 +47,8 @@ h1 span { color: inherit; display: block; }
 .callsign { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em; }
 .callsign b { color: var(--fg); font-weight: 600; }
 .quote { font-style: italic; color: var(--muted); max-width: 46ch; padding: 10px 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--accent-dim) 14%, transparent); }
+.fleet-line { max-width: 70ch; }
+.fleet-line a { color: var(--accent); }
 .intro { color: var(--muted); font-size: 15px; max-width: 58ch; }
 abbr[title] { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
 .feed { padding: 8px; display: grid; gap: 8px; margin: 0; }
@@ -113,27 +115,6 @@ button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
 .private .prose { font-size: 16px; }
 .private .prose p:first-child::first-letter { all: unset; }
 
-/* Fleet */
-.fleet { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.ship { border: 1px solid var(--line); padding: 14px; display: grid; gap: 4px; align-content: start; background: var(--panel); }
-.ship .id { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
-.ship .nm { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.15; }
-.ship .cls { font-size: 13.5px; color: var(--muted); }
-.ship .st { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
-.ship.hl { border-color: var(--accent-dim); }
-.ship.hl .st { color: var(--accent); }
-.ship-feature { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); border: 1px solid var(--accent-dim); background: var(--panel); color: var(--fg); text-decoration: none; margin-bottom: 28px; transition: border-color .2s cubic-bezier(.22, 1, .36, 1); }
-.ship-feature:hover { border-color: var(--accent); }
-.ship-feature:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.ship-feature img { width: 100%; height: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
-.sf-text { display: grid; gap: 6px; align-content: center; padding: 24px 28px; }
-.sf-text .id { font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
-.sf-text .nm { font-family: var(--f-display); font-size: clamp(26px, 3vw, 34px); font-weight: 600; line-height: 1.1; text-wrap: balance; }
-.sf-text .cls { color: var(--muted); }
-.sf-text .st { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
-.sf-text .go { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-top: 8px; }
-.fleet-group { display: grid; gap: 10px; margin-top: 22px; }
-.fleet-group h3 { font-size: 15px; color: var(--muted); font-weight: 600; }
 
 /* Service record */
 .record { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
@@ -163,8 +144,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
   .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .fact:nth-child(4) { padding-left: 0; border-left: 0; }
   .fact:nth-child(n+4) { border-top: 1px solid var(--line); }
-  .marks, .fleet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ship-feature { grid-template-columns: minmax(0, 1fr); }
+  .marks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .record { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stat:not(:nth-child(4n+1)) { padding-left: 0; border-left: 0; }
   .stat:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line); }
@@ -175,7 +155,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
   .fact:nth-child(odd) { padding-left: 0; border-left: 0; }
   .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
   .tells, .next { grid-template-columns: minmax(0, 1fr); }
-  .marks, .fleet { grid-template-columns: minmax(0, 1fr); }
+  .marks { grid-template-columns: minmax(0, 1fr); }
   .spec div { grid-template-columns: 96px minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -349,48 +329,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 
 <section>
   <h2>Fleet</h2>
-  <a class="ship-feature" href="hangar.html#ri-x05">
-    <img src="gallery/ships/hymn-of-the-long-night.jpg" alt="The Caspian Explorer Hymn of the Long Night in open space" width="1600" height="900" loading="lazy">
-    <span class="sf-text">
-      <span class="id"><span>RI-X05</span><span>Explorer · active ship</span></span>
-      <span class="nm">Hymn of the Long Night</span>
-      <span class="cls">Caspian Explorer</span>
-      <span class="st">Fiden · Nomad Refrain, one SRV Scarab, one lost at Fiden</span>
-      <span class="go">In the hangar →</span>
-    </span>
-  </a>
-  <div class="fleet-group">
-    <h3>Exploration</h3>
-    <div class="fleet">
-      <div class="ship hl"><span class="id"><span>RI-X04</span><span>Explorer</span></span><span class="nm">Aurora</span><span class="cls">Mandalay</span><span class="st">Refit finished · Ray Gateway</span></div>
-      <div class="ship hl"><span class="id"><span>RI-X02</span><span>Explorer</span></span><span class="nm">Dreaming Void</span><span class="cls">Diamondback Explorer</span><span class="st">Registered ship · Ray Gateway</span></div>
-    </div>
-  </div>
-  <div class="fleet-group">
-    <h3>Combat</h3>
-    <div class="fleet">
-      <div class="ship"><span class="id"><span>RI-C02</span><span>Combat</span></span><span class="nm">Artemis</span><span class="cls">Fer-de-Lance</span><span class="st">Jaques Station, Colonia</span></div>
-      <div class="ship"><span class="id"><span>RI-C01</span><span>Combat</span></span><span class="nm">Seraphim Rising</span><span class="cls">Viper Mk III</span><span class="st">Ray Gateway</span></div>
-    </div>
-  </div>
-  <div class="fleet-group">
-    <h3>Salvage, mining, trade and service</h3>
-    <div class="fleet">
-      <div class="ship"><span class="id"><span>RI-V01</span><span>Salvage</span></span><span class="nm">Invictus</span><span class="cls">Krait Phantom</span><span class="st">Ray Gateway</span></div>
-      <div class="ship"><span class="id"><span>RI-M01</span><span>Miner</span></span><span class="nm">Hephaestus</span><span class="cls">Python</span><span class="st">Jaques Station, Colonia</span></div>
-      <div class="ship"><span class="id"><span>RI-T01</span><span>Trader</span></span><span class="nm">Compass Rose</span><span class="cls">Type-8 Transporter</span><span class="st">Ray Gateway</span></div>
-      <div class="ship"><span class="id"><span>RI-P01</span><span>Passenger</span></span><span class="nm">Avalon</span><span class="cls">Dolphin</span><span class="st">Ray Gateway</span></div>
-      <div class="ship"><span class="id"><span>RI-R01</span><span>Rescue</span></span><span class="nm">Helios</span><span class="cls">Lynx Highliner</span><span class="st">Ray Gateway · awaiting outfit</span></div>
-    </div>
-  </div>
-  <div class="fleet-group">
-    <h3>General purpose</h3>
-    <div class="fleet">
-      <div class="ship"><span class="id"><span>RI-G03</span><span>General</span></span><span class="nm">Void Runner</span><span class="cls">Imperial Clipper</span><span class="st">Ray Gateway</span></div>
-      <div class="ship"><span class="id"><span>RI-G01</span><span>General</span></span><span class="nm">Intrepid</span><span class="cls">Sidewinder</span><span class="st">Ray Gateway</span></div>
-      <div class="ship"><span class="id"><span>RI-G02</span><span>General</span></span><span class="nm">Horizon</span><span class="cls">Hauler</span><span class="st">First ship · since 3308</span></div>
-    </div>
-  </div>
+  <p class="fleet-line">Thirteen ships registered under the RI prefix, most kept at Ray Gateway in Diaguandri and two at Jaques Station in Colonia. Active ship: the Caspian Explorer <b>Hymn of the Long Night</b> (RI-X05). The full register, with fits and engineering, is in the <a href="hangar.html">hangar</a>.</p>
 </section>
 
 <section>
@@ -409,7 +348,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 
 <nav class="next" aria-label="Continue reading">
   <a href="chronicle.html"><span class="label">Next</span><span class="t">The Chronicle</span><span class="d">Her career as a running record, from Achenar to Colonia and back.</span></a>
-  <a href="log.html"><span class="label">Then</span><span class="t">Flight Log</span><span class="d">Career, routes, sessions, ledger and engineers, from the ship's journals.</span></a>
+  <a href="log.html"><span class="label">Then</span><span class="t">Flight Log</span><span class="d">Routes, sessions, ledger and career, from the ship's journals.</span></a>
 </nav>
 
 <footer>
