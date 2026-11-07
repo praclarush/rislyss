@@ -46,7 +46,7 @@ p { margin: 0; max-width: 66ch; }
 .stamp b { color: var(--fg); font-weight: 600; }
 .stamp .loc { color: var(--cyan); }
 .entry .body { display: grid; gap: 12px; min-width: 0; }
-.entry h3 { font-size: 19px; }
+.entry h2 { font-size: 19px; }
 .aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
 .now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
@@ -58,31 +58,34 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 }
 .chapter > h1 { font-size: clamp(30px, 5.5vw, 44px); line-height: 1.05; }
 .crumb { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; }
-.crumb a { color: var(--muted); text-decoration: none; }
-.crumb a:hover, .crumb a:focus-visible { color: var(--accent); outline: none; }
-.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.crumb a { display: inline-block; padding: 13px 0; color: var(--muted); text-decoration: none; }
+.crumb a:hover, .crumb a:focus-visible { color: var(--accent); }
+.crumb a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
 .pager a { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s; }
-.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
-.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); }
+.pager a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .pager .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.2; }
 .pager .nx { text-align: right; grid-column: 2; }
 @media (max-width: 600px) { .pager { grid-template-columns: minmax(0, 1fr); } .pager .nx { grid-column: auto; } }
 </style>
 <style>
+.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
+.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
 .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
 .site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 9px 2px 7px; white-space: nowrap; } }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
+.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="../index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="../index.html">Biography</a></li><li><a class="pg" href="../chronicle.html" aria-current="page" aria-current="page">Chronicle</a></li><li><a class="pg" href="../log.html">Flight Log</a></li><li><a class="pg" href="../hangar.html">Hangar</a></li><li><a class="pg" href="../gallery.html">Gallery</a></li><li><a class="pg" href="../medical.html">Medical</a></li><li><a class="pg" href="../psychological.html">Psych</a></li></ul></div></nav>
-<div class="wrap">
+<main class="wrap" id="main">
 
 <div class="crumb"><a href="../chronicle.html">← The Rislyss Chronicle</a></div>
 
@@ -94,7 +97,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>00:03 to 01:47</span><span class="loc">LY-Q b5-2 A 2</span></div>
     <div class="body">
-      <h3>The vigil</h3>
+      <h2>The vigil</h2>
       <p>She started the Scarab four times without moving it. The first start was aborted almost immediately. The second and third each followed a repair, one fault at a time, with a shutdown and restart to confirm the fix. On the fourth start the systems held.</p>
       <p>She then connected to the open network and stayed put for seventy-seven minutes. The journal records nothing in that period, but what she did next shows how it was spent. She was carrying two years of unsold cartographic data, and when she next powered up she flew directly to Diaguandri, sold the data at Ray Gateway, refitted the Mandalay with field maintenance units at a nearby outfitter, and renewed her pledge to Li Yong-Rui, in that order.</p>
     </div>
@@ -103,7 +106,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>14:50 to 15:26</span><span class="loc">Pleiades to Diaguandri</span></div>
     <div class="body">
-      <h3>The run home</h3>
+      <h2>The run home</h2>
       <p>Ninety seconds after start-up, every system in the Scarab shut down at once. With six Thargoid signals on the moon, a Thargoid shutdown pulse is the most likely cause. She recovered the SRV into Void Runner's hangar, lifted off and entered supercruise without waiting for a second event.</p>
       <p>The route planner proposed twenty-six jumps to Diaguandri. She replotted it to ten, through the Col 285 and Arietis sectors, refuelling from the scoop at each star. At Bharani a Viper Mk III locked her four times in about three seconds and then disengaged. On arrival at Diaguandri a system scan returned 146 signals, 115 of them fleet carriers.</p>
       <p>At Ray Gateway she sold the data for 1,874,407 credits: 75 systems and 186 bodies, none of them first discoveries. A single unit of Meta-Alloys fetched 214,605, and sixteen tonnes of Neofabric Insulation sold at a small loss. She then took delivery of a Lynx Highliner held on order, later commissioned as the rescue ship Helios.</p>
@@ -113,7 +116,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>17:22 to 18:39</span><span class="loc">Ebor · Caillie Town</span></div>
     <div class="body">
-      <h3>The Stronghold and the refit</h3>
+      <h2>The Stronghold and the refit</h2>
       <p>She took out the Mandalay, then still named Athena, and jumped to Ebor, where a Stronghold Carrier held station above the fourth planet. It refused docking on grounds of restricted access. She renewed her pledge to Li Yong-Rui on the spot. The carrier refused her twice more, first on range and then for lack of a free pad, and scanned her cargo before she left without docking.</p>
       <p>At Caillie Town, a 10th Hawk Squadron station undergoing expansion, she spent close to six million credits on the Mandalay. The mining lasers came out. In went two field maintenance units, a 4A and a 1A, a wake scanner, point defence and an advanced docking computer. She also replaced the 3A power plant with a lighter 2A. The ship was renamed Aurora, registration RI-X04.</p>
       <p class="aside">The 2A plant could not supply the full fit, and the Guardian FSD booster went unpowered. That cost about 10.5 light years of range until the plant was upgraded.</p>
@@ -123,7 +126,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>21:59 to 23:06</span><span class="loc">Diaguandri to Orrere</span></div>
     <div class="body">
-      <h3>The fleet review</h3>
+      <h2>The fleet review</h2>
       <p>Before departing she boarded nine of her stored ships in turn: Horizon, Seraphim Rising, Intrepid, Avalon, Compass Rose, Dreaming Void, Artemis, Invictus and Hephaestus. She made no changes to any of them and returned to Aurora.</p>
       <p>She then took Dreaming Void north from Ray Gateway. The route passed a T dwarf in Tascheter Sector UE-Q a5-2 and the white dwarf LAWD 26, where the Codex logged a Wolf-Rayet star, then crossed the Sol neighbourhood to Orrere. Orrere lies in Edmund Mahon's territory, and her pledge registered her there as hostile.</p>
       <p>The detailed surface scanner would not appear in any fire group, a configuration fault that took some time to resolve. Once it did, she mapped Orrere 2 b with two probes, meeting the efficiency target, landed and deployed the Scarab to collect gold and beryllium. She shut down in the SRV.</p>
@@ -133,7 +136,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>00:41 to 02:13</span><span class="loc">Orrere to HR 3230</span></div>
     <div class="body">
-      <h3>First merits, then east</h3>
+      <h2>First merits, then east</h2>
       <p>Further prospecting on Orrere 2 b yielded tellurium, antimony, ruthenium, zirconium and palladium. She jettisoned the bertrandite and beryllium, recovered the SRV and returned to Diaguandri in four jumps via Gnowee and Rana.</p>
       <p>At Ray Gateway she sold the gold and palladium for 174,393 credits and five systems of data for 43,471. Diaguandri is a Li Yong-Rui stronghold, and the sale produced her first Powerplay merits: ten, in two awards, at rank zero.</p>
       <p>She then flew Dreaming Void 449 light years east in seven jumps through the unpopulated Col 285 and Wregoe sectors to HR 3230, whose A-class primary set off a heat warning on arrival. She mapped HR 3230 3 a with two probes, landed on its moon and recovered manganese, selenium and zirconium with the Scarab. She shut down there, 446 light years from Diaguandri, the furthest point of her return so far.</p>
@@ -143,7 +146,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>23:28 to 01:13</span><span class="loc">HR 3230 to Kuwemaki</span></div>
     <div class="body">
-      <h3>The brokers and the engineers</h3>
+      <h2>The brokers and the engineers</h2>
       <p>She flew Dreaming Void back to Diaguandri along a similar seven-jump route. Scanning ships on the approach to Ray Gateway earned merits at eight per scan, followed by a single unexplained award of 2,000, so her total went from 10 to 2,082 before she docked. The HR 3230 data sold for 270,959 credits, most of it for Wregoe WP-G d10-50, a system of twenty-one bodies.</p>
       <p>She then switched to Aurora to gather the materials her engineering required, using the three material traders within a jump of Diaguandri. The encoded trader at Ray Gateway handled two trades without issue. At Thomas Orbital in Wolf 1241 she traded 144 iron for four tin and then six tin for one selenium, which left her with less tin than she had arrived with. She went on to Tesla Terminal in Njulngan for nine manufactured trades, then returned to Wolf 1241 and made up the tin with surplus mercury, molybdenum and niobium. That covered every material on Aurora's list.</p>
       <p>With the Guardian booster now powered, Aurora reached Kuk in two jumps of 80 and 69 light years. At Prospector's Rest, Selene Jean took the lightweight alloy bulkheads to Heavy Duty grade 5 with Deep Plating in sixteen rolls. Four jumps of about 80 light years and one of 15 brought Aurora to Kuwemaki, 259 light years from Diaguandri. There, at The Jet's Hole, Hera Tani took the power plant to Overcharged grade 5 with Stripped Down, raising its output from 9.6 to 13.44 megawatts, the most the blueprint allows.</p>
@@ -154,7 +157,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>22:35 to 00:44</span><span class="loc">Kuwemaki to Diaguandri</span></div>
     <div class="body">
-      <h3>Finishing the Aurora's Refit</h3>
+      <h2>Finishing the Aurora's Refit</h2>
       <p>She left Kuwemaki to finish Aurora at six engineers on the way home.</p>
       <p>Professor Palin at Arque took the thrusters from Dirty grade 3 to Clean grade 5. She tried his Thermal Spread experimental and replaced it with Stripped Down. Bill Turner at Alioth applied Lightweight grade 3 to the life support, the highest grade he offers. Grade 5 requires Etienne Dorn in Colonia, who has not yet opened his workshop to her. Didi Vatermann at Leesti engineered the single fitted shield booster to Thermal Resistant grade 5 with Super Capacitors.</p>
       <p>Lei Cheung at Laksak worked on three modules. He took the shield generator to Enhanced Low Power grade 5 with Stripped Down, the sensors to Lightweight grade 5, and the surface scanner from grade 3 to grade 5. The shield generator's lower draw should bring Aurora within her power budget.</p>
@@ -167,7 +170,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>23:10 to 01:20</span><span class="loc">Achenar, Kuwemaki, Alioth</span></div>
     <div class="body">
-      <h3>Fortune's Loss</h3>
+      <h2>Fortune's Loss</h2>
       <p>She took Aurora out of Ray Gateway and flew three jumps to Achenar, the system she was born in: 82 and 84 light years, then a short 13 to the capital. Achenar is closed to pilots without an Imperial permit; hers came with her Navy rank.</p>
       <p>She docked at Fortune's Loss, Tiana Fortune's workshop, and paid the price of entry, 50 units of Decoded Emission Data. Tiana Fortune opened her workshop to her at rank 1.</p>
       <p>The first work was on Aurora's wake scanner, the one module the refit had left untouched. Ten Lightweight rolls took it through grade 1 and grade 2, and her standing with Tiana Fortune rose to rank 3 along the way. Grade 3 is the planned target.</p>
@@ -181,7 +184,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>00:12 to 01:14</span><span class="loc">Meene, Damna, Arietis Sector RY-R b4-4</span></div>
     <div class="body">
-      <h3>The last module, and a cargo of shells</h3>
+      <h2>The last module, and a cargo of shells</h2>
       <p>Aurora lifted from Turner Metallics and made three jumps to Meene: 82 and 85 light years, then 49. At Phoenix Base Ram Tah took the point defence turret from 60 to 100 percent of Lightweight grade 5 in two rolls. Every module Aurora's available engineers can work on is now finished. Her life support stays at grade 3 until Etienne Dorn in Colonia is unlocked.</p>
       <p>Two jumps of 84 and 76 light years brought her home to Ray Gateway. With the Guardian booster powered, Aurora's loadout now gives a maximum range of 87.8 light years.</p>
       <p>She then took the Imperial Clipper Void Runner out on a Powerplay assignment for Li Yong-Rui: rare goods sold in a system the power is working to acquire. Four jumps took her to Damna, a feudal system under Jerome Archer, where Nemere Market lies 3,022 light seconds from the arrival star. She bought its entire stock of Damna Carapaces, fifteen units at 315 credits each.</p>
@@ -193,7 +196,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>20:06 to 21:04</span><span class="loc">Diaguandri, Arietis Sector UJ-Q b5-1</span></div>
     <div class="body">
-      <h3>The beacon</h3>
+      <h2>The beacon</h2>
       <p>For a Li Yong-Rui bounty assignment she took the Fer-de-Lance Artemis out of storage for the first time since her return and dropped at the Diaguandri navigation beacon, a threat-level 2 location. Every ship she scanned there earned eight merits.</p>
       <p>She destroyed four wanted ships: an Adder, a Diamondback Scout, a Cobra Mk III and a Master-ranked Krait Mk II carrying a bounty of 605,338 credits. Her shields failed once and recovered within a minute. The Krait brought 90 merits, and a single award of 3,200 followed, taking her total to 9,280.</p>
       <p>At Ray Gateway she redeemed 817,557 credits in bounties, rearmed, and changed back to Void Runner with ten collector limpets. She worked an encoded-emissions signal in Diaguandri, then jumped 11 light years to Arietis Sector UJ-Q b5-1 and worked four more signal sources there for materials. The collectors also brought aboard six tonnes of military cargo marked as stolen; she jettisoned all of it before jumping home, and shut down at Ray Gateway at 21:04.</p>
@@ -203,7 +206,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>23:03 to 23:57</span><span class="loc">Diaguandri</span></div>
     <div class="body">
-      <h3>Power wreckage</h3>
+      <h2>Power wreckage</h2>
       <p>Void Runner went out again with thirty limpets for a salvage assignment. Power Wreckage Signatures in Diaguandri held black boxes, escape pods and wreckage components. The first, near Diaguandri C 1, yielded seven items; Search and Rescue at Ray Gateway paid 155,164 credits for them and Li Yong-Rui 280 merits. A second, at threat level 3 near Diaguandri AB 2, paid 158,849 credits and another 280 merits, for 9,887 in all.</p>
       <p>The third signal, at threat level 2, was occupied. Void Runner's shields failed on arrival, her cargo was scanned, and she came under fire while the collectors were still working. The hull went from 65 percent to nothing in seven seconds. Her attacker was Mike Perkins, an Expert-ranked pilot in a Diamondback Explorer.</p>
       <p>She took the rebuy at Ray Gateway for 2,674,868 credits, restocked twenty limpets and shut down at 23:57.</p>
@@ -213,7 +216,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>22:51 to 00:47</span><span class="loc">Diaguandri, Arietis sectors, Yoru, Caledo</span></div>
     <div class="body">
-      <h3>Rank five</h3>
+      <h2>Rank five</h2>
       <p>Void Runner returned to the Power Wreckage Signatures in Diaguandri. One near Diaguandri AB 1, at threat level 2, gave up a black box, four escape pods and three wreckage components, collected under two cargo scans. Search and Rescue at Ray Gateway paid 185,938 credits. Li Yong-Rui added 280 merits for the salvage and two single awards of 2,931 and 2,800.</p>
       <p>From the Powerplay contact she collected fifteen Sirius Franchise Packages and ten units of Power Tracker Malware. She delivered the packages to Starport Of Starlight in Arietis Sector RY-R b4-4, the acquisition system she had supplied with rare goods, for 90 merits. She then collected fifteen Sirius Corporate Contracts at Ray Gateway and flew them 20.8 light years into Pranav Antal territory, to Gremlin's Grove in Arietis Sector KD-H a11-0. The delivery paid 72 merits and an award of 3,600, and lifted her to rank 5 with Li Yong-Rui. She ended the run with 16,761 merits.</p>
       <p>Back at Ray Gateway she redeemed a Caspian Explorer from a shipyard bundle. It is the hull of the planned exobiology ship, registered by the shipyard as Reliant Seeker and still unfitted.</p>
@@ -224,7 +227,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>17:54 to 19:27</span><span class="loc">Yoru and its neighbours</span></div>
     <div class="body">
-      <h3>The Party of Yoru</h3>
+      <h2>The Party of Yoru</h2>
       <p>Aurora returned to Yoru and worked for the Party of Yoru, a minor faction supporting its own expansion. Over the session she completed nine of its missions in short hops of 6 to 26 light years: expansion data couriers to Shui Wei Sector QD-S b4-6, Karid, Orang, Murato, Lepchaimyu, T'u Tu and CD-79 950, two crates of rare artwork recovered from a degraded-emissions signal in T'u Tu, and seven tonnes of polymers to Amarigeni.</p>
       <p>The missions paid 242,353 credits, the largest single payment 60,000 for the courier to Hillcoat Horizons. She shut down docked at Hannu Mines in CD-79 950 at 19:27.</p>
     </div>
@@ -233,7 +236,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>22:04 to 23:52</span><span class="loc">Yoru, Xihe, Hollos, Diaguandri</span></div>
     <div class="body">
-      <h3>Zacariah Nemo</h3>
+      <h2>Zacariah Nemo</h2>
       <p>At Caidin Reach the Party of Yoru offered her an Engineer Invitation Contract. She flew Aurora home in three jumps and changed to Void Runner for the cargo space, then went north through the Tascheter, Piscium and Core Sys sectors to Xihe. At Zhen Dock she bought twenty-five units of Xihe Biomorphic Companions for 116,650 credits.</p>
       <p>Four jumps took her to Hollos, where delivering the contract at Bharadwaj Hub brought Zacariah Nemo's invitation. A short jump to Yoru followed. At Nemo Cyber Party Base on Yoru 4 she handed over the twenty-five Xihe companions, and Zacariah Nemo opened his workshop to her at rank 1.</p>
       <p>Five jumps returned her to Diaguandri, where she sold sixteen systems of data for 377,461 credits. She then patrolled the Diaguandri navigation beacon and four signal sources in Artemis, scanning sixteen ships for Li Yong-Rui and bringing her merits to 17,053. She docked at Ray Gateway, returned to Aurora and shut down at 23:52.</p>
@@ -243,7 +246,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>23:40 to 01:18</span><span class="loc">Arque, HIP 20567, Epsilon Indi, Altair</span></div>
     <div class="body">
-      <h3>Meta-alloys</h3>
+      <h2>Meta-alloys</h2>
       <p>She took Aurora three jumps to Arque and bought a 2-tonne anti-corrosion cargo rack at Professor Palin's Abel Laboratory for 10,050 credits, then flew it home. At Ray Gateway the rack went into the Krait Phantom Invictus, now the fleet's salvage vessel, in place of her vehicle hangar, giving her 34 tonnes of cargo.</p>
       <p>Invictus flew five jumps south to HIP 20567, an anarchy system 53 light years beyond HIP 19591, and dropped twice at its seventh planet. Her collector limpets recovered four units of Meta-Alloys and one Titan Drive Component.</p>
       <p>She then turned north. After a stop at the fleet carrier GFK-W1N in Hyades Sector ZU-Y d93 she crossed past Sol's neighbourhood to Epsilon Indi, where the carrier H9K-0TK sold her eleven more Meta-Alloys at 2,495,439 credits each, 27,449,829 in all. A twelfth came from the carrier W3H-29V in EZ Aquarii for 776,127. The purchases took her balance from 145.8 to 117.6 million credits.</p>
@@ -254,7 +257,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>01:15 to 02:29</span><span class="loc">Luyten's Star, Diaguandri, LHS 417, HR 3230</span></div>
     <div class="body">
-      <h3>The sale</h3>
+      <h2>The sale</h2>
       <p>Invictus left Altair for Luyten's Star, 29 light years, and escaped an interdiction by Glenn Dawkins on the way in. At the fleet carrier B4Z-LQY she sold all sixteen Meta-Alloys at 19,457,200 credits each, 311,315,200 in all, against an average of 1,764,122 paid.</p>
       <p>She came under fire as she undocked. Her shields failed within two seconds and her hull fell to 40 percent before she jumped 22 light years to CD-37 15492. The attacker does not appear in the record. At the carrier DSI1 there she paid 51,017 credits for repairs and sold the Titan Drive Component for 36,207,500. Counting the alloys she bought, the anti-corrosion rack and the repairs, the run returned about 319 million credits, and her balance stood at 465.8 million.</p>
       <p>Three jumps took Invictus home, where ten systems of data sold for 788,377. She changed to Aurora and flew to LHS 417, mapped two moons around its ninth planet with five probes, and touched down briefly beside a wrecked SRV on LHS 417 9 e a. Six jumps of about 84 light years then took Aurora east to HR 3230, where she landed on 3 a a, took the Scarab out for eleven minutes of prospecting, and shut down on the surface at 02:29.</p>
@@ -264,7 +267,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>00:28 to 02:35</span><span class="loc">HR 3230, the brokers, LHS 501, Diaguandri C 3</span></div>
     <div class="body">
-      <h3>Palladium</h3>
+      <h2>Palladium</h2>
       <p>Aurora lifted from HR 3230 3 a a and returned to Diaguandri in six jumps. After selling nine systems of data for 428,994 credits she worked the three material brokers: one encoded trade at Ray Gateway, six raw trades at Thomas Orbital in Wolf 1241 and eight manufactured trades at Tesla Terminal in Njulngan. The fifteen trades are the set planned for Reliant Seeker's engineering, among them 34 conductive ceramics, 20 conductive components and 13 tin.</p>
       <p>She then took Invictus to LHS 501 and bought twenty-one units of palladium at Omenma Berth for 102,018 credits, for an EXO contract to source and return palladium to Garrido's Locus, a settlement on Diaguandri C 3. On the approach to the settlement Invictus lost her shields and her hull fell to 54 percent; she landed and was repaired for 17,694 credits.</p>
       <p>On foot at the settlement she was fined for reckless endangerment and shot by its security. She recovered at Detainment Centre Delta-7, a megaship in Tascheter Sector AV-Y b5, flew Invictus back 56.5 light years and delivered the palladium. EXO paid 14,430,912 credits. She shut down docked at Garrido's Locus at 02:35.</p>
@@ -282,7 +285,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
 </footer>
 
-</div>
+</main>
 
 </body>
 </html>

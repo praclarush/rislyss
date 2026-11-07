@@ -46,7 +46,7 @@ p { margin: 0; max-width: 66ch; }
 .stamp b { color: var(--fg); font-weight: 600; }
 .stamp .loc { color: var(--cyan); }
 .entry .body { display: grid; gap: 12px; min-width: 0; }
-.entry h3 { font-size: 19px; }
+.entry h2 { font-size: 19px; }
 .aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
 .now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
@@ -58,31 +58,34 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 }
 .chapter > h1 { font-size: clamp(30px, 5.5vw, 44px); line-height: 1.05; }
 .crumb { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; }
-.crumb a { color: var(--muted); text-decoration: none; }
-.crumb a:hover, .crumb a:focus-visible { color: var(--accent); outline: none; }
-.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.crumb a { display: inline-block; padding: 13px 0; color: var(--muted); text-decoration: none; }
+.crumb a:hover, .crumb a:focus-visible { color: var(--accent); }
+.crumb a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
 .pager a { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s; }
-.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
-.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); }
+.pager a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .pager .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.2; }
 .pager .nx { text-align: right; grid-column: 2; }
 @media (max-width: 600px) { .pager { grid-template-columns: minmax(0, 1fr); } .pager .nx { grid-column: auto; } }
 </style>
 <style>
+.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
+.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
 .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
 .site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 9px 2px 7px; white-space: nowrap; } }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
+.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="../index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="../index.html">Biography</a></li><li><a class="pg" href="../chronicle.html" aria-current="page" aria-current="page">Chronicle</a></li><li><a class="pg" href="../log.html">Flight Log</a></li><li><a class="pg" href="../hangar.html">Hangar</a></li><li><a class="pg" href="../gallery.html">Gallery</a></li><li><a class="pg" href="../medical.html">Medical</a></li><li><a class="pg" href="../psychological.html">Psych</a></li></ul></div></nav>
-<div class="wrap">
+<main class="wrap" id="main">
 
 <div class="crumb"><a href="../chronicle.html">← The Rislyss Chronicle</a></div>
 
@@ -94,7 +97,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>22:50 to 01:33</span><span class="loc">Diaguandri, Deciat, Laksak, Koli Discii</span></div>
     <div class="body">
-      <h3>The Caspian</h3>
+      <h2>The Caspian</h2>
       <p>At Ray Gateway she took out the Caspian Explorer redeemed earlier in the week and stripped her of her delivery fit: cargo racks, vehicle and fighter hangars, limpet controllers, two field maintenance units and the shield. In their place went a Bi-Weave shield, a Guardian frame shift drive booster, a Mk II vessel hangar, a field maintenance unit, repair limpets and supercruise assist, with a 6A power plant and a 5A power distributor. The outfit cost 18,495,257 credits. She still carried the name the shipyard assigned, Reliant Seeker, and its default ident RI-12E.</p>
       <p>She flew the Caspian four jumps to Deciat, where Felicity Farseer took the frame shift drive to Long Range grade 5 in sixteen rolls and added Mass Manager. A heat sink launcher bought at Garay Terminal completed the utility mounts. Three jumps of 72 to 75 light years took her to Lei Cheung at Laksak, who engineered the sensors to Lightweight grade 5, the shield to Low Power grade 5, and the surface scanner as far as grade 3. The shield's Stripped Down experimental was not applied, which went unnoticed until her shakedown cruise. Five jumps returned the ship to Ray Gateway with a range of 83.5 light years.</p>
       <p>She then flew Aurora to a crash site on Koli Discii C 6 a and prospected in the SRV for ruthenium, tungsten, tellurium, antimony and zirconium, and came back by way of Wolf 1241, where she shut down at Thomas Orbital at 01:33.</p>
@@ -104,7 +107,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>02:37 to 03:10</span><span class="loc">Wolf 1241, Meene, Laksak</span></div>
     <div class="body">
-      <h3>Finishing work</h3>
+      <h2>Finishing work</h2>
       <p>At Thomas Orbital she sold thirteen systems of data for 365,174 credits and made six raw-material trades, then took Aurora home and changed to the Caspian. Ram Tah at Meene gave both heat sink launchers Ammo Capacity grade 1, and Lei Cheung at Laksak finished the surface scanner's Expanded Radius at grade 5. She shut down docked at Trader's Rest at 03:10.</p>
     </div>
   </article>
@@ -112,7 +115,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>19:16 to 21:16</span><span class="loc">Arque, Wyrd, Kuk, Kuwemaki, Alioth</span></div>
     <div class="body">
-      <h3>Hymn of the Long Night</h3>
+      <h2>Hymn of the Long Night</h2>
       <p>The Caspian left Laksak on a circuit of five engineers. Professor Palin at Arque took her thrusters to Dirty Drive grade 5 with Stripped Down. The Dweller at Wyrd took the power distributor to Engine Focused grade 5, also Stripped Down. Selene Jean at Kuk took the armour to Heavy Duty grade 5 with Deep Plating. At Kuwemaki she docked at Hera Tani's workshop and left again without work, flew on to Alioth, and had Bill Turner take the life support to Lightweight grade 3, the most he offers.</p>
       <p>At Ray Gateway she bought a 4A power plant for 1,225,049 credits, then returned it to storage and kept the 6A. After two raw trades at Thomas Orbital she flew back to Kuwemaki, where Hera Tani took the 6A to Low Emissions grade 5 with Thermal Spread, for cooler running while scooping fuel. Repairs on her return to Ray Gateway cost 216,089 credits.</p>
       <p>There she named the ship Hymn of the Long Night, ident RI-X05, and her Nomad Refrain, ident X05-N1. She shut down at 21:16.</p>
@@ -122,7 +125,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>23:21 to 00:48</span><span class="loc">Jackson's Lighthouse, HIP 15609, Laksak</span></div>
     <div class="body">
-      <h3>Shakedown</h3>
+      <h2>Shakedown</h2>
       <p>Hymn of the Long Night's shakedown cruise left Ray Gateway for the neutron star Jackson's Lighthouse, three jumps east. She charged her drive in its jet cone twice, the second time for a 207.7 light-year jump back west to HIP 15609, the longest in her record. In HIP 15609 an NPC, Nhi Vanye, interdicted her; she submitted, and the encounter is recorded no further.</p>
       <p>She mapped HIP 15609 2 e with two probes against a target of four, launched the Nomad Refrain from the ship's hangar, set it down, and walked out to the expedition's first organism: Stratum Paleas, Lime variant, a new entry in her Codex. Three samples completed the analysis. Vista Genomics at Ray Gateway paid 1,362,000 credits for it.</p>
       <p>The cruise also showed that the shield's Stripped Down experimental had never been applied. She flew three jumps to Laksak, where Lei Cheung added it, and three back to Ray Gateway, where she shut down at 00:48.</p>
@@ -132,7 +135,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>17:53 to 01:16</span><span class="loc">Synuefai, Mel 22 Sector</span></div>
     <div class="body">
-      <h3>Synuefai</h3>
+      <h2>Synuefai</h2>
       <p>Hymn of the Long Night left Ray Gateway for the expedition proper after selling the shakedown cruise's cartographic data for 208,154 credits. On the way out her shields dropped and her hull fell to 72 percent; the journal does not record the cause. She docked again, paid 54,067 credits for repairs, and left at once.</p>
       <p>Five jumps south-west through the Arietis and Col 285 sectors brought her to Synuefai, about 510 light years from Sol. Over the rest of the day she worked a dozen systems in Synuefai and Mel 22 Sector, mapping each candidate world with the surface scanner and launching the Nomad Refrain from the hangar, as a fighter is launched, to fly down to the colonies. Hymn of the Long Night never landed; with no crew aboard, she was set to follow the Nomad at a distance. The method held: thirteen analyses on twelve bodies, every one completed.</p>
       <p>Stratum Tectonicas accounted for seven of them, in Lime and Green variants. The others were Tussock Stigmasis, Bacterium Cerbrus, Clypeus Speculumi under a B-class star in HIP 17681, and Stratum Cucumisis in Emerald and Lime. Nine variants were new to her Codex, including Bacterium Cerbrus Teal and Tubus Sororibus Teal, logged but not sampled. None of the data has been sold.</p>
@@ -143,7 +146,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>23:09 to 00:57</span><span class="loc">Synuefai, HIP 16403, Wredguia</span></div>
     <div class="body">
-      <h3>HIP 16403</h3>
+      <h2>HIP 16403</h2>
       <p>She started up aboard Refrain where she had left it, recovered to Hymn of the Long Night, and continued through Synuefai. Two moons in Synuefai EE-J b29-1 gave Stratum Tectonicas, Green variant, and Synuefai LN-Q d6-50 2 a gave Stratum Cucumisis, Emerald.</p>
       <p>HIP 16403 has an A-class primary. Its moon 7 a, mapped with a single probe against a target of two, carried three species new to her Codex: Cactoida Vermis, Green; Osseus Discus, Blue; and Clypeus Lacrimam, Orange. She analysed all three from the Nomad, with the ship following overhead.</p>
       <p>She jumped on to Wredguia EM-E b25-1, about 605 light years from Sol, and shut down at 00:57 aboard Hymn of the Long Night, with nineteen analyses unsold.</p>
@@ -153,7 +156,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>01:48 to 02:42</span><span class="loc">Wredguia, Synuefai</span></div>
     <div class="body">
-      <h3>Synuefai OO-K</h3>
+      <h2>Synuefai OO-K</h2>
       <p>She began on Wredguia EM-E b25-1 10 a, where Stratum Cucumisis, Green variant, was new to her Codex. She paused partway through the sampling and completed the analysis on foot.</p>
       <p>The frame shift drive's break-in was complete. Hymn of the Long Night's rated maximum jump range rose from 83.8 to 91.3 light years, and from here on she drew on the margin, running the drive harder than she had since Deciat.</p>
       <p>In Synuefai OO-K c11-7 she mapped two planets with two probes each. Planet 2 carried four species: she analysed Stratum Tectonicas, Lime, and logged three more new to her Codex without sampling them: Tussock Cultro, Green; Bacterium Alcyoneum, Green; and Osseus Spiralis, Indigo. Planet 3 gave a second Stratum Tectonicas.</p>
@@ -164,7 +167,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>01:06 to 01:40</span><span class="loc">Synuefai</span></div>
     <div class="body">
-      <h3>Synuefai SE-C</h3>
+      <h2>Synuefai SE-C</h2>
       <p>She continued south-west through Synuefai in five jumps. Synuefai DN-X b7-1 AB 2, mapped with two probes against a target of two, and Synuefai ZG-Z b6-0 AB 5 each gave Stratum Tectonicas, Green variant. Neither held anything new to her Codex.</p>
       <p>Two further jumps, the first of 82.7 light years, brought her to Synuefai SE-C c2-4, about 1,140 light years from Sol, where she shut down at 01:40 with twenty-five analyses unsold.</p>
     </div>
@@ -173,7 +176,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>02:14 to 03:11</span><span class="loc">Synuefai</span></div>
     <div class="body">
-      <h3>Recepta</h3>
+      <h2>Recepta</h2>
       <p>She worked two planets in Synuefai SE-C c2-4 before leaving it. A 2 needed six probes to map and gave Stratum Tectonicas, Lime. B 4 gave Recepta Umbrux, Maroon variant, the first of its genus in her Codex.</p>
       <p>In Synuefai JC-B d1-5, planets 4 and 5 both carried Stratum Tectonicas in its Emerald variant, also new to her Codex, and Synuefai QA-B b6-1 BC 5 gave the Green. A final jump of 53.7 light years brought her to Synuefai HT-E b4-1, about 1,145 light years from Sol, where she shut down at 03:11 with thirty analyses unsold.</p>
     </div>
@@ -182,7 +185,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>14:37 to 02:13</span><span class="loc">Synuefai, Oochost</span></div>
     <div class="body">
-      <h3>Oochost</h3>
+      <h2>Oochost</h2>
       <p>After two more Green Stratum Tectonicas in Synuefai HT-E b4-1, where she also logged Bacterium Tela, Orange, new to her Codex, she crossed into the Oochost sector and worked it planet by planet: Stratum Tectonicas in Green, Emerald and Lime, out to Oochost PN-I c26-0, nearly 1,400 light years from Sol.</p>
       <p>At the neutron star Oochost JE-E d13-16 she charged her frame shift drive in the jet cone and made a single jump of 393.5 light years east across the sector to Oochost JP-P c22-1, nearly twice the length of the jump she made in the same way on her shakedown cruise and the longest in her record.</p>
       <p>Oochost RB-M c24-1 gave five planets of Stratum Tectonicas, and Oochost JY-F d12-4 3 a Stratum Cucumisis, Emerald. At Oochost TK-D b46-0, about 1,400 light years from Sol and the farthest point of the expedition so far, three planets carried Stratum Tectonicas in a Turquoise variant new to her Codex.</p>
@@ -193,7 +196,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>18:34 to 01:33</span><span class="loc">Synuefai, Mel 22 Sector, Taurus Dark Region</span></div>
     <div class="body">
-      <h3>Northward</h3>
+      <h2>Northward</h2>
       <p>She held a northward course through Synuefai, sampling as she went. Synuefai KR-Y c3-3 gave four planets of Stratum Tectonicas and Synuefai RS-W c4-0 three more, in the Lime and Green variants she had by then recorded many times.</p>
       <p>Synuefai XK-A b20-2, a young T Tauri star, held Stratum Tectonicas in an Amethyst variant new to her Codex. Synuefai FB-U d4-10 gave the Turquoise variant first found in Oochost, and further planets in Synuefai and Mel 22 Sector the Green, Lime and Emerald.</p>
       <p>In the Taurus Dark Region, QI-B b1 carried Cactoida Vermis on two planets, in Amethyst and Mauve variants, both new to her Codex. One more jump brought her to Mel 22 Sector TU-V b3-3, about 555 light years from Sol, where she shut down at 01:33 with sixty-seven analyses unsold.</p>
@@ -203,7 +206,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>17:32 to 02:10</span><span class="loc">Taurus Dark Region, Pleiades Sector</span></div>
     <div class="body">
-      <h3>The end of the expedition</h3>
+      <h2>The end of the expedition</h2>
       <p>The last samples came from the Taurus Dark Region and its margins: Stratum Tectonicas in Turquoise, Emerald, Lime and Green on twelve planets, and Stratum Cucumisis, Emerald, on HIP 21804 3 a. Two final Lime Tectonicas in Pleiades Sector XZ-Y c10 and c11, about 430 light years from Sol, closed the work.</p>
       <p>There she declared the expedition complete and plotted a four-jump course for Diaguandri. Since leaving the bubble Hymn of the Long Night had made 79 jumps and covered 4,808 light years, reaching about 1,400 light years from Sol. She carried 82 organic analyses and the expedition's cartographic data, none of it yet sold, and had added 23 variants to her Codex. Her hull stood at 97.8 percent and her modules between 95.6 and 99.0.</p>
       <p>She intends to stop at Ray Gateway only long enough to repair the ship and sell the data, then leave again: first for Sol, to explore the system humanity came from, then by way of a few further stops to Colonia. She shut down at 02:10.</p>
@@ -213,7 +216,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>14:06 to 14:41</span><span class="loc">Pleiades Sector, Diaguandri</span></div>
     <div class="body">
-      <h3>Homecoming</h3>
+      <h2>Homecoming</h2>
       <p>The first jump of the course home did not complete. A Thargoid hyperdiction pulled Hymn of the Long Night out of witch space in Pleiades Sector XZ-Y c11 and shut her systems down, her ninth recorded Thargoid encounter. She took no damage, restarted, and jumped again. Four jumps brought her to Diaguandri, where Ray Gateway repaired the wear of the expedition for 91,458 credits.</p>
       <p>At Vista Genomics she handed over all eighty-two organic analyses, in three sales, for 1,566,783,200 credits. One of them, the Turquoise Stratum Tectonicas she found in Oochost, carried a first-logged bonus of 76,043,200 credits for being the first record of it there. The cartographic data of eighty-two systems paid a further 27,696,515. The sales raised her Pilots Federation exobiology rank from Compiler to Taxonomist and her standing with Li Yong-Rui from rank 5 to rank 7.</p>
       <p>Her balance stood at 2,063 million credits, more than four times what it had been when the expedition left.</p>
@@ -230,7 +233,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
 </footer>
 
-</div>
+</main>
 
 </body>
 </html>

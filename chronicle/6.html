@@ -46,7 +46,7 @@ p { margin: 0; max-width: 66ch; }
 .stamp b { color: var(--fg); font-weight: 600; }
 .stamp .loc { color: var(--cyan); }
 .entry .body { display: grid; gap: 12px; min-width: 0; }
-.entry h3 { font-size: 19px; }
+.entry h2 { font-size: 19px; }
 .aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
 .now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
@@ -58,31 +58,34 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 }
 .chapter > h1 { font-size: clamp(30px, 5.5vw, 44px); line-height: 1.05; }
 .crumb { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; }
-.crumb a { color: var(--muted); text-decoration: none; }
-.crumb a:hover, .crumb a:focus-visible { color: var(--accent); outline: none; }
-.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.crumb a { display: inline-block; padding: 13px 0; color: var(--muted); text-decoration: none; }
+.crumb a:hover, .crumb a:focus-visible { color: var(--accent); }
+.crumb a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
 .pager a { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s; }
-.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
-.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); }
+.pager a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .pager .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.2; }
 .pager .nx { text-align: right; grid-column: 2; }
 @media (max-width: 600px) { .pager { grid-template-columns: minmax(0, 1fr); } .pager .nx { grid-column: auto; } }
 </style>
 <style>
+.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
+.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
 .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
 .site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 9px 2px 7px; white-space: nowrap; } }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
+.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="../index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="../index.html">Biography</a></li><li><a class="pg" href="../chronicle.html" aria-current="page" aria-current="page">Chronicle</a></li><li><a class="pg" href="../log.html">Flight Log</a></li><li><a class="pg" href="../hangar.html">Hangar</a></li><li><a class="pg" href="../gallery.html">Gallery</a></li><li><a class="pg" href="../medical.html">Medical</a></li><li><a class="pg" href="../psychological.html">Psych</a></li></ul></div></nav>
-<div class="wrap">
+<main class="wrap" id="main">
 
 <div class="crumb"><a href="../chronicle.html">← The Rislyss Chronicle</a></div>
 
@@ -94,7 +97,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>20:07 to 00:08</span><span class="loc">Colonia, Kinesi, Carcosa</span></div>
     <div class="body">
-      <h3>Settling in</h3>
+      <h2>Settling in</h2>
       <p>She visited five settlements on two of Colonia's moons, going ashore briefly at each: Shore Cultivation Collection and Fiorentino Hydroponics Estate on Colonia 2 a, and Lavoie Genetics Institution, Hahn Hydroponics Collection and Romano Drilling Facility on Colonia 3 c a. At Jaques Station she had a large missile rack fitted to Hymn of the Long Night, the ship's first weapon, which brought her range to 90.8 light years.</p>
       <p>She then flew to Kinesi, docking at Mortimer's Charm, and to Carcosa, where Robardin Rock is held by The Nameless, a faction at war. Near Carvalho Mineralogic Facility on Carcosa AB 1 h she came under fire. The megaship Dove Enigma had no berth for her, and she returned to Jaques Station, took a courier contract for the Colonia Council and delivered it to Robardin Rock. She shut down there at 00:08.</p>
     </div>
@@ -103,7 +106,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>13:17 to 15:38</span><span class="loc">Colonia to Diaguandri</span></div>
     <div class="body">
-      <h3>The way home</h3>
+      <h2>The way home</h2>
       <p>A notice from the Pilots Federation that it would issue permits for LFT 509, a system closed until then, brought her back to the bubble. She left Jaques Station and flew to Diaguandri in a single run of 84 jumps, 46 of them supercharged at neutron stars, covering 23,111 light years. Four of them passed 503 light years, the longest she has made. She docked at Ray Gateway two hours and ten minutes after leaving Jaques Station. Hephaestus and Artemis, sent for from Colonia, were still in transit there.</p>
     </div>
   </article>
@@ -118,7 +121,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
 </footer>
 
-</div>
+</main>
 
 </body>
 </html>
