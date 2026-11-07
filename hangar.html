@@ -164,6 +164,7 @@ h1 span { color: var(--accent); }
 .ship-active { display: grid; gap: 14px; }
 .ship-active .nm { font-family: var(--f-display); font-size: 30px; font-weight: 700; line-height: 1; }
 .ship-active .nm span { color: var(--accent); }
+.ship-active .shot { display: block; width: calc(100% + 40px); height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: -20px -20px 0; border-bottom: 1px solid var(--line); }
 .specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .specs .v { font-family: var(--f-mono); font-size: 18px; }
 .mods { font-size: 13px; display: grid; gap: 6px; }
@@ -253,6 +254,7 @@ text { font-family: var(--f-mono); }
   <h2>Ships</h2>
   <div class="fleet-grid">
     <article class="panel ship-active" id="ri-x04">
+      <img class="shot" src="gallery/aurora.jpg" width="1600" height="900" alt="Mandalay Aurora in the hangar" loading="lazy">
       <div class="label">Explorer · RI-X04 · Stored · Ray Gateway · 8 t cargo</div>
       <div class="nm">Mandalay <span>AURORA</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">87.8 ly</div></div><div><div class="label">Modules</div><div class="v">11.79M</div></div><div><div class="label">Rebuy</div><div class="v">589,533</div></div></div>
@@ -260,6 +262,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought as the miner &quot;Athena&quot; and refitted at Caillie Town in October 2026: mining lasers out, two field maintenance units in for long-range self-repair. Engineered at ten engineers. In October she went back to her original 3A power plant, now Overcharged G5 at 16.8 MW. Ram Tah finished the point defence at G5, which completes her refit; the life support stays at G3 until Etienne Dorn in Colonia is unlocked.</p>
     </article>
     <article class="panel ship-active" id="ri-g03">
+      <img class="shot" src="gallery/void-runner.jpg" width="1600" height="900" alt="Imperial Clipper Void Runner in the hangar" loading="lazy">
       <div class="label">General · RI-G03 · Stored · Ray Gateway · 128 t cargo</div>
       <div class="nm">Imperial Clipper <span>VOID RUNNER</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">47.4 ly</div></div><div><div class="label">Modules</div><div class="v">35.56M</div></div><div><div class="label">Rebuy</div><div class="v">2,674,868</div></div></div>
@@ -267,6 +270,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2024. A Gutamaya hull running the cockpit voice software her old team wrote. Carried the Scarab home from the Pleiades in October 2026, and flew the first Powerplay rare-goods run for Li Yong-Rui: Damna Carapaces for 3,665 merits. Then salvage at Power Wreckage Signatures in Diaguandri; destroyed on the third run and rebought for 2.67M CR. Carried the power commodity deliveries that took her to Powerplay rank 5, and the Xihe companions that unlocked Zacariah Nemo.</p>
     </article>
     <article class="panel ship-active" id="ri-v01">
+      <img class="shot" src="gallery/invictus.jpg" width="1600" height="900" alt="Krait Phantom Invictus in the hangar" loading="lazy">
       <div class="label">Salvage · RI-V01 · Stored · Ray Gateway · 34 t cargo</div>
       <div class="nm">Krait Phantom <span>INVICTUS</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">64.9 ly</div></div><div><div class="label">Modules</div><div class="v">47.07M</div></div><div><div class="label">Rebuy</div><div class="v">4,226,984</div></div></div>
@@ -274,6 +278,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought September 2024. Flown into the Pleiades that month, where her encounter log records the last Thargoid contact on file. Fitted for long-range collection with a Guardian booster, flak launchers and collector limpets. In October 2026 her vehicle hangar gave way to an anti-corrosion cargo rack from Professor Palin, and she brought sixteen Meta-Alloys and a Titan Drive Component to Altair. They sold at Luyten's Star for 347.5M CR, about 319M profit on the run. Then 21 Palladium for EXO at Garrido's Locus: 14.43M CR.</p>
     </article>
     <article class="panel ship-active active" id="ri-x05">
+      <img class="shot" src="gallery/hymn-of-the-long-night.jpg" width="1600" height="900" alt="Caspian Explorer Hymn Of The Long Night in the hangar" loading="lazy">
       <div class="label">Explorer · RI-X05 · Active ship · in flight over Fiden AB 1 d · 2 t cargo · Nomad Refrain · one SRV Scarab, one lost at Fiden</div>
       <div class="nm">Caspian Explorer <span>HYMN OF THE LONG NIGHT</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">90.0 ly</div></div><div><div class="label">Modules</div><div class="v">18.41M</div></div><div><div class="label">Rebuy</div><div class="v">920,395</div></div></div>
@@ -281,6 +286,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Exobiology build: fuel scoop, Guardian booster, surface scanner, field maintenance unit and a Mk II large vehicle hangar for a Nomad. Planned to about 88 ly. The materials and engineering route are planned. The Caspian hull was redeemed from a shipyard bundle in October 2026, fitted at Ray Gateway and engineered at eight workshops. Registered by the shipyard as Reliant Seeker; named Hymn of the Long Night on 17 October 2026, with her Nomad, Refrain. A 4H planetary vehicle hangar with two SRV Scarabs went into her size 4 slot at Jaques Station on 1 November 2026, so she can now land and send an SRV out; her range fell from 91.3 to 90.0 ly.</p>
     </article>
     <article class="panel ship-active" id="ri-x02">
+      <img class="shot" src="gallery/dreaming-void.jpg" width="1600" height="900" alt="Diamondback Explorer Dreaming Void in the hangar" loading="lazy">
       <div class="label">Explorer · RI-X02 · Registered ship · Ray Gateway · 4 t cargo</div>
       <div class="nm">Diamondback Explorer <span>DREAMING VOID</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">73.8 ly</div></div><div><div class="label">Modules</div><div class="v">15.50M</div></div><div><div class="label">Rebuy</div><div class="v">855,732</div></div></div>
@@ -288,6 +294,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2022, the first ship she kept after three Asp Explorers. Flew the Orrere and HR 3230 runs in October 2026 and is still her registered ship.</p>
     </article>
     <article class="panel ship-active" id="ri-c02">
+      <img class="shot" src="gallery/artemis.jpg" width="1600" height="900" alt="Fer-de-Lance Artemis in the hangar" loading="lazy">
       <div class="label">Combat · RI-C02 · Stored · Jaques Station, Colonia</div>
       <div class="nm">Fer-de-Lance <span>ARTEMIS</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">28.0 ly</div></div><div><div class="label">Modules</div><div class="v">36.55M</div></div><div><div class="label">Rebuy</div><div class="v">4,000,324</div></div></div>
@@ -295,6 +302,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought September 2024. The most heavily engineered ship in the fleet: overcharged multi-cannons with corrosive and incendiary rounds, an oversized beam laser and G5 resistance boosters. Back in service in October 2026 for a Li Yong-Rui bounty assignment: four kills at the Diaguandri nav beacon for 817,557 CR. Shipped to Colonia with Hephaestus in October 2026; on 3 November 2026 she took four bounties at Ogmar, 414,379 CR, part of which unlocked Mel Brandon at The Brig, and on 4 November a Keelback's 207,832 CR bounty at Tenjin.</p>
     </article>
     <article class="panel ship-active" id="ri-t01">
+      <img class="shot" src="gallery/compass-rose.jpg" width="1600" height="900" alt="Type-8 Transporter Compass Rose in the hangar" loading="lazy">
       <div class="label">Trader · RI-T01 · Stored · Ray Gateway · 208 t cargo</div>
       <div class="nm">Type-8 Transporter <span>COMPASS ROSE</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">29.8 ly</div></div><div><div class="label">Modules</div><div class="v">6.67M</div></div><div><div class="label">Rebuy</div><div class="v">333,359</div></div></div>
@@ -302,6 +310,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2024, the better of a pair. Built for bulk cargo with collector limpets and a Guardian booster; engineering is partly done.</p>
     </article>
     <article class="panel ship-active" id="ri-g02">
+      <img class="shot" src="gallery/horizon.jpg" width="1600" height="900" alt="Hauler Horizon in the hangar" loading="lazy">
       <div class="label">General · RI-G02 · First ship · Ray Gateway</div>
       <div class="nm">Hauler <span>HORIZON</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">29.2 ly</div></div><div><div class="label">Modules</div><div class="v">0.74M</div></div><div><div class="label">Rebuy</div><div class="v">37,629</div></div></div>
@@ -309,6 +318,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought July 2022, the day she left Gutamaya. Never sold.</p>
     </article>
     <article class="panel ship-active" id="ri-g01">
+      <img class="shot" src="gallery/intrepid.jpg" width="1600" height="900" alt="Sidewinder Intrepid in the hangar" loading="lazy">
       <div class="label">General · RI-G01 · Stored · Ray Gateway</div>
       <div class="nm">Sidewinder <span>INTREPID</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">31.2 ly</div></div><div><div class="label">Modules</div><div class="v">3.69M</div></div><div><div class="label">Rebuy</div><div class="v">184,563</div></div></div>
@@ -316,6 +326,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought September 2024. A light runabout with a Guardian booster and a surface scanner.</p>
     </article>
     <article class="panel ship-active" id="ri-c01">
+      <img class="shot" src="gallery/seraphim-rising.jpg" width="1600" height="900" alt="Viper Mk III Seraphim Rising in the hangar" loading="lazy">
       <div class="label">Combat · RI-C01 · Stored · Ray Gateway</div>
       <div class="nm">Viper Mk III <span>SERAPHIM RISING</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">13.3 ly</div></div><div><div class="label">Modules</div><div class="v">3.19M</div></div><div><div class="label">Rebuy</div><div class="v">162,850</div></div></div>
@@ -323,6 +334,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2022. Unengineered; a light fighter with multi-cannons, beam lasers and reinforcement packages.</p>
     </article>
     <article class="panel ship-active" id="ri-m01">
+      <img class="shot" src="gallery/hephaestus.jpg" width="1600" height="900" alt="Python Hephaestus in the hangar" loading="lazy">
       <div class="label">Miner · RI-M01 · Stored · Jaques Station, Colonia · 192 t cargo</div>
       <div class="nm">Python <span>HEPHAESTUS</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">36.0 ly</div></div><div><div class="label">Modules</div><div class="v">30.20M</div></div><div><div class="label">Rebuy</div><div class="v">4,358,882</div></div></div>
@@ -330,6 +342,7 @@ text { font-family: var(--f-mono); }
       <p class="sub" style="margin:0;font-size:13.5px">Laser-mining build with four mining lasers, a refinery, collector limpets and three extended cargo racks. Refitted at Jaques Station on 1 November 2026 for escape-pod recovery: the prospector, the 3A collector and the 4B fuel scoop came out for a rescue multi-limpet controller, a 3A fuel scoop and a 4D shield generator. Marsha Hicks shielded the refinery at grade 5 the same morning.</p>
     </article>
     <article class="panel ship-active" id="ri-p01">
+      <img class="shot" src="gallery/avalon.jpg" width="1600" height="900" alt="Dolphin Avalon in the hangar" loading="lazy">
       <div class="label">Passenger · RI-P01 · Stored · Ray Gateway · 20 t cargo</div>
       <div class="nm">Dolphin <span>AVALON</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">13.1 ly</div></div><div><div class="label">Modules</div><div class="v">5.54M</div></div><div><div class="label">Rebuy</div><div class="v">331,995</div></div></div>
