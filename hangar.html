@@ -3,12 +3,13 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta charset="utf-8">
+<meta name="description" content="CMDR Rislyss's fleet: thirteen ships with screenshots, fits and engineering.">
 <title>Rislyss Hangar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: the fleet's hangar. A header with the registry and role codes, a fleet-value chart drawn at its real width, then one panel per ship in two balanced columns, each led by its screenshot, which opens in a lightbox, with engineered modules listed name over blueprint and stock modules folded into one line. Ends with handoffs to the flight log and gallery. Single dark HUD world by choice. */
+/* Layout: the fleet's hangar. A header, a fleet-value chart drawn at its real width, then the registry and role-code key and one panel per ship in two balanced columns, each led by its screenshot, which opens in a lightbox, with engineered modules listed name over blueprint and stock modules folded into one line. Ends with handoffs to the flight log and gallery. Single dark HUD world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -230,6 +231,7 @@ text { font-family: var(--f-mono); }
 .next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
 .next .d { color: var(--muted); font-size: 14px; }
 @media (max-width: 600px) { .next { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
 .skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
 .skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
@@ -264,7 +266,6 @@ text { font-family: var(--f-mono); }
   <div class="idline">
     <div>Active <b>Caspian Explorer "Hymn of the Long Night" RI-X05</b> · Nomad "Refrain" X05-N1</div>
     <div>Registered <b>Diamondback Explorer "Dreaming Void" RI-X02</b></div>
-    <div>Registry prefix <b>RI</b> · role codes X explorer, C combat, T trader, P passenger, M miner, R rescue, G general</div>
   </div>
 </header>
 
@@ -278,6 +279,7 @@ text { font-family: var(--f-mono); }
 
 <section>
   <h2>Ships</h2>
+  <p class="sub" style="margin:0">Each ship is registered as RI, then a role code and a number: X explorer, C combat, V salvage, T trader, P passenger, M miner, R rescue, G general.</p>
   <div class="fleet-grid">
     <article class="panel ship-active" id="ri-x04">
       <button class="zoom shot" type="button" data-src="gallery/ships/aurora.jpg" data-cap="Mandalay AURORA · RI-X04"><img src="gallery/ships/aurora.jpg" width="1600" height="900" alt="Mandalay Aurora in the hangar"></button>
