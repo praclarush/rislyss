@@ -54,6 +54,9 @@ p { margin: 0; max-width: 66ch; }
 .toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
 .now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
+.split { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 40px; align-items: start; width: min(1120px, calc(100vw - 56px)); margin-inline: calc((100% - min(1120px, calc(100vw - 56px))) / 2); }
+.split .now { font-size: 15px; line-height: 1.6; }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); width: auto; margin-inline: 0; } }
 footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
 @media (max-width: 600px) {
   body { font-size: 16px; }
@@ -94,54 +97,56 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <p>She stayed for the better part of a decade. The work kept her on the ground, and by her own account that was the reason she left: ten years spent writing the voice that warns a pilot of hull failure, without once being the pilot.</p>
 </section>
 
-<section class="contents">
-  <div class="label">Chapters</div>
-  <ol class="toc">
-    <li><a href="chronicle-1.html">
-      <div class="n"><b>Chapter one</b><span>July to September 3308</span></div>
-      <div class="t"><h3>Learning to fly far</h3><p>She resigns from Gutamaya, buys the Hauler Horizon and spends three months learning to fly far: five engineers found, three Asp Explorers bought and sold, and a Diamondback Explorer named Dreaming Void. Then the record stops for twenty-three months.</p></div>
-    </a></li>
-    <li><a href="chronicle-2.html">
-      <div class="n"><b>Chapter two</b><span>August to December 3310</span></div>
-      <div class="t"><h3>The Imperial return</h3><p>She returns aligned with the Empire, rises from Outsider to Viscount, buys Void Runner, Invictus and Artemis, pledges to Li Yong-Rui and meets Thargoids in the Pleiades. Then twenty-one months of silence.</p></div>
-    </a></li>
-    <li><a href="chronicle-3.html">
-      <div class="n"><b>Chapter three</b><span>October 3312</span></div>
-      <div class="t"><h3>Back in the black</h3><p>The logs resume in a Scarab on a Thargoid moon in the Pleiades. She flies home, finishes Aurora's refit module by module, takes her first Powerplay merits for Li Yong-Rui and works her way through the engineers to Zacariah Nemo in Yoru.</p></div>
-    </a></li>
-    <li><a href="chronicle-4.html">
-      <div class="n"><b>Chapter four</b><span>October 3312</span></div>
-      <div class="t"><h3>The exobiology expedition</h3><p>Hymn of the Long Night is built and engineered to search for life, shaken down, then flown out through Synuefai, Recepta and Oochost and home again with her holds full of exobiology data.</p></div>
-    </a></li>
-    <li><a href="chronicle-5.html">
-      <div class="n"><b>Chapter five</b><span>October 3312</span></div>
-      <div class="t"><h3>Sol and the road to Colonia</h3><p>With the expedition's data sold, she finally stops at Sol, a system she had passed many times, then crosses the nebulae to Colonia.</p></div>
-    </a></li>
-    <li><a href="chronicle-6.html">
-      <div class="n"><b>Chapter six</b><span>October 3312</span></div>
-      <div class="t"><h3>Colonia</h3><p>Her first days in Colonia: settlements on its moons, a faction war at Carcosa, and a permit notice that calls her home in a single run of 84 jumps.</p></div>
-    </a></li>
-    <li><a href="chronicle-7.html">
-      <div class="n"><b>Chapter seven</b><span>October 3312</span></div>
-      <div class="t"><h3>Back in the bubble</h3><p>LFT 509 opens to her, she salvages for Li Yong-Rui and goes back out to Colonia: mining and rescue for Hephaestus, bounties in Artemis, lawless settlements on foot, then home to the bubble for the components Colonia cannot supply.</p></div>
-    </a></li>
-  </ol>
-</section>
+<div class="split">
+  <section class="now" id="now">
+    <h3>Where she stands now</h3>
+    <ul>
+      <li>Aboard Hymn of the Long Night over Fiden AB 1 d, back in the bubble until she has the components Colonia could not supply, with one of Hymn's two Scarabs lost at Makonda Leisure Complex. Invictus and Void Runner are stored at Ray Gateway. Balance 2,243 million credits; 334 hours logged.</li>
+      <li>Artemis and Hephaestus remain stored at Jaques Station in Colonia. Hephaestus is fitted for escape-pod recovery, with her refinery shielded at grade 5.</li>
+      <li>Pilots Federation exobiology rank Taxonomist.</li>
+      <li>All thirteen of Aurora's engineered modules are finished. Her 3A power plant delivers 16.8 megawatts, the point defence is at Lightweight grade 5, and her maximum jump range is 87.8 light years.</li>
+      <li>Aurora's life support remains at Lightweight grade 3. Grade 5 requires Etienne Dorn in Colonia, unlocked on 1 November but still at rank 1.</li>
+      <li>Ram Tah is at rank 5. Tiana Fortune, unlocked in Achenar, is at rank 3. Zacariah Nemo, unlocked in Yoru, is at rank 1. In Colonia, Marsha Hicks is at rank 5, and Etienne Dorn and Mel Brandon at rank 1.</li>
+      <li>Pledged to Li Yong-Rui at rank 8, with 43,846 merits from rare goods, bounties, salvage, power commodity deliveries and exploration data.</li>
+      <li>Lifetime hyperspace distance is over 100,000 light years.</li>
+      <li>Hymn of the Long Night, the Caspian Explorer the shipyard registered as Reliant Seeker, is fitted for exobiology and engineered at eight workshops. Since 1 November she also carries two SRV Scarabs and can land, at a range of 90.0 light years.</li>
+    </ul>
+  </section>
 
-<section class="now" id="now">
-  <h3>Where she stands now</h3>
-  <ul>
-    <li>Aboard Hymn of the Long Night over Fiden AB 1 d, back in the bubble until she has the components Colonia could not supply, with one of Hymn's two Scarabs lost at Makonda Leisure Complex. Invictus and Void Runner are stored at Ray Gateway. Balance 2,243 million credits; 334 hours logged.</li>
-    <li>Artemis and Hephaestus remain stored at Jaques Station in Colonia. Hephaestus is fitted for escape-pod recovery, with her refinery shielded at grade 5.</li>
-    <li>Pilots Federation exobiology rank Taxonomist.</li>
-    <li>All thirteen of Aurora's engineered modules are finished. Her 3A power plant delivers 16.8 megawatts, the point defence is at Lightweight grade 5, and her maximum jump range is 87.8 light years.</li>
-    <li>Aurora's life support remains at Lightweight grade 3. Grade 5 requires Etienne Dorn in Colonia, unlocked on 1 November but still at rank 1.</li>
-    <li>Ram Tah is at rank 5. Tiana Fortune, unlocked in Achenar, is at rank 3. Zacariah Nemo, unlocked in Yoru, is at rank 1. In Colonia, Marsha Hicks is at rank 5, and Etienne Dorn and Mel Brandon at rank 1.</li>
-    <li>Pledged to Li Yong-Rui at rank 8, with 43,846 merits from rare goods, bounties, salvage, power commodity deliveries and exploration data.</li>
-    <li>Lifetime hyperspace distance is over 100,000 light years.</li>
-    <li>Hymn of the Long Night, the Caspian Explorer the shipyard registered as Reliant Seeker, is fitted for exobiology and engineered at eight workshops. Since 1 November she also carries two SRV Scarabs and can land, at a range of 90.0 light years.</li>
-  </ul>
-</section>
+  <section class="contents">
+    <div class="label">Chapters</div>
+    <ol class="toc">
+      <li><a href="chronicle-1.html">
+        <div class="n"><b>Chapter one</b><span>July to September 3308</span></div>
+        <div class="t"><h3>Learning to fly far</h3><p>She resigns from Gutamaya, buys the Hauler Horizon and spends three months learning to fly far: five engineers found, three Asp Explorers bought and sold, and a Diamondback Explorer named Dreaming Void. Then the record stops for twenty-three months.</p></div>
+      </a></li>
+      <li><a href="chronicle-2.html">
+        <div class="n"><b>Chapter two</b><span>August to December 3310</span></div>
+        <div class="t"><h3>The Imperial return</h3><p>She returns aligned with the Empire, rises from Outsider to Viscount, buys Void Runner, Invictus and Artemis, pledges to Li Yong-Rui and meets Thargoids in the Pleiades. Then twenty-one months of silence.</p></div>
+      </a></li>
+      <li><a href="chronicle-3.html">
+        <div class="n"><b>Chapter three</b><span>October 3312</span></div>
+        <div class="t"><h3>Back in the black</h3><p>The logs resume in a Scarab on a Thargoid moon in the Pleiades. She flies home, finishes Aurora's refit module by module, takes her first Powerplay merits for Li Yong-Rui and works her way through the engineers to Zacariah Nemo in Yoru.</p></div>
+      </a></li>
+      <li><a href="chronicle-4.html">
+        <div class="n"><b>Chapter four</b><span>October 3312</span></div>
+        <div class="t"><h3>The exobiology expedition</h3><p>Hymn of the Long Night is built and engineered to search for life, shaken down, then flown out through Synuefai, Recepta and Oochost and home again with her holds full of exobiology data.</p></div>
+      </a></li>
+      <li><a href="chronicle-5.html">
+        <div class="n"><b>Chapter five</b><span>October 3312</span></div>
+        <div class="t"><h3>Sol and the road to Colonia</h3><p>With the expedition's data sold, she finally stops at Sol, a system she had passed many times, then crosses the nebulae to Colonia.</p></div>
+      </a></li>
+      <li><a href="chronicle-6.html">
+        <div class="n"><b>Chapter six</b><span>October 3312</span></div>
+        <div class="t"><h3>Colonia</h3><p>Her first days in Colonia: settlements on its moons, a faction war at Carcosa, and a permit notice that calls her home in a single run of 84 jumps.</p></div>
+      </a></li>
+      <li><a href="chronicle-7.html">
+        <div class="n"><b>Chapter seven</b><span>October 3312</span></div>
+        <div class="t"><h3>Back in the bubble</h3><p>LFT 509 opens to her, she salvages for Li Yong-Rui and goes back out to Colonia: mining and rescue for Hephaestus, bounties in Artemis, lawless settlements on foot, then home to the bubble for the components Colonia cannot supply.</p></div>
+      </a></li>
+    </ol>
+  </section>
+</div>
 
 <footer>
   <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
