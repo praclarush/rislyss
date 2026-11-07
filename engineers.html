@@ -78,6 +78,8 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 .skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
 .skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
+@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
@@ -157,5 +159,17 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 })();
 </script>
 
+<script>
+(() => {
+  // phones: the site nav slides away while scrolling down and returns on any scroll up
+  const nav = document.querySelector(".site-nav"), mq = matchMedia("(max-width: 600px)");
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY;
+    nav.classList.toggle("away", mq.matches && y > lastY && y > nav.offsetHeight && !nav.contains(document.activeElement));
+    lastY = y;
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>

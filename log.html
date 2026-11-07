@@ -260,6 +260,7 @@ h1 span { color: var(--accent); }
 
 /* On this page */
 .toc { position: sticky; top: var(--nav-h, 53px); z-index: 5; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); border-block: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0 22px; padding: 4px 0; margin-block: -24px; }
+body:has(.site-nav.away) .toc { top: 0; }
 .toc a { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 11px 0; border-bottom: 2px solid transparent; }
 .toc a:hover { color: var(--fg); }
 .toc a.on { color: var(--fg); border-bottom-color: var(--accent); }
@@ -290,7 +291,7 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
 text { font-family: var(--f-mono); }
 @media (max-width: 860px) {
   .mapgrid, .two, .eras, .dossier, .bio { grid-template-columns: minmax(0, 1fr); }
-  .toc { margin-block: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .toc { margin-block: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-right: 36px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
   .toc a { white-space: nowrap; }
   .eras::before { left: 4px; }
   .era { grid-template-columns: minmax(0, 1fr); gap: 6px; padding-left: 26px; }
@@ -330,6 +331,8 @@ text { font-family: var(--f-mono); }
 .skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
 .skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
+@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
@@ -2571,5 +2574,17 @@ text { font-family: var(--f-mono); }
 })();
 </script>
 
+<script>
+(() => {
+  // phones: the site nav slides away while scrolling down and returns on any scroll up
+  const nav = document.querySelector(".site-nav"), mq = matchMedia("(max-width: 600px)");
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY;
+    nav.classList.toggle("away", mq.matches && y > lastY && y > nav.offsetHeight && !nav.contains(document.activeElement));
+    lastY = y;
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>

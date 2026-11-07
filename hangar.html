@@ -235,6 +235,8 @@ text { font-family: var(--f-mono); }
 .skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
 .skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
+@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
@@ -259,7 +261,7 @@ text { font-family: var(--f-mono); }
 .ship-index a.on { border-color: var(--accent-dim); }
 .ship-index a:hover { border-color: var(--accent); }
 .ship-index a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.ship-active { scroll-margin-top: 80px; }
+.ship-active { scroll-margin-top: 110px; }
 .fleet-grid > .active { column-span: all; }
 @media (min-width: 901px) {
   .ship-active.active { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: 24px; align-items: start; }
@@ -492,6 +494,18 @@ text { font-family: var(--f-mono); }
   if (matchMedia("(max-width: 600px)").matches) {
     ships.forEach(a => { if (!a.classList.contains("active")) a.querySelector(".modfold").open = false; });
   }
+})();
+</script>
+<script>
+(() => {
+  // phones: the site nav slides away while scrolling down and returns on any scroll up
+  const nav = document.querySelector(".site-nav"), mq = matchMedia("(max-width: 600px)");
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY;
+    nav.classList.toggle("away", mq.matches && y > lastY && y > nav.offsetHeight && !nav.contains(document.activeElement));
+    lastY = y;
+  }, { passive: true });
 })();
 </script>
 </body>

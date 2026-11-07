@@ -58,7 +58,10 @@ h1 span { color: inherit; display: block; }
 .latest .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
 .latest .t { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
 .latest .x { font-size: 14px; color: var(--muted); }
-abbr[title] { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
+abbr[data-tip] { position: relative; text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
+abbr[data-tip]:hover::after, abbr[data-tip]:focus-visible::after, abbr[data-tip]:focus::after { content: attr(data-tip); position: absolute; left: 0; top: calc(100% + 6px); z-index: 20; width: max-content; max-width: min(240px, 60vw); padding: 6px 10px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font-family: var(--f-body); font-size: 13px; font-weight: 400; letter-spacing: 0; line-height: 1.35; }
+abbr[data-tip]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .feed { padding: 8px; display: grid; gap: 8px; margin: 0; }
 .feed video { display: block; width: 100%; height: auto; aspect-ratio: 832 / 544; background: #000; object-fit: cover; }
 .feed figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; padding: 0 4px 2px; flex-wrap: wrap; }
@@ -175,6 +178,8 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 .skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
 .skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
+@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
 .site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
@@ -195,7 +200,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
   <div class="hero-text">
     <div class="eyebrow">Pilots Federation personnel file · Registry RI-X · Updated Nov 3312</div>
     <h1>Sarah <span>Waters</span></h1>
-    <div class="callsign">Commander <b>Rislyss</b> · <abbr title="Exploration rank, eighth of nine before Elite">Pioneer</abbr> · <abbr title="Imperial Navy rank">Viscount</abbr> · Imperial pilot</div>
+    <div class="callsign">Commander <b>Rislyss</b> · <abbr tabindex="0" data-tip="Exploration rank, eighth of nine before Elite">Pioneer<span class="vh">, exploration rank, eighth of nine before elite</span></abbr> · <abbr tabindex="0" data-tip="Imperial Navy rank">Viscount<span class="vh">, imperial navy rank</span></abbr> · Imperial pilot</div>
     <p class="intro">A character site for CMDR Rislyss, a pilot in the space game Elite Dangerous, set in the 34th century. The biography, chronicle and records are written in character; the flight log, hangar and engineers pages are built from the game's own journals. The written pages count years in the game's calendar, so 3312 is 2026; the data pages keep real dates.</p>
     <nav class="latest" aria-label="Latest news">
       <a href="chronicle/7.html#latest"><span class="d">Latest chronicle entry · Nov 3312</span><span class="t">Makonda Leisure Complex</span></a>
@@ -393,5 +398,17 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 })();
 </script>
 
+<script>
+(() => {
+  // phones: the site nav slides away while scrolling down and returns on any scroll up
+  const nav = document.querySelector(".site-nav"), mq = matchMedia("(max-width: 600px)");
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY;
+    nav.classList.toggle("away", mq.matches && y > lastY && y > nav.offsetHeight && !nav.contains(document.activeElement));
+    lastY = y;
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>
