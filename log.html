@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a cockpit side-panel read top to bottom: identity, flight path, sessions, log, ledger, hangar, career, engineers. Single dark HUD world by choice. */
+/* Layout: a cockpit side-panel read top to bottom: identity, then a sticky section index over career, flight path, sessions and the event log (both folded by day), ledger, lifetime totals, awards and engineers. Charts redraw at their real width so their text stays at reading size. Single dark HUD world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -152,7 +152,7 @@ h1 span { color: var(--accent); }
 
 /* Career history */
 .swim { overflow-x: auto; }
-.swim svg { display: block; min-width: 680px; width: 100%; height: auto; }
+.swim svg { display: block; min-width: 860px; width: 100%; height: auto; }
 .eras { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
 .era { display: grid; gap: 10px; align-content: start; }
 .era h3 { font-size: 20px; }
@@ -188,12 +188,38 @@ h1 span { color: var(--accent); }
 .jtot b { color: var(--fg); font-weight: 600; }
 
 /* Sessions */
-.gantt { overflow-x: auto; }
-.gantt svg { display: block; min-width: 640px; width: 100%; height: auto; }
+.sessions { display: grid; padding: 14px 20px; }
+.shead, .sday > summary { display: grid; grid-template-columns: 104px minmax(0, 1fr) 132px; gap: 14px; align-items: center; }
+.shead { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.shours { position: relative; height: 14px; }
+.shours span { position: absolute; top: 0; transform: translateX(-50%); }
+.strack { position: relative; height: 12px; background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px calc(100% / 15)); }
+.strack i { position: absolute; top: 0; bottom: 0; min-width: 3px; background: var(--accent); }
+.strack i.idle { background: var(--accent-dim); }
+.sday > summary { padding: 9px 0; border-bottom: 1px dashed var(--line); cursor: pointer; list-style: none; }
+.sday > summary::-webkit-details-marker, .lday > summary::-webkit-details-marker, .notes > summary::-webkit-details-marker { display: none; }
+.sd { font-family: var(--f-mono); font-size: 12.5px; color: var(--fg); white-space: nowrap; }
+.sd::before, .lday .day::before, .notes > summary::before { content: "▸"; display: inline-block; width: 1.1em; color: var(--accent); transition: transform .2s cubic-bezier(.22, 1, .36, 1); }
+.sday[open] .sd::before, .lday[open] .day::before, .notes[open] > summary::before { transform: rotate(90deg); }
+.sm { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); text-align: right; }
+.slist { list-style: none; margin: 8px 0 12px 118px; padding: 0; display: grid; gap: 5px; font-size: 14px; }
+.slist .tm { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin-right: 8px; }
+.slist .idle { color: var(--muted); }
+.skey { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.skey i { display: inline-block; width: 14px; height: 10px; vertical-align: -1px; margin-right: 6px; background: var(--accent); }
+.skey i.idle { background: var(--accent-dim); }
+.tools { display: flex; gap: 8px; justify-content: flex-end; }
+.tools button { font: 600 12px var(--f-display); letter-spacing: .1em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line); padding: 8px 12px; min-height: 36px; cursor: pointer; }
+.tools button:hover { color: var(--fg); border-color: var(--accent-dim); }
+.tools button:focus-visible, .toc a:focus-visible, .totop:focus-visible, details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Log */
 .log { display: grid; gap: 0; }
 .day { font-family: var(--f-display); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 14px 0 8px; }
+.lday > summary { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; cursor: pointer; list-style: none; border-bottom: 1px dashed var(--line); }
+.lday[open] > summary { margin-bottom: 10px; }
+.lday > summary .day { color: var(--fg); font-size: 13px; }
+.lc { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
 .ev { display: grid; grid-template-columns: 56px 16px minmax(0, 1fr); gap: 12px; align-items: start; }
 .ev .t { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 3px; text-align: right; }
 .ev .rail { position: relative; align-self: stretch; }
@@ -212,6 +238,22 @@ h1 span { color: var(--accent); }
 /* Ledger */
 .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
 .wf svg, .hbars svg { width: 100%; height: auto; display: block; }
+.wf { overflow-x: auto; }
+#map text { paint-order: stroke; stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
+.notes > summary { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); cursor: pointer; list-style: none; padding: 6px 0; min-height: 36px; }
+.notes > summary:hover { color: var(--fg); }
+.notes .sub { display: grid; gap: 12px; margin: 6px 0 0; }
+.notes .sub p { margin: 0; }
+
+/* On this page */
+.toc { position: sticky; top: 53px; z-index: 5; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); border-block: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0 22px; padding: 4px 0; margin-block: -24px; }
+.toc a { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 10px 0; border-bottom: 2px solid transparent; }
+.toc a:hover { color: var(--fg); }
+.toc a.on { color: var(--fg); border-bottom-color: var(--accent); }
+section[id] { scroll-margin-top: 112px; }
+.totop { position: fixed; right: 16px; bottom: 16px; z-index: 6; display: grid; place-items: center; width: 44px; height: 44px; background: var(--panel); border: 1px solid var(--line); color: var(--fg); text-decoration: none; font: 600 18px var(--f-display); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .25s cubic-bezier(.22, 1, .36, 1), transform .25s cubic-bezier(.22, 1, .36, 1); }
+.totop.show { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { border-color: var(--accent); }
 
 /* Hangar */
 .ship-active { display: grid; gap: 14px; }
@@ -244,6 +286,8 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
 text { font-family: var(--f-mono); }
 @media (max-width: 860px) {
   .mapgrid, .two, .eras, .dossier, .bio { grid-template-columns: minmax(0, 1fr); }
+  .toc { position: static; margin-block: 0; }
+  section[id] { scroll-margin-top: 84px; }
   .ranks, .stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px) {
@@ -252,6 +296,13 @@ text { font-family: var(--f-mono); }
   .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
   .specs { grid-template-columns: repeat(2, 1fr); }
   .wrap { padding-inline: 16px; }
+  .shead, .sday > summary { grid-template-columns: 100px minmax(0, 1fr); gap: 10px; }
+  .shead > :last-child, .sm { display: none; }
+  .slist { margin-left: 0; }
+  .toc { gap: 0 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .totop, .sd::before, .lday .day::before, .notes > summary::before { transition: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .route-line { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.4s .3s ease-out forwards; }
@@ -274,7 +325,7 @@ text { font-family: var(--f-mono); }
 <nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html">Chronicle</a></li><li><a class="pg" href="log.html" aria-current="page">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="gallery.html">Gallery</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
 <div class="wrap">
 
-<header>
+<header id="top">
   <div class="eyebrow">COMMANDER'S JOURNAL + INARA PROFILE · JUL 2022 – NOV 2026 · 63,252 JOURNAL EVENTS · 97 ACHIEVEMENTS</div>
   <h1>CMDR <span>RISLYSS</span></h1>
   <div class="idline">
@@ -320,7 +371,18 @@ text { font-family: var(--f-mono); }
   <div class="ranks" id="ranks"></div>
 </header>
 
-<section>
+<nav class="toc" aria-label="On this page">
+  <a href="#career">Career</a>
+  <a href="#path">Flight path</a>
+  <a href="#sessions">Sessions</a>
+  <a href="#log-events">Log</a>
+  <a href="#ledger">Ledger</a>
+  <a href="#totals">Totals</a>
+  <a href="#awards-section">Awards</a>
+  <a href="#engineers">Engineers</a>
+</nav>
+
+<section id="career">
   <h2>Career history</h2>
   <div class="panel swim"><svg id="swim" viewBox="0 0 1000 250" role="img" aria-label="Achievements from July 2022 to October 2026 by category"></svg></div>
   <div class="eras">
@@ -447,7 +509,7 @@ text { font-family: var(--f-mono); }
   <p class="sub"><span class="tag inf" style="margin-left:0">inference</span> Many entries share exact timestamps (24 Sep 2022 at 19:49 and 23 Dec 2024 at 09:15). Those look like Inara game-data imports, so the true dates for those entries may be earlier.</p>
 </section>
 
-<section>
+<section id="path">
   <h2>Flight path</h2>
   <div class="mapgrid">
     <div class="panel mapbox">
@@ -525,58 +587,97 @@ text { font-family: var(--f-mono); }
       <div class="jtot"><span>760 jumps, all legs</span><span><b>117,310.4</b> ly · <b>2,760.2</b> t fuel</span></div>
     </div>
   </div>
-  <p class="sub">The commander started parked in an SRV Scarab on Pleiades Sector LY-Q b5-2 A 2, a body with six Thargoid signals about 340 ly from Sol, and flew home to Diaguandri, 127 ly from Sol. From there Dreaming Void ran north through Sol's neighbourhood to Orrere and back, then 449 ly east in seven jumps to HR 3230, 423 ly from Sol, and back again on Monday. Aurora then ran the three material traders around Diaguandri and went north to two engineers: Selene Jean at Kuk and Hera Tani at Kuwemaki, 264 ly from Sol. Her four jumps to Kuwemaki averaged 80.5 ly. On Tuesday she came back through Palin, Bill Turner, Didi Vatermann, Lei Cheung, The Dweller and Ram Tah, and home to Diaguandri. On Thursday she took Aurora to Achenar to unlock Tiana Fortune, back to Diaguandri for her stored power plant and the brokers, then to Hera Tani at Kuwemaki and Bill Turner at Alioth. On Friday Aurora flew from Alioth to Ram Tah at Meene and home, and Void Runner went south to Damna for rare goods, sold them at Starport Of Starlight in Arietis Sector RY-R b4-4 and came home. On Saturday Artemis hunted bounties at the Diaguandri nav beacon and Void Runner worked signal sources in Diaguandri, with one 11 ly hop to Arietis Sector UJ-Q b5-1 and back. On Sunday Void Runner carried Li Yong-Rui's commodities around the Arietis sectors next door, and Aurora then ran north-east through 76 Sigma Ceti to Yoru and Caledo, 230 ly from home, on two courier jobs. On Monday she worked the systems around Yoru in short hops for the Party of Yoru and flew Aurora home; Void Runner then went north to Xihe for Zacariah Nemo's price, on to Hollos and Yoru, and home again. On Tuesday Aurora went to Professor Palin at Arque for an anti-corrosion cargo rack, and Invictus carried it south to HIP 20567 for Meta-Alloys, then north past Sol to Epsilon Indi, EZ Aquarii and Altair. On Wednesday Invictus sold her hold at Luyten's Star and came home, and Aurora went back east to HR 3230 by way of LHS 417. On Thursday Aurora flew home and ran the three brokers, and Invictus fetched palladium from LHS 501. Her last jump, 56.5 ly, was back to Diaguandri from the detainment centre in Tascheter Sector AV-Y b5, which she reached without a jump and which is not plotted. On Friday the new Caspian flew her first engineering circuit, Farseer at Deciat and Lei Cheung at Laksak, then a second to Ram Tah and back to Laksak; Aurora went out to a crash site at Koli Discii and came home by the raw trader. On Saturday the Caspian, named Hymn of the Long Night that evening, flew two more circuits: Palin, the Dweller, Selene Jean and Bill Turner, then Hera Tani at Kuwemaki twice. That evening her shakedown cruise took her to the neutron star Jackson's Lighthouse, whose jet cone boosted a 207.7 ly jump back to HIP 15609, the longest in the record, and on to Lei Cheung and home. On Sunday she left for the expedition proper, five jumps south-west through Arietis and Col 285 Sectors to Synuefai, about 510 ly from Sol, and spent the day hopping between a dozen systems there and in Mel 22 Sector to sample what grew on them. On Monday she pushed on south-west to HIP 16403 and Wredguia EM-E b25-1, about 605 ly from Sol. On Tuesday she went on through Synuefai, five long jumps south-west to Synuefai SL-Q b11-2, about 970 ly from Sol. On Wednesday she pressed on past 1,100 ly from Sol to Synuefai SE-C c2-4, and on Thursday worked three more Synuefai systems nearby. On Friday she went on into Oochost, charged her drive at the neutron star Oochost JE-E d13-16 for a 393.5 ly jump east, the longest in the record, reached about 1,400 ly from Sol at Oochost TK-D b46-0, and turned north into Synuefai again. On Saturday she kept north through Synuefai, past a T Tauri star, to Mel 22 Sector and the edge of the Taurus Dark Region, back to about 555 ly from Sol. On Sunday the last samples took her through the Taurus Dark Region to the Pleiades, about 430 ly from Sol, where the expedition ended with a four-jump course plotted for Diaguandri. She flew it on Monday morning, after a Thargoid hyperdiction pulled her out of the first jump, sold the expedition's data at Ray Gateway, and went on in two jumps to Sol. That afternoon she set out for Colonia by the scenic route: 59 jumps, 31 of them supercharged at neutron stars, past the Red Spider, Omega, Lagoon, Trifid and Eagle nebulae to Skaudai YP-O e6-17, about 11,780 ly from Sol. On Tuesday 35 more jumps, 26 of them boosted, took her past the Fields of Elysium, Arcane Allure, Matryoshka, Evelyn's Light and Monde de la Mort to Colonia, 22,000 ly from Sol. On Wednesday she began to learn her way around it: Kinesi and Carcosa, a few dozen light years away. On Thursday she flew back to Diaguandri in a single run of 84 jumps, then took Invictus to LFT 509, a system the Pilots Federation had just opened. That evening Invictus flew a Powerplay round north through Arietis and Col 285 and home. On Friday Invictus worked power wreckage in Simarasir and Volkhabe, Void Runner carried Altairian Skin from Altair to Volkhabe, and in the evening Hymn of the Long Night set out for Colonia again: 36 jumps, 14 of them boosted, coreward and below the galactic plane to Pyraleau HB-H b39-0, about 6,870 ly from Sol. On Saturday she crossed the rest of the way in 61 jumps, 30 of them boosted, past Boeph to Colonia, 22,000 ly from Sol. On Sunday Hephaestus worked within 30 ly of Colonia, to Tir, Luchtaine, Magellan and Los and back, and Hymn of the Long Night went to Carcosa and back, then to Ogmar, 7 ly from Colonia, and once to Magellan and back for the settlement jobs. On Monday Hymn looped from Ogmar through Asura and Santos Dumont, then flew by Colonia to Carcosa and back to Jaques Station. On Tuesday Artemis flew from Colonia to Ogmar, Kinesi and back, then to Ratraii and Luchtaine. On Wednesday Artemis went to Tenjin and back to Colonia, and Hymn of the Long Night on to Carcosa. On Thursday Hymn flew home from Carcosa to Diaguandri in a single run of 85 jumps, then on to LHS 1163. On Friday she crossed to Fiden, by way of Teleu, for a raid at Makonda Leisure Complex.</p>
+  <details class="notes"><summary>Route notes</summary>
+    <div class="sub">
+      <p>The commander started parked in an SRV Scarab on Pleiades Sector LY-Q b5-2 A 2, a body with six Thargoid signals about 340 ly from Sol, and flew home to Diaguandri, 127 ly from Sol. From there Dreaming Void ran north through Sol's neighbourhood to Orrere and back, then 449 ly east in seven jumps to HR 3230, 423 ly from Sol, and back again on Monday. Aurora then ran the three material traders around Diaguandri and went north to two engineers: Selene Jean at Kuk and Hera Tani at Kuwemaki, 264 ly from Sol.</p>
+      <p>Her four jumps to Kuwemaki averaged 80.5 ly. On Tuesday she came back through Palin, Bill Turner, Didi Vatermann, Lei Cheung, The Dweller and Ram Tah, and home to Diaguandri. On Thursday she took Aurora to Achenar to unlock Tiana Fortune, back to Diaguandri for her stored power plant and the brokers, then to Hera Tani at Kuwemaki and Bill Turner at Alioth.</p>
+      <p>On Friday Aurora flew from Alioth to Ram Tah at Meene and home, and Void Runner went south to Damna for rare goods, sold them at Starport Of Starlight in Arietis Sector RY-R b4-4 and came home. On Saturday Artemis hunted bounties at the Diaguandri nav beacon and Void Runner worked signal sources in Diaguandri, with one 11 ly hop to Arietis Sector UJ-Q b5-1 and back. On Sunday Void Runner carried Li Yong-Rui's commodities around the Arietis sectors next door, and Aurora then ran north-east through 76 Sigma Ceti to Yoru and Caledo, 230 ly from home, on two courier jobs.</p>
+      <p>On Monday she worked the systems around Yoru in short hops for the Party of Yoru and flew Aurora home; Void Runner then went north to Xihe for Zacariah Nemo's price, on to Hollos and Yoru, and home again. On Tuesday Aurora went to Professor Palin at Arque for an anti-corrosion cargo rack, and Invictus carried it south to HIP 20567 for Meta-Alloys, then north past Sol to Epsilon Indi, EZ Aquarii and Altair. On Wednesday Invictus sold her hold at Luyten's Star and came home, and Aurora went back east to HR 3230 by way of LHS 417.</p>
+      <p>On Thursday Aurora flew home and ran the three brokers, and Invictus fetched palladium from LHS 501. Her last jump, 56.5 ly, was back to Diaguandri from the detainment centre in Tascheter Sector AV-Y b5, which she reached without a jump and which is not plotted. On Friday the new Caspian flew her first engineering circuit, Farseer at Deciat and Lei Cheung at Laksak, then a second to Ram Tah and back to Laksak; Aurora went out to a crash site at Koli Discii and came home by the raw trader.</p>
+      <p>On Saturday the Caspian, named Hymn of the Long Night that evening, flew two more circuits: Palin, the Dweller, Selene Jean and Bill Turner, then Hera Tani at Kuwemaki twice. That evening her shakedown cruise took her to the neutron star Jackson's Lighthouse, whose jet cone boosted a 207.7 ly jump back to HIP 15609, the longest in the record, and on to Lei Cheung and home. On Sunday she left for the expedition proper, five jumps south-west through Arietis and Col 285 Sectors to Synuefai, about 510 ly from Sol, and spent the day hopping between a dozen systems there and in Mel 22 Sector to sample what grew on them.</p>
+      <p>On Monday she pushed on south-west to HIP 16403 and Wredguia EM-E b25-1, about 605 ly from Sol. On Tuesday she went on through Synuefai, five long jumps south-west to Synuefai SL-Q b11-2, about 970 ly from Sol. On Wednesday she pressed on past 1,100 ly from Sol to Synuefai SE-C c2-4, and on Thursday worked three more Synuefai systems nearby.</p>
+      <p>On Friday she went on into Oochost, charged her drive at the neutron star Oochost JE-E d13-16 for a 393.5 ly jump east, the longest in the record, reached about 1,400 ly from Sol at Oochost TK-D b46-0, and turned north into Synuefai again. On Saturday she kept north through Synuefai, past a T Tauri star, to Mel 22 Sector and the edge of the Taurus Dark Region, back to about 555 ly from Sol. On Sunday the last samples took her through the Taurus Dark Region to the Pleiades, about 430 ly from Sol, where the expedition ended with a four-jump course plotted for Diaguandri.</p>
+      <p>She flew it on Monday morning, after a Thargoid hyperdiction pulled her out of the first jump, sold the expedition's data at Ray Gateway, and went on in two jumps to Sol. That afternoon she set out for Colonia by the scenic route: 59 jumps, 31 of them supercharged at neutron stars, past the Red Spider, Omega, Lagoon, Trifid and Eagle nebulae to Skaudai YP-O e6-17, about 11,780 ly from Sol. On Tuesday 35 more jumps, 26 of them boosted, took her past the Fields of Elysium, Arcane Allure, Matryoshka, Evelyn's Light and Monde de la Mort to Colonia, 22,000 ly from Sol.</p>
+      <p>On Wednesday she began to learn her way around it: Kinesi and Carcosa, a few dozen light years away. On Thursday she flew back to Diaguandri in a single run of 84 jumps, then took Invictus to LFT 509, a system the Pilots Federation had just opened. That evening Invictus flew a Powerplay round north through Arietis and Col 285 and home.</p>
+      <p>On Friday Invictus worked power wreckage in Simarasir and Volkhabe, Void Runner carried Altairian Skin from Altair to Volkhabe, and in the evening Hymn of the Long Night set out for Colonia again: 36 jumps, 14 of them boosted, coreward and below the galactic plane to Pyraleau HB-H b39-0, about 6,870 ly from Sol. On Saturday she crossed the rest of the way in 61 jumps, 30 of them boosted, past Boeph to Colonia, 22,000 ly from Sol. On Sunday Hephaestus worked within 30 ly of Colonia, to Tir, Luchtaine, Magellan and Los and back, and Hymn of the Long Night went to Carcosa and back, then to Ogmar, 7 ly from Colonia, and once to Magellan and back for the settlement jobs.</p>
+      <p>On Monday Hymn looped from Ogmar through Asura and Santos Dumont, then flew by Colonia to Carcosa and back to Jaques Station. On Tuesday Artemis flew from Colonia to Ogmar, Kinesi and back, then to Ratraii and Luchtaine. On Wednesday Artemis went to Tenjin and back to Colonia, and Hymn of the Long Night on to Carcosa.</p>
+      <p>On Thursday Hymn flew home from Carcosa to Diaguandri in a single run of 85 jumps, then on to LHS 1163. On Friday she crossed to Fiden, by way of Teleu, for a raid at Makonda Leisure Complex.</p>
+    </div>
+  </details>
 </section>
 
-<section>
+<section id="sessions">
   <h2>Sessions</h2>
-  <div class="panel gantt"><svg id="gantt" viewBox="0 0 1000 2110"></svg></div>
-  <p class="sub">Eight of seventy-nine launches never left the ground: five stopped at the main menu and three sat in the SRV, including a 77-minute session in Open play with no logged activity. The flying happened in six sessions: four on Sunday totalling about 4 hours 36 minutes, 1 hour 45 minutes on Monday evening and 2 hours 10 minutes on Tuesday. Thursday's run to Achenar and the engineers took 2 hours 14 minutes, Friday's Ram Tah and rare-goods session 1 hour 5 minutes, and Saturday's two sessions, bounties in the afternoon and salvage in the evening, 1 hour 55 minutes between them. Sunday's session ran 1 hour 56 minutes, Monday's two 1 hour 34 minutes and 1 hour 49 minutes, Tuesday's 1 hour 39 minutes, Wednesday's 1 hour 15 minutes, Thursday's 2 hours 9 minutes, with two relaunches, Friday's two 2 hours 44 minutes and 34 minutes, and Saturday's two 2 hours 1 minute and 1 hour 28 minutes, the second the shakedown cruise. Sunday's four sampling sessions ran 1 hour 23 minutes, 38 minutes, 15 minutes and 42 minutes, after a launch that stopped at the main menu, Monday's two 42 and 37 minutes, and Tuesday's 55 minutes, with a return to the main menu partway, Wednesday's 37 minutes, Thursday's 59, and Friday's five: 51 minutes, 47 minutes, 1 hour 6 minutes, 25 minutes and 1 hour 38 minutes, and Saturday's three: 1 hour 30 minutes, with a return to the main menu partway, 1 hour 24 minutes and 59 minutes, Sunday's two, 1 hour 38 minutes and 1 hour 37 minutes, and on Monday morning 17 minutes home, ended without a shutdown, then 1 hour 18 minutes for the sales and the run to Sol, and three sessions on the road to Colonia: 1 hour 7 minutes, 1 hour 10 minutes and 2 hours 35 minutes, then six on Tuesday to Colonia: 36, 16 and 22 minutes, 1 hour 26 minutes, 1 hour 5 minutes and 1 hour 27 minutes, with two returns to the main menu, three on Wednesday in Colonia: 22 minutes, 1 hour 3 minutes and 1 hour 7 minutes, and three on Thursday: 2 hours 22 minutes home from Colonia, then 1 hour 20 minutes and 1 hour 13 minutes at LFT 509, and 1 hour 9 minutes on Powerplay in the evening, and three on Friday: 38 minutes and 1 hour on salvage and rare goods, and 1 hour 6 minutes outbound for Colonia, and two on Saturday: 1 hour 33 minutes, with a relaunch at the end, and 1 hour 43 minutes into Colonia, and four on Sunday around Colonia: 1 hour 18 minutes mining, 1 hour 20 minutes on rescue, 17 minutes refitting Hymn and 3 hours 3 minutes on settlement power jobs, with two relaunches, and on Monday 1 hour 58 minutes, with a relaunch, ending on foot at Carcosa, and on Tuesday 51 minutes in Artemis, and on Wednesday 1 hour 37 minutes, a bounty at Tenjin and a raid at Carcosa, and on Thursday 2 hours 31 minutes, with a relaunch at the end, home from Colonia, and on Friday 58 minutes, the raid at Fiden. Times are local, inferred from the journal file names: UTC−5 to 31 Oct and UTC−6 from 1 Nov, when daylight saving ended.</p>
+  <div class="tools"><button type="button" data-open="#sessions-list">Open all</button><button type="button" data-close="#sessions-list">Close all</button></div>
+  <div class="panel sessions">
+    <div class="shead" aria-hidden="true"><span>Local time</span><span class="shours" id="shours"></span><span>Sessions · time</span></div>
+    <div id="sessions-list"></div>
+  </div>
+  <div class="skey"><span><i></i>Flying</span><span><i class="idle"></i>Menu, SRV or idle</span><span>Select a day for its sessions</span></div>
+  <details class="notes"><summary>Session notes</summary>
+    <div class="sub">
+      <p>Eight of seventy-nine launches never left the ground: five stopped at the main menu and three sat in the SRV, including a 77-minute session in Open play with no logged activity. The flying happened in six sessions: four on Sunday totalling about 4 hours 36 minutes, 1 hour 45 minutes on Monday evening and 2 hours 10 minutes on Tuesday. Thursday's run to Achenar and the engineers took 2 hours 14 minutes, Friday's Ram Tah and rare-goods session 1 hour 5 minutes, and Saturday's two sessions, bounties in the afternoon and salvage in the evening, 1 hour 55 minutes between them.</p>
+      <p>Sunday's session ran 1 hour 56 minutes, Monday's two 1 hour 34 minutes and 1 hour 49 minutes, Tuesday's 1 hour 39 minutes, Wednesday's 1 hour 15 minutes, Thursday's 2 hours 9 minutes, with two relaunches, Friday's two 2 hours 44 minutes and 34 minutes, and Saturday's two 2 hours 1 minute and 1 hour 28 minutes, the second the shakedown cruise. Sunday's four sampling sessions ran 1 hour 23 minutes, 38 minutes, 15 minutes and 42 minutes, after a launch that stopped at the main menu, Monday's two 42 and 37 minutes, and Tuesday's 55 minutes, with a return to the main menu partway, Wednesday's 37 minutes, Thursday's 59, and Friday's five: 51 minutes, 47 minutes, 1 hour 6 minutes, 25 minutes and 1 hour 38 minutes, and Saturday's three: 1 hour 30 minutes, with a return to the main menu partway, 1 hour 24 minutes and 59 minutes, Sunday's two, 1 hour 38 minutes and 1 hour 37 minutes, and on Monday morning 17 minutes home, ended without a shutdown, then 1 hour 18 minutes for the sales and the run to Sol, and three sessions on the road to Colonia: 1 hour 7 minutes, 1 hour 10 minutes and 2 hours 35 minutes, then six on Tuesday to Colonia: 36, 16 and 22 minutes, 1 hour 26 minutes, 1 hour 5 minutes and 1 hour 27 minutes, with two returns to the main menu, three on Wednesday in Colonia: 22 minutes, 1 hour 3 minutes and 1 hour 7 minutes, and three on Thursday: 2 hours 22 minutes home from Colonia, then 1 hour 20 minutes and 1 hour 13 minutes at LFT 509, and 1 hour 9 minutes on Powerplay in the evening, and three on Friday: 38 minutes and 1 hour on salvage and rare goods, and 1 hour 6 minutes outbound for Colonia, and two on Saturday: 1 hour 33 minutes, with a relaunch at the end, and 1 hour 43 minutes into Colonia, and four on Sunday around Colonia: 1 hour 18 minutes mining, 1 hour 20 minutes on rescue, 17 minutes refitting Hymn and 3 hours 3 minutes on settlement power jobs, with two relaunches, and on Monday 1 hour 58 minutes, with a relaunch, ending on foot at Carcosa, and on Tuesday 51 minutes in Artemis, and on Wednesday 1 hour 37 minutes, a bounty at Tenjin and a raid at Carcosa, and on Thursday 2 hours 31 minutes, with a relaunch at the end, home from Colonia, and on Friday 58 minutes, the raid at Fiden. Times are local, inferred from the journal file names: UTC−5 to 31 Oct and UTC−6 from 1 Nov, when daylight saving ended.</p>
+    </div>
+  </details>
 </section>
 
-<section>
+<section id="log-events">
   <h2>Log</h2>
+  <div class="tools"><button type="button" data-open="#log">Open all</button><button type="button" data-close="#log">Close all</button></div>
   <div class="panel log" id="log"></div>
 </section>
 
-<section>
+<section id="ledger">
   <h2>Ledger</h2>
   <div class="two">
     <div class="panel wf">
       <div class="label" style="margin-bottom:10px">Credit balance, 3 to 27 October</div>
-      <svg id="wf" viewBox="0 0 520 300"></svg>
+      <svg id="wf" viewBox="0 0 520 300" role="img" aria-label="Waterfall of the credit balance from 148.7M to 2,243.5M CR by source"></svg>
     </div>
     <div class="panel wf">
       <div class="label" style="margin-bottom:10px">Exploration data sold · top systems by bodies</div>
-      <svg id="expl" viewBox="0 0 520 300"></svg>
+      <svg id="expl" viewBox="0 0 520 300" role="img" aria-label="Exploration data sold: bodies per system, top ten systems"></svg>
     </div>
   </div>
-  <p class="sub">Twenty-four cartographic sales paid 67,874,220 CR, 38,428 CR of it first-discovery bonuses at Jaques Station. Data-link scans in LFT 509 on 29 Oct paid 1,007,186 CR in vouchers. Twenty missions paid 15,034,451 CR, 14,430,912 of it for 21 Palladium delivered to EXO on 15 Oct, nine of them for the Party of Yoru on 12 Oct, and four settlement power jobs around Ogmar on 1 Nov 271,186 CR. Xihe Biomorphic Companions for Zacariah Nemo cost 116,650 CR. Twelve Meta-Alloys from fleet carriers cost 28,225,956 CR, nearly all at 2,495,439 CR each. All sixteen sold at Luyten's Star for 311,315,200 CR, and the Titan Drive Component for 36,207,500 CR. The Caspian's outfit cost 18,495,257 CR; the game did not credit the 17,460 CR for the two hangars sold off her. A 4A power plant bought for her on 17 Oct (1,225,049 CR) went into storage unused. Her first exobiology sample, Stratum Paleas, sold for 1,362,000 CR, and on 26 Oct the expedition's 82 analyses for 1,566,783,200 CR in three sales, 76,043,200 of it a first-logged bonus for Turquoise Stratum Tectonicas; at Jaques Station on 27 Oct six more sold for 353,830,400 CR, 283,064,800 of it first-logged bonuses. Hephaestus and Artemis were sent from Diaguandri to Colonia the same evening for 221,272,144 CR. On 28 Oct Hymn took a large missile rack at Jaques Station, 1,021,500 CR. 500,000 CR at the 26 Oct relaunch, after two Powerplay rank-ups, is shown as Powerplay. On 30 Oct Void Runner carried 95 Altairian Skin from Altair to Volkhabe, bought for 149,625 CR and sold for 1,316,700 CR, and Hymn's repairs before she left for Colonia again cost 453,467 CR. At Dove Enigma on 31 Oct Hymn's repairs after the crossing cost 518,877 CR, and the recovery at Odin's Crag after the failed job at Konig Synthetics 1,000 CR. On 1 Nov Hephaestus's mined cargo sold for 3,023,870 CR, 1,866,880 of it ten tonnes of painite, and the salvage from Luchtaine for 104,655 CR; her rescue refit cost 1,012,587 CR less 86,400 CR for the collector controller sold, Hymn's SRV hangars 90,000 CR and her two Scarabs 15,810 CR. Ten on-foot bounty vouchers from that evening, 10,850 CR, were redeemed at Jaques Station on 2 Nov for 8,137 CR after the broker's 25 per cent. On 3 Nov Artemis's four bounties at Ogmar, 414,379 CR, went 100,000 CR to unlock Mel Brandon and the rest to the broker at The Brig for 235,784 CR. On 4 Nov a Keelback's 207,832 CR bounty at Tenjin redeemed at Jaques Station for 155,873 CR. Seven bounty redemptions paid 1,217,351 CR and nine Search and Rescue hand-ins 1,628,913 CR. Void Runner's rebuy cost 2,674,868 CR. Cargo brought in 526,795 CR, including 43,365 CR for 15 Damna Carapaces bought for 4,725 CR, including gold and palladium prospected on Orrere 2 b. The Neofabric Insulation sold at 5,902 CR against 5,979 CR paid, a small loss of 1,232 CR on 16 units. Thirty times the game's own balance at login disagreed with the logged transactions: 791 CR lower on 4 Oct, 28,621 CR higher on 6 Oct, 7,185 CR lower on 8 Oct, 48 CR lower on 9 Oct 260,310 CR higher between the two sessions on 10 Oct, 1 CR lower on 11 Oct, 507,999 CR higher at the first login on 12 Oct and 1 CR lower at the second, 15 CR lower on 14 Oct, 4,999,999 CR higher on 15 Oct 10 CR lower on 16 Oct, 11 CR lower on 17 Oct, 12 CR lower on 18 Oct, 500,000 CR higher on 22 Oct, 10 CR lower on 26 Oct, 600 CR higher on 28 Oct, 10,000,000 CR higher on the morning of 29 Oct, 1,415 CR lower at that afternoon's relaunch, 697 CR higher that evening, 1,010 CR lower on the morning of 30 Oct and 1 CR lower at each of that day's two later logins, 2 CR lower on 31 Oct, 11 CR lower on the morning of 1 Nov, 1 CR lower at each of that day's next three logins and 10 CR lower at the evening relaunch, 2,500,000 CR higher on 5 Nov and 10 CR lower at that evening's relaunch. No journal event accounts for any of them.</p>
+  <details class="notes"><summary>Ledger notes</summary>
+    <div class="sub">
+      <p>Twenty-four cartographic sales paid 67,874,220 CR, 38,428 CR of it first-discovery bonuses at Jaques Station. Data-link scans in LFT 509 on 29 Oct paid 1,007,186 CR in vouchers. Twenty missions paid 15,034,451 CR, 14,430,912 of it for 21 Palladium delivered to EXO on 15 Oct, nine of them for the Party of Yoru on 12 Oct, and four settlement power jobs around Ogmar on 1 Nov 271,186 CR.</p>
+      <p>Xihe Biomorphic Companions for Zacariah Nemo cost 116,650 CR. Twelve Meta-Alloys from fleet carriers cost 28,225,956 CR, nearly all at 2,495,439 CR each. All sixteen sold at Luyten's Star for 311,315,200 CR, and the Titan Drive Component for 36,207,500 CR.</p>
+      <p>The Caspian's outfit cost 18,495,257 CR; the game did not credit the 17,460 CR for the two hangars sold off her. A 4A power plant bought for her on 17 Oct (1,225,049 CR) went into storage unused. Her first exobiology sample, Stratum Paleas, sold for 1,362,000 CR, and on 26 Oct the expedition's 82 analyses for 1,566,783,200 CR in three sales, 76,043,200 of it a first-logged bonus for Turquoise Stratum Tectonicas; at Jaques Station on 27 Oct six more sold for 353,830,400 CR, 283,064,800 of it first-logged bonuses.</p>
+      <p>Hephaestus and Artemis were sent from Diaguandri to Colonia the same evening for 221,272,144 CR. On 28 Oct Hymn took a large missile rack at Jaques Station, 1,021,500 CR. 500,000 CR at the 26 Oct relaunch, after two Powerplay rank-ups, is shown as Powerplay.</p>
+      <p>On 30 Oct Void Runner carried 95 Altairian Skin from Altair to Volkhabe, bought for 149,625 CR and sold for 1,316,700 CR, and Hymn's repairs before she left for Colonia again cost 453,467 CR. At Dove Enigma on 31 Oct Hymn's repairs after the crossing cost 518,877 CR, and the recovery at Odin's Crag after the failed job at Konig Synthetics 1,000 CR. On 1 Nov Hephaestus's mined cargo sold for 3,023,870 CR, 1,866,880 of it ten tonnes of painite, and the salvage from Luchtaine for 104,655 CR; her rescue refit cost 1,012,587 CR less 86,400 CR for the collector controller sold, Hymn's SRV hangars 90,000 CR and her two Scarabs 15,810 CR.</p>
+      <p>Ten on-foot bounty vouchers from that evening, 10,850 CR, were redeemed at Jaques Station on 2 Nov for 8,137 CR after the broker's 25 per cent. On 3 Nov Artemis's four bounties at Ogmar, 414,379 CR, went 100,000 CR to unlock Mel Brandon and the rest to the broker at The Brig for 235,784 CR. On 4 Nov a Keelback's 207,832 CR bounty at Tenjin redeemed at Jaques Station for 155,873 CR.</p>
+      <p>Seven bounty redemptions paid 1,217,351 CR and nine Search and Rescue hand-ins 1,628,913 CR. Void Runner's rebuy cost 2,674,868 CR. Cargo brought in 526,795 CR, including 43,365 CR for 15 Damna Carapaces bought for 4,725 CR, including gold and palladium prospected on Orrere 2 b.</p>
+      <p>The Neofabric Insulation sold at 5,902 CR against 5,979 CR paid, a small loss of 1,232 CR on 16 units.</p>
+      <p>Thirty times the game's own balance at login disagreed with the logged transactions: 791 CR lower on 4 Oct, 28,621 CR higher on 6 Oct, 7,185 CR lower on 8 Oct, 48 CR lower on 9 Oct 260,310 CR higher between the two sessions on 10 Oct, 1 CR lower on 11 Oct, 507,999 CR higher at the first login on 12 Oct and 1 CR lower at the second, 15 CR lower on 14 Oct, 4,999,999 CR higher on 15 Oct 10 CR lower on 16 Oct, 11 CR lower on 17 Oct, 12 CR lower on 18 Oct, 500,000 CR higher on 22 Oct, 10 CR lower on 26 Oct, 600 CR higher on 28 Oct, 10,000,000 CR higher on the morning of 29 Oct, 1,415 CR lower at that afternoon's relaunch, 697 CR higher that evening, 1,010 CR lower on the morning of 30 Oct and 1 CR lower at each of that day's two later logins, 2 CR lower on 31 Oct, 11 CR lower on the morning of 1 Nov, 1 CR lower at each of that day's next three logins and 10 CR lower at the evening relaunch, 2,500,000 CR higher on 5 Nov and 10 CR lower at that evening's relaunch. No journal event accounts for any of them.</p>
+    </div>
+  </details>
 </section>
 
-<section>
+<section id="totals">
   <h2>Lifetime totals</h2>
   <div class="two">
     <div class="panel hbars">
       <div class="label" style="margin-bottom:10px">Lifetime earnings by activity</div>
-      <svg id="earn" viewBox="0 0 520 250"></svg>
+      <svg id="earn" viewBox="0 0 520 250" role="img" aria-label="Lifetime earnings by activity, exobiology largest at 2,042M CR"></svg>
     </div>
     <div class="panel hbars">
       <div class="label" style="margin-bottom:10px">Lifetime spending</div>
-      <svg id="spend" viewBox="0 0 520 250"></svg>
+      <svg id="spend" viewBox="0 0 520 250" role="img" aria-label="Lifetime spending, outfitting largest at 524M CR"></svg>
     </div>
   </div>
   <div class="stats" id="stats"></div>
   <p class="sub">Figures are the game's lifetime statistics as of the last login (6 Nov, 19:46 local, docked at Hunziker Terminal, LHS 1163), which counts the whole run home; Friday's four jumps and the raid at Makonda Leisure Complex appear at the next login. The raids at Oliveira Genetics Exploration on 2 Nov and Yoon's Installation on 4 Nov show in them: 77 people killed, 49 of them guards, 241 goods, 32 data and a sample taken, a turret destroyed and both settlements shut down. The game files these under crime, but no crime or bounty was recorded, since The Nameless are lawless. On 4 Oct Inara's statistics matched every figure, and its balance of 145,171,209 CR matched the journal to the credit.</p>
 </section>
 
-<section>
+<section id="awards-section">
   <h2>Inara awards</h2>
   <div class="awards" id="awards"></div>
   <p class="sub">Award levels are Inara's as of 4 Oct. The Traveller tier 3 (100,000 ly) was passed on 6 Oct; the statistics at the 6 Nov evening login read 214,144 ly. Inara will show it after its next sync. The Explorer tier 2 (2,500 systems) was passed on 29 Oct on the run home from Colonia.</p>
 </section>
 
-<section>
+<section id="engineers">
   <h2>Engineers</h2>
   <div class="engs" id="engs"></div>
   <p class="sub">19 of 38 engineers unlocked, 11 at grade 5. 1 invited, 9 discovered, 9 not yet found. 994 blueprints rolled across 14 engineers, per the game's statistics on 27 Oct. Dates show when Inara, or for the changes since October 2026 the journal, recorded each status.</p>
@@ -589,6 +690,8 @@ text { font-family: var(--f-mono); }
 </footer>
 
 </div>
+
+<a class="totop" href="#top" aria-label="Back to top">↑</a>
 
 <script>
 (function () {
@@ -1503,7 +1606,10 @@ text { font-family: var(--f-mono); }
     const m = sp.textContent.match(/^Leg (\d+) /);
     if (m && +m[1] < minLeg) sp.remove();
   });
-  const W = 760, H = 630, pad = 30;
+  function drawMap() {
+  map.textContent = "";
+  const W = Math.max(Math.round(map.getBoundingClientRect().width) || 760, 300), H = Math.round(W * 630 / 760), pad = W < 500 ? 18 : 30;
+  map.setAttribute("viewBox", `0 0 ${W} ${H}`);
   const xs = vis.map(s => s.x).concat(0), zs = vis.map(s => s.z).concat(0);
   const x0 = Math.floor(Math.min(...xs) / 50) * 50 - 30, x1 = Math.ceil(Math.max(...xs) / 50) * 50 + 30;
   const z0 = Math.floor(Math.min(...zs) / 50) * 50 - 30, z1 = Math.ceil(Math.max(...zs) / 50) * 50 + 30;
@@ -1511,20 +1617,26 @@ text { font-family: var(--f-mono); }
   const px = x => pad + (x - x0) * k;
   const py = z => H - pad - (z - z0) * k;
   const gs = Math.max(x1 - x0, z1 - z0) > 2500 ? 1000 : 100;
+  let lastTick = 40;
   for (let x = Math.ceil(x0 / gs) * gs; x <= x1; x += gs) {
     el("line", { x1: px(x), x2: px(x), y1: py(z1), y2: py(z0), stroke: C.line, "stroke-width": 1 }, map);
-    el("text", { x: px(x), y: H - 8, "text-anchor": "middle", "font-size": 10, fill: C.muted }, map, x === 0 ? "x 0" : x);
+    if (px(x) - lastTick < 48 || px(x) > W - 20) continue;
+    lastTick = px(x);
+    el("text", { x: px(x), y: H - 6, "text-anchor": "middle", "font-size": 11, fill: C.muted }, map, x === 0 ? "x 0" : x);
   }
+  let lastZ = H;
   for (let z = Math.ceil(z0 / gs) * gs; z <= z1; z += gs) {
     el("line", { x1: px(x0), x2: px(x1), y1: py(z), y2: py(z), stroke: C.line, "stroke-width": 1 }, map);
-    el("text", { x: 6, y: py(z) + 3, "font-size": 10, fill: C.muted }, map, z === 0 ? "z 0" : z);
+    if (lastZ - py(z) < 18) continue;
+    lastZ = py(z);
+    el("text", { x: 4, y: py(z) + 4, "font-size": 11, fill: C.muted }, map, z === 0 ? "z 0" : z);
   }
   [100, 200, 300, 400].forEach(r => {
     el("circle", { cx: px(0), cy: py(0), r: r * k, fill: "none", stroke: C.dim, "stroke-dasharray": "2 5", "stroke-width": 1 }, map);
     if (r < 400) el("text", { x: px(0) + 4, y: py(-r) - 4, "font-size": 10, fill: C.dim }, map, r + " ly");
   });
   el("circle", { cx: px(0), cy: py(0), r: 4, fill: C.fg }, map);
-  el("text", { x: px(0) - 8, y: py(0) - 8, "font-size": 11, fill: C.fg, "text-anchor": "end" }, map, "Sol");
+  const solLabel = el("text", { x: px(0) - 8, y: py(0) - 8, "font-size": 11, fill: C.fg, "text-anchor": "end" }, map, "Sol");
   el("circle", { cx: px(-78.59), cy: py(-340.53), r: 3, fill: "none", stroke: C.muted }, map);
   el("text", { x: px(-78.59) + 7, y: py(-340.53) + 4, "font-size": 10, fill: C.muted }, map, "Merope (Pleiades)");
   // one polyline per leg, each starting where the previous leg ended
@@ -1599,7 +1711,7 @@ text { font-family: var(--f-mono); }
     "LFT 509": ["LFT 509 · newly opened", 9, 4, "start", C.bad],
     "Pleiades Sector XZ-Y c11": ["Pleiades XZ-Y c11 · end of the expedition, hyperdiction", -9, 16, "end", C.bad]
   };
-  const seen = {};
+  const seen = {}, cands = [];
   vis.forEach((s, i) => {
     if (seen[s.n]) return;
     seen[s.n] = 1;
@@ -1607,10 +1719,22 @@ text { font-family: var(--f-mono); }
     if (s.n === "Colonia") el("circle", { cx, cy, r: 9, fill: "none", stroke: C.accent, "stroke-width": 1 }, map);
     el("rect", { x: cx - 3.2, y: cy - 3.2, width: 6.4, height: 6.4, transform: `rotate(45 ${cx} ${cy})`, fill: LEGS[s.leg].col }, map);
     const lb = labels[s.n];
-    if (lb) el("text", { x: cx + lb[1], y: cy + lb[2], "font-size": 10.5, fill: lb[4] || C.muted, "text-anchor": lb[3] }, map, lb[0]);
+    if (lb) cands.push({ x: cx + lb[1], y: cy + lb[2], lb, i, key: !!lb[4] });
   });
+  // place labels without overlaps: highlighted first, then the most recent; on a narrow map only the highlighted ones
+  const fs = 11.5, placed = [{ x0: px(0) - 40, x1: px(0), y0: py(0) - 20, y1: py(0) - 4 }];
+  cands.filter(c => c.key || W >= 500).sort((a, b) => (b.key - a.key) || (b.i - a.i)).forEach(c => {
+    const w = c.lb[0].length * fs * 0.6, x0 = c.lb[3] === "end" ? c.x - w : c.lb[3] === "middle" ? c.x - w / 2 : c.x;
+    const box = { x0: x0 - 2, x1: x0 + w + 2, y0: c.y - fs, y1: c.y + 3 };
+    if (box.x0 < 0 || box.x1 > W || placed.some(p => box.x0 < p.x1 && box.x1 > p.x0 && box.y0 < p.y1 && box.y1 > p.y0)) return;
+    placed.push(box);
+    el("text", { x: c.x, y: c.y, "font-size": fs, fill: c.lb[4] || C.muted, "text-anchor": c.lb[3] }, map, c.lb[0]);
+  });
+  map.appendChild(solLabel);
   if (minLeg <= 4) el("text", { x: px(210), y: py(-95), "font-size": 10, fill: C.violet, "text-anchor": "middle" }, map, "449 ly east · 7 jumps");
-  el("text", { x: W - pad, y: 16, "font-size": 10, fill: C.muted, "text-anchor": "end" }, map, "↑ galactic core");
+  el("text", { x: W - pad, y: 16, "font-size": 11, fill: C.muted, "text-anchor": "end" }, map, "↑ galactic core");
+  }
+  drawMap();
 
   let lastLeg = 0;
   const skip = sys.length - vis.length;
@@ -1702,33 +1826,24 @@ text { font-family: var(--f-mono); }
     { day: "Thu 5 Nov", s: "17:25", e: "19:56", load: "17:26", mode: "Solo", note: "Carcosa home to Diaguandri, LHS 1163, 87 jumps", hot: true },
     { day: "Fri 6 Nov", s: "19:45", e: "20:43", load: "19:46", mode: "Solo", note: "Raid at Makonda, Fiden, killed on foot, 4 jumps", hot: true }
   ];
-  const g = document.getElementById("gantt");
   const toM = t => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
-  const panels = [{ day: "Sat 3 Oct", a: 18 * 60 + 45, b: 21 * 60 }, { day: "Sun 4 Oct", a: 9 * 60, b: 22 * 60 }, { day: "Mon 5 Oct", a: 18 * 60, b: 21 * 60 }, { day: "Tue 6 Oct", a: 17 * 60, b: 22 * 60 }, { day: "Thu 8 Oct", a: 18 * 60, b: 21 * 60 }, { day: "Fri 9 Oct", a: 19 * 60, b: 21 * 60 }, { day: "Sat 10 Oct", a: 15 * 60, b: 19 * 60 }, { day: "Sun 11 Oct", a: 17 * 60, b: 20 * 60 }, { day: "Mon 12 Oct", a: 12 * 60 + 30, b: 19 * 60 }, { day: "Tue 13 Oct", a: 18 * 60 + 30, b: 20 * 60 + 30 }, { day: "Wed 14 Oct", a: 20 * 60, b: 21 * 60 + 45 }, { day: "Thu 15 Oct", a: 19 * 60, b: 22 * 60 }, { day: "Fri 16 Oct", a: 17 * 60 + 30, b: 22 * 60 + 30 }, { day: "Sat 17 Oct", a: 14 * 60, b: 20 * 60 }, { day: "Sun 18 Oct", a: 12 * 60 + 30, b: 20 * 60 + 30 }, { day: "Mon 19 Oct", a: 18 * 60, b: 20 * 60 + 15 }, { day: "Tue 20 Oct", a: 20 * 60 + 30, b: 22 * 60 }, { day: "Wed 21 Oct", a: 19 * 60 + 45, b: 21 * 60 }, { day: "Thu 22 Oct", a: 21 * 60, b: 22 * 60 + 30 }, { day: "Fri 23 Oct", a: 9 * 60 + 30, b: 21 * 60 + 30 }, { day: "Sat 24 Oct", a: 13 * 60 + 15, b: 21 * 60 }, { day: "Sun 25 Oct", a: 12 * 60 + 15, b: 21 * 60 + 30 }, { day: "Mon 26 Oct", a: 9 * 60, b: 21 * 60 }, { day: "Tue 27 Oct", a: 9 * 60, b: 21 * 60 }, { day: "Wed 28 Oct", a: 15 * 60, b: 19 * 60 + 15 }, { day: "Thu 29 Oct", a: 8 * 60, b: 21 * 60 }, { day: "Fri 30 Oct", a: 9 * 60, b: 21 * 60 }, { day: "Sat 31 Oct", a: 16 * 60, b: 22 * 60 }, { day: "Sun 1 Nov", a: 8 * 60 + 30, b: 20 * 60 + 30 }, { day: "Mon 2 Nov", a: 17 * 60 + 30, b: 20 * 60 }, { day: "Tue 3 Nov", a: 20 * 60 + 30, b: 21 * 60 + 45 }, { day: "Wed 4 Nov", a: 18 * 60 + 15, b: 20 * 60 + 15 }, { day: "Thu 5 Nov", a: 17 * 60 + 15, b: 20 * 60 + 15 }, { day: "Fri 6 Nov", a: 19 * 60 + 30, b: 21 * 60 }];
-  const gx0 = 110, gW = 1000 - gx0 - 20;
-  const totalSpan = panels.reduce((t, p) => t + (p.b - p.a), 0);
-  const gapPx = 30;
-  const scale = (gW - gapPx) / totalSpan;
-  let off = gx0;
-  panels.forEach(p => { p.x = off; off += (p.b - p.a) * scale + gapPx; });
-  const gxOf = (day, t) => { const p = panels.find(q => q.day === day); return p.x + (toM(t) - p.a) * scale; };
-  panels.forEach(p => {
-    el("text", { x: p.x, y: 16, "font-size": 11, fill: C.fg }, g, p.day.toUpperCase());
-    for (let m = Math.ceil(p.a / 60) * 60; m <= p.b; m += 60) {
-      const x = p.x + (m - p.a) * scale;
-      el("line", { x1: x, x2: x, y1: 26, y2: 2090, stroke: C.line }, g);
-      el("text", { x, y: 2102, "font-size": 10, fill: C.muted, "text-anchor": "middle" }, g, String(m / 60).padStart(2, "0") + ":00");
-    }
+  const H0 = 8 * 60, H1 = 23 * 60;
+  const pct = m => (Math.min(Math.max(m, H0), H1) - H0) / (H1 - H0) * 100;
+  document.getElementById("shours").innerHTML = [8, 10, 12, 14, 16, 18, 20, 22].map(h => `<span style="left:${pct(h * 60).toFixed(2)}%">${String(h).padStart(2, "0")}</span>`).join("");
+  const days = [];
+  sessions.forEach((x, i) => {
+    let d = days.find(q => q.day === x.day);
+    if (!d) { d = { day: x.day, list: [] }; days.push(d); }
+    d.list.push(Object.assign({ n: i + 1 }, x));
   });
-  sessions.forEach((s, i) => {
-    const y = 34 + i * 26;
-    el("text", { x: 0, y: y + 12, "font-size": 10.5, fill: s.hot ? C.fg : C.muted }, g, "Session " + (i + 1) + (s.mode ? " · " + s.mode : ""));
-    const xa = gxOf(s.day, s.s), xb = Math.max(gxOf(s.day, s.e), xa + 3);
-    el("rect", { x: xa, y, width: xb - xa, height: 16, fill: s.hot ? C.accent : C.dim, opacity: s.hot ? 1 : .9 }, g);
-    if (s.load) { const xl = gxOf(s.day, s.load); el("line", { x1: xl, x2: xl, y1: y - 3, y2: y + 19, stroke: C.fg, "stroke-width": 1.5 }, g); }
-    const lx = xb + 6;
-    el("text", { x: lx, y: y + 12, "font-size": 10.5, fill: s.hot ? C.fg : C.muted }, g, `${s.s}–${s.e} · ${s.note}`);
-  });
+  const dur = x => { let e = toM(x.e); if (e < toM(x.s)) e += 1440; return e - toM(x.s); };
+  document.getElementById("sessions-list").innerHTML = days.map((d, di) => {
+    const mins = d.list.reduce((t, x) => t + dur(x), 0);
+    const bars = d.list.map(x => { const a = pct(toM(x.s)); return `<i class="${x.hot ? "" : "idle"}" style="left:${a.toFixed(2)}%;width:${(pct(toM(x.s) + dur(x)) - a).toFixed(2)}%"></i>`; }).join("");
+    const items = d.list.map(x => `<li class="${x.hot ? "" : "idle"}"><span class="tm">${x.s}–${x.e}</span>Session ${x.n}${x.mode ? " · " + x.mode : ""} · ${x.note}</li>`).join("");
+    const n = d.list.length;
+    return `<details class="sday"${di === days.length - 1 ? " open" : ""}><summary><span class="sd">${d.day}</span><span class="strack" aria-hidden="true">${bars}</span><span class="sm">${n} session${n > 1 ? "s" : ""} · ${Math.floor(mins / 60)}h ${String(mins % 60).padStart(2, "0")}m</span></summary><ul class="slist">${items}</ul></details>`;
+  }).join("");
 
   // Log
   const log = [
@@ -2294,22 +2409,28 @@ text { font-family: var(--f-mono); }
     ["20:28", "warn", "Second pass", "Back on foot after seven seconds. 38 components, 24 goods and 18 data sets taken by 20:41, using two medkits and two energy cells across the raid."],
     ["20:42", "warn", "Killed at Makonda Leisure Complex", "Shot by Russ Winters, a Harmless-rated guard in a Dominator suit. Everything from the second pass was lost and the Scarab destroyed; no rebuy cost. Rejoined Hymn over Fiden AB 1 d at 20:42 and logged off at 20:43."]
   ];
-  document.getElementById("log").innerHTML = log.map(r => r[0] === "d"
-    ? `<div class="day">${r[1]}</div>`
-    : `<div class="ev ${r[1] ? "k-" + r[1] : ""}"><span class="t">${r[0]}</span><span class="rail"></span><div class="body"><div class="what">${r[2]}</div>${r[3] ? `<div class="det">${r[3]}</div>` : ""}${r[4] ? `<div class="det"><span class="tag inf" style="margin-left:0">inference</span> ${r[4]}</div>` : ""}</div></div>`).join("");
+  const evHtml = r => `<div class="ev ${r[1] ? "k-" + r[1] : ""}"><span class="t">${r[0]}</span><span class="rail"></span><div class="body"><div class="what">${r[2]}</div>${r[3] ? `<div class="det">${r[3]}</div>` : ""}${r[4] ? `<div class="det"><span class="tag inf" style="margin-left:0">inference</span> ${r[4]}</div>` : ""}</div></div>`;
+  const groups = [];
+  log.forEach(r => { if (r[0] === "d") groups.push({ day: r[1], evs: [] }); else groups[groups.length - 1].evs.push(r); });
+  document.getElementById("log").innerHTML = groups.map((g, i) => `<details class="lday"${i === groups.length - 1 ? " open" : ""}><summary><span class="day">${g.day}</span><span class="lc">${g.evs.length} event${g.evs.length === 1 ? "" : "s"}</span></summary>${g.evs.map(evHtml).join("")}</details>`).join("");
 
   // Waterfall
   const wf = document.getElementById("wf");
+  function drawWf() {
+  wf.textContent = "";
+  const WW = Math.max(Math.round(wf.parentElement.clientWidth - 40), 520);
+  wf.style.width = WW + "px";
+  wf.setAttribute("viewBox", `0 0 ${WW} 312`);
   const steps = [
     ["Opening", 148676927, "base"], ["Exploration", 67874220], ["Cargo", 352500936], ["Goods bought", -262815], ["Drones", -1055], ["Missions", 15034451], ["Bounties", 1217351], ["Exobiology", 1923435600], ["Search & rescue", 1628913],
     ["Services", -7118754], ["Data vouchers", 1007186], ["Powerplay", 500000], ["Ship transfers", -221272144], ["Engineer goods", -116650], ["Meta-Alloys", -28225956], ["Modules sold", 386777], ["Modules bought", -27895792], ["Rebuy", -2674868], ["Unlogged", 18787679], ["Closing", 2243482006, "base"]
   ];
   const lo = 100.0e6, hi = 2600.0e6;
-  const wl = 60, wr = 510, wt = 16, wb = 230;
+  const wl = 64, wr = WW - 10, vert = (wr - wl) / steps.length < 52, wt = vert ? 64 : 18, wb = 230;
   const wy = v => wb - (v - lo) / (hi - lo) * (wb - wt);
   for (let v = 500e6; v <= 2500e6; v += 500e6) {
     el("line", { x1: wl, x2: wr, y1: wy(v), y2: wy(v), stroke: C.line }, wf);
-    el("text", { x: wl - 6, y: wy(v) + 3, "font-size": 10, fill: C.muted, "text-anchor": "end" }, wf, (v / 1e6) + "M");
+    el("text", { x: wl - 6, y: wy(v) + 3, "font-size": 11, fill: C.muted, "text-anchor": "end" }, wf, (v / 1e6) + "M");
   }
   let run = 0;
   const bw = (wr - wl) / steps.length;
@@ -2321,25 +2442,34 @@ text { font-family: var(--f-mono); }
     const yTop = wy(Math.max(a, b)), yBot = wy(Math.min(a, b));
     el("rect", { x, y: yTop, width: w, height: Math.max(yBot - yTop, 1.5), fill: col }, wf);
     const lbl = s[2] === "base" ? fmtM(s[1]) : (s[1] >= 0 ? "+" : "−") + (Math.abs(s[1]) >= 1e5 ? fmtM(Math.abs(s[1])) : fmt(Math.abs(s[1])));
-    el("text", { x: x + w / 2, y: yTop - 5, "font-size": 9.5, fill: C.fg, "text-anchor": "middle" }, wf, lbl);
-    const tx = el("text", { x: x + w / 2, y: wb + 14, "font-size": 9.5, fill: C.muted, "text-anchor": "end", transform: `rotate(-35 ${x + w / 2} ${wb + 14})` }, wf, s[0]);
+    if (vert) el("text", { x: x + w / 2 + 4, y: yTop - 5, "font-size": 11, fill: C.fg, transform: `rotate(-90 ${x + w / 2 + 4} ${yTop - 5})` }, wf, lbl);
+    else el("text", { x: x + w / 2, y: yTop - 5, "font-size": 11, fill: C.fg, "text-anchor": "middle" }, wf, lbl);
+    const tx = el("text", { x: x + w / 2, y: wb + 14, "font-size": 11, fill: C.muted, "text-anchor": "end", transform: `rotate(-35 ${x + w / 2} ${wb + 14})` }, wf, s[0]);
   });
-  el("text", { x: wl, y: 296, "font-size": 9.5, fill: C.muted }, wf, "Axis starts at 100M to show the change. Net +2,094.81M.");
+  el("text", { x: wl, y: 304, "font-size": 11, fill: C.muted }, wf, "Axis starts at 100M to show the change. Net +2,094.81M.");
+  }
+  drawWf();
 
+  const redraw = [drawMap, drawWf];
   // Horizontal bars helper
   function hbars(id, rows, opt) {
     const svg = document.getElementById(id);
-    const left = opt.left || 170, right = opt.right || 470, rowH = opt.rowH || 26, top = 6;
+    svg.textContent = "";
+    const W = Math.max(Math.round(svg.getBoundingClientRect().width) || 520, 280);
+    const stack = W < 480, left = stack ? 0 : opt.left || 170, right = W - (opt.valueRoom || 96), lh = stack ? 16 : 0, rowH = (opt.rowH || 26) + lh, top = 6;
     const max = opt.max || Math.max(...rows.map(r => r[1]));
     rows.forEach((r, i) => {
       const y = top + i * rowH;
-      el("text", { x: left - 10, y: y + rowH / 2 + 3.5, "font-size": 11, fill: r[3] ? C.fg : C.muted, "text-anchor": "end" }, svg, r[0]);
-      el("rect", { x: left, y: y + 5, width: right - left, height: rowH - 10, fill: C.line, opacity: .5 }, svg);
-      el("rect", { x: left, y: y + 5, width: Math.max(1.5, (r[1] / max) * (right - left)), height: rowH - 10, fill: r[2] || C.accent }, svg);
-      const vt = el("text", { x: left + Math.max(1.5, (r[1] / max) * (right - left)) + 6, y: y + rowH / 2 + 3.5, "font-size": 10.5, fill: C.fg }, svg, opt.fmt(r[1]));
+      if (stack) el("text", { x: 0, y: y + 13, "font-size": 12, fill: r[3] ? C.fg : C.muted }, svg, r[0]);
+      else el("text", { x: left - 10, y: y + rowH / 2 + 4, "font-size": 12, fill: r[3] ? C.fg : C.muted, "text-anchor": "end" }, svg, r[0]);
+      const by = y + lh;
+      el("rect", { x: left, y: by + 5, width: right - left, height: rowH - lh - 10, fill: C.line, opacity: .5 }, svg);
+      el("rect", { x: left, y: by + 5, width: Math.max(1.5, (r[1] / max) * (right - left)), height: rowH - lh - 10, fill: r[2] || C.accent }, svg);
+      const vt = el("text", { x: left + Math.max(1.5, (r[1] / max) * (right - left)) + 6, y: by + (rowH - lh) / 2 + 4, "font-size": 11.5, fill: C.fg }, svg, opt.fmt(r[1]));
       if (r[4]) el("tspan", { fill: C.muted }, vt, " · " + r[4]);
     });
-    svg.setAttribute("viewBox", `0 0 520 ${top * 2 + rows.length * rowH}`);
+    svg.setAttribute("viewBox", `0 0 ${W} ${top * 2 + rows.length * rowH}`);
+    if (!svg.dataset.drawn) { svg.dataset.drawn = 1; redraw.push(() => hbars(id, rows, opt)); }
   }
 
   hbars("expl", [
@@ -2395,6 +2525,25 @@ text { font-family: var(--f-mono); }
   document.getElementById("engs").innerHTML = engs.map(e => typeof e[1] === "number"
     ? `<div class="eng-c"><span>${e[0]}</span><div class="r">${[1, 2, 3, 4, 5].map(n => `<i class="${n <= e[1] ? "on" : ""}"></i>`).join("")}</div><span class="st">GRADE ${e[1]} · ${e[2].toUpperCase()}</span></div>`
     : `<div class="eng-c ${e[1].toLowerCase()}"><span>${e[0]}</span><span class="st">${e[1] === "Known" ? "DISCOVERED" : e[1].toUpperCase()}${e[2] ? " · " + e[2].toUpperCase() : ""}</span></div>`).join("");
+  document.querySelectorAll(".tools button").forEach(b => b.addEventListener("click", () => {
+    const open = !!b.dataset.open;
+    document.querySelectorAll((b.dataset.open || b.dataset.close) + " details").forEach(d => { d.open = open; });
+  }));
+  const tocLinks = [...document.querySelectorAll(".toc a")];
+  const secs = [...document.querySelectorAll("section[id]")];
+  const top = document.querySelector(".totop");
+  const onScroll = () => {
+    top.classList.toggle("show", scrollY > 900);
+    const cur = secs.filter(sec => sec.getBoundingClientRect().top < innerHeight * 0.35).pop();
+    tocLinks.forEach(a => a.classList.toggle("on", !!cur && a.hash === "#" + cur.id));
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  let lastW = innerWidth, rt;
+  addEventListener("resize", () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; redraw.forEach(f => f()); } }, 150);
+  });
 })();
 </script>
 
