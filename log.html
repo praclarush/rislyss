@@ -198,6 +198,7 @@ h1 span { color: var(--accent); }
 .jump .d { font-family: var(--f-mono); color: var(--cyan); font-size: 12px; }
 .jtot { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); margin-top: 6px; }
 .jtot b { color: var(--fg); font-weight: 600; }
+.jkey { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
 
 /* Sessions */
 .sessions { display: grid; padding: 14px 20px; }
@@ -477,6 +478,7 @@ text { font-family: var(--f-mono); }
       <div class="label" style="margin-bottom:6px">Hyperspace jumps</div>
       <div class="jumps" id="jumps"></div>
       <div class="jtot"><span>760 jumps on the mapped legs</span><span><b>117,310.4</b> ly · <b>2,760.2</b> t fuel</span></div>
+      <p class="jkey">Newest first. The letters after each system give its main star's class: O to M are ordinary stars from hottest to coolest, N a neutron star, D white dwarfs, L, T and Y brown dwarfs, TTS a T Tauri star and H a black hole.</p>
     </div>
   </div>
   <details class="notes"><summary>Route notes</summary>
@@ -1642,6 +1644,9 @@ text { font-family: var(--f-mono); }
     const m = sp.textContent.match(/^Leg (\d+) /);
     if (m && +m[1] < minLeg) sp.remove();
   });
+  // newest leg first; the closing map note stays last
+  const legend = document.querySelector(".legend");
+  [...legend.children].filter(sp => /^Leg \d+ /.test(sp.textContent)).reverse().forEach(sp => legend.insertBefore(sp, legend.lastElementChild));
   function drawMap() {
   map.textContent = "";
   const W = Math.max(Math.round(map.getBoundingClientRect().width) || 760, 300), H = Math.round(W * 630 / 760), pad = W < 500 ? 18 : 30;
@@ -1772,13 +1777,17 @@ text { font-family: var(--f-mono); }
   }
   drawMap();
 
+  // newest jump first, with a heading wherever the leg changes
   let lastLeg = 0;
   const skip = sys.length - vis.length;
-  document.getElementById("jumps").innerHTML = vis.slice(1).map((s, i) => {
+  document.getElementById("jumps").innerHTML = vis.slice(1).map((s, i) => ({ s, i })).reverse().map(({ s, i }) => {
     const head = s.leg !== lastLeg ? `<div class="jleg" style="color:${LEGS[s.leg].col}"><i style="background:${LEGS[s.leg].col}"></i>${LEGS[s.leg].name}</div>` : "";
     lastLeg = s.leg;
     return head + `<div class="jump"><span class="n">${String(skip + i + 1).padStart(2, "0")}</span><span class="sys">${s.n}<em>${s.star}</em></span><span class="d" style="color:${LEGS[s.leg].col}">${s.d.toFixed(2)} ly</span></div>`;
   }).join("");
+  // career eras newest first; the source keeps them in date order
+  const eras = document.querySelector("#career .eras");
+  [...eras.children].reverse().forEach(e => eras.appendChild(e));
 
   // Gantt (local times, minutes since Oct 3 18:00)
   const sessions = [

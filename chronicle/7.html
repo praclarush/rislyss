@@ -48,6 +48,9 @@ p { margin: 0; max-width: 66ch; }
 .stamp .loc { color: var(--cyan); }
 .entry .body { display: grid; gap: 12px; min-width: 0; }
 article[id] { scroll-margin-top: 80px; }
+.tolatest { justify-self: start; font-family: var(--f-mono); font-size: 13px; color: var(--accent); text-decoration: none; padding: 10px 0; min-height: 44px; display: inline-flex; align-items: center; }
+.tolatest:hover { text-decoration: underline; }
+.tolatest:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .entry h2 { font-size: 19px; }
 .aside { padding: 12px 16px; border: 1px solid var(--line); background: color-mix(in srgb, var(--accent-dim) 14%, transparent); color: var(--muted); font-size: 15.5px; font-style: italic; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
@@ -98,6 +101,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 <section class="chapter">
   <div class="label">Chapter seven · October to November 3312</div>
   <h1>Back in the bubble</h1>
+  <a class="tolatest" href="#latest">Jump to the latest entry ↓</a>
 
   <article class="entry">
     <div class="stamp"><b>Oct 3312</b><span>17:47 to 20:47</span><span class="loc">LFT 509</span></div>
