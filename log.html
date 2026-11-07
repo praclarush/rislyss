@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a cockpit side-panel read top to bottom: identity, then a link to the latest session and a sticky section index over flight path, sessions and the event log (both folded by day, newest first), ledger, career (a vertical timeline folded by era, latest open) and lifetime totals. Charts redraw at their real width so their text stays at reading size. Ends with handoffs to the hangar and chronicle. Single dark HUD world by choice. */
+/* Layout: a cockpit side-panel read top to bottom: identity, then a link to the latest session and a sticky section index over flight path, sessions and the event log (both folded by day, newest first), ledger, career (a vertical timeline folded by era, latest open) and lifetime totals. Charts redraw at their real width so their text stays at reading size; the index stays sticky on phones as one scrolling row, and offsets follow the measured nav height. Ends with handoffs to the hangar and chronicle. Single dark HUD world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -207,7 +207,7 @@ h1 span { color: var(--accent); }
 .strack { position: relative; height: 12px; background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px calc(100% / 15)); }
 .strack i { position: absolute; top: 0; bottom: 0; min-width: 3px; background: var(--accent); }
 .strack i.idle { background: var(--accent-dim); }
-.sday > summary { padding: 9px 0; border-bottom: 1px dashed var(--line); cursor: pointer; list-style: none; }
+.sday > summary { min-height: 44px; padding: 9px 0; border-bottom: 1px dashed var(--line); cursor: pointer; list-style: none; }
 .sday > summary::-webkit-details-marker, .lday > summary::-webkit-details-marker, .notes > summary::-webkit-details-marker { display: none; }
 .sd { font-family: var(--f-mono); font-size: 12.5px; color: var(--fg); white-space: nowrap; }
 .sd::before, .lday .day::before, .notes > summary::before { content: "▸"; display: inline-block; width: 1.1em; color: var(--accent); transition: transform .2s cubic-bezier(.22, 1, .36, 1); }
@@ -220,14 +220,14 @@ h1 span { color: var(--accent); }
 .skey i { display: inline-block; width: 14px; height: 10px; vertical-align: -1px; margin-right: 6px; background: var(--accent); }
 .skey i.idle { background: var(--accent-dim); }
 .tools { display: flex; gap: 8px; justify-content: flex-end; }
-.tools button { font: 600 12px var(--f-display); letter-spacing: .1em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line); padding: 8px 12px; min-height: 36px; cursor: pointer; }
+.tools button { font: 600 12px var(--f-display); letter-spacing: .1em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line); padding: 8px 12px; min-height: 44px; cursor: pointer; }
 .tools button:hover { color: var(--fg); border-color: var(--accent-dim); }
 .tools button:focus-visible, .toc a:focus-visible, .totop:focus-visible, details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Log */
 .log { display: grid; gap: 0; }
 .day { font-family: var(--f-display); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 14px 0 8px; }
-.lday > summary { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; cursor: pointer; list-style: none; border-bottom: 1px dashed var(--line); }
+.lday > summary { min-height: 44px; display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; list-style: none; border-bottom: 1px dashed var(--line); }
 .lday[open] > summary { margin-bottom: 10px; }
 .lday > summary .day { color: var(--fg); font-size: 13px; }
 .lc { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
@@ -251,17 +251,17 @@ h1 span { color: var(--accent); }
 .wf svg, .hbars svg { width: 100%; height: auto; display: block; }
 .wf { overflow-x: auto; }
 #map text { paint-order: stroke; stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
-.notes > summary { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); cursor: pointer; list-style: none; padding: 6px 0; min-height: 36px; }
+.notes > summary { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); cursor: pointer; list-style: none; padding: 6px 0; display: flex; align-items: center; min-height: 44px; }
 .notes > summary:hover { color: var(--fg); }
 .notes .sub { display: grid; gap: 12px; margin: 6px 0 0; }
 .notes .sub p { margin: 0; }
 
 /* On this page */
-.toc { position: sticky; top: 53px; z-index: 5; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); border-block: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0 22px; padding: 4px 0; margin-block: -24px; }
+.toc { position: sticky; top: var(--nav-h, 53px); z-index: 5; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); border-block: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0 22px; padding: 4px 0; margin-block: -24px; }
 .toc a { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 11px 0; border-bottom: 2px solid transparent; }
 .toc a:hover { color: var(--fg); }
 .toc a.on { color: var(--fg); border-bottom-color: var(--accent); }
-section[id], #latest-session { scroll-margin-top: 112px; }
+section[id], #latest-session { scroll-margin-top: calc(var(--nav-h, 53px) + var(--toc-h, 46px) + 12px); }
 .totop { position: fixed; right: 16px; bottom: 16px; z-index: 6; display: grid; place-items: center; width: 44px; height: 44px; background: var(--panel); border: 1px solid var(--line); color: var(--fg); text-decoration: none; font: 600 18px var(--f-display); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .25s cubic-bezier(.22, 1, .36, 1), transform .25s cubic-bezier(.22, 1, .36, 1); }
 .totop.show { opacity: 1; transform: none; pointer-events: auto; }
 .totop:hover { border-color: var(--accent); }
@@ -288,13 +288,13 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
 text { font-family: var(--f-mono); }
 @media (max-width: 860px) {
   .mapgrid, .two, .eras, .dossier, .bio { grid-template-columns: minmax(0, 1fr); }
-  .toc { position: static; margin-block: 0; }
+  .toc { margin-block: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .toc a { white-space: nowrap; }
   .eras::before { left: 4px; }
   .era { grid-template-columns: minmax(0, 1fr); gap: 6px; padding-left: 26px; }
   .era::before { left: 0; top: 7px; }
   .era .when { text-align: left; }
   .era .when small { display: inline; margin-left: 10px; }
-  section[id] { scroll-margin-top: 84px; }
   .ranks, .stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px) {
@@ -782,12 +782,12 @@ text { font-family: var(--f-mono); }
     s.ticks.forEach(t => {
       const x = sxOf(t);
       el("line", { x1: x, x2: x, y1: 18, y2: 214, stroke: C.line }, sw);
-      el("text", { x, y: 232, "font-size": 10, fill: C.muted, "text-anchor": "middle" }, sw, (t.endsWith("-01") ? "" : +t.slice(8) + " ") + mon[+t.slice(5, 7) - 1] + " " + t.slice(2, 4));
+      el("text", { x, y: 232, "font-size": 11.5, fill: C.muted, "text-anchor": "middle" }, sw, (t.endsWith("-01") ? "" : +t.slice(8) + " ") + mon[+t.slice(5, 7) - 1] + " " + t.slice(2, 4));
     });
     if (i < 2) {
       const gx = s.x + s.w + sGap / 2;
       el("text", { x: gx, y: 112, "font-size": 16, fill: C.muted, "text-anchor": "middle" }, sw, "≈");
-      el("text", { x: gx, y: 130, "font-size": 9.5, fill: C.muted, "text-anchor": "middle" }, sw, i === 0 ? "23 mo" : "21 mo");
+      el("text", { x: gx, y: 130, "font-size": 11.5, fill: C.muted, "text-anchor": "middle" }, sw, i === 0 ? "23 mo" : "21 mo");
     }
   });
   lanes.forEach((l, i) => {
@@ -798,9 +798,9 @@ text { font-family: var(--f-mono); }
     const li = lanes.findIndex(l => l[0] === a[1]);
     const r = 3.5 + Math.sqrt(a[2]) * 2.6;
     el("circle", { cx: sxOf(a[0]), cy: laneY(li), r, fill: lanes[li][2], "fill-opacity": .28, stroke: lanes[li][2], "stroke-width": 1.2 }, sw);
-    if (a[2] > 2) el("text", { x: sxOf(a[0]), y: laneY(li) + 3.5, "font-size": 9.5, fill: C.fg, "text-anchor": "middle" }, sw, a[2]);
+    if (a[2] > 2) el("text", { x: sxOf(a[0]), y: laneY(li) + 3.5, "font-size": 11.5, fill: C.fg, "text-anchor": "middle" }, sw, a[2]);
   });
-  el("text", { x: sEnd, y: 248, "font-size": 9.5, fill: C.muted, "text-anchor": "end" }, sw, "Circle size and number = achievements logged that day");
+  el("text", { x: sEnd, y: 248, "font-size": 11.5, fill: C.muted, "text-anchor": "end" }, sw, "Circle size and number = achievements logged that day");
 
   // Map
   const sys = [
@@ -1667,12 +1667,12 @@ text { font-family: var(--f-mono); }
   }
   [100, 200, 300, 400].forEach(r => {
     el("circle", { cx: px(0), cy: py(0), r: r * k, fill: "none", stroke: C.dim, "stroke-dasharray": "2 5", "stroke-width": 1 }, map);
-    if (r < 400) el("text", { x: px(0) + 4, y: py(-r) - 4, "font-size": 10, fill: C.dim }, map, r + " ly");
+    if (r < 400) el("text", { x: px(0) + 4, y: py(-r) - 4, "font-size": 11.5, fill: C.dim }, map, r + " ly");
   });
   el("circle", { cx: px(0), cy: py(0), r: 4, fill: C.fg }, map);
   const solLabel = el("text", { x: px(0) - 8, y: py(0) - 8, "font-size": 11, fill: C.fg, "text-anchor": "end" }, map, "Sol");
   el("circle", { cx: px(-78.59), cy: py(-340.53), r: 3, fill: "none", stroke: C.muted }, map);
-  el("text", { x: px(-78.59) + 7, y: py(-340.53) + 4, "font-size": 10, fill: C.muted }, map, "Merope (Pleiades)");
+  el("text", { x: px(-78.59) + 7, y: py(-340.53) + 4, "font-size": 11.5, fill: C.muted }, map, "Merope (Pleiades)");
   // one polyline per leg, each starting where the previous leg ended
   for (let L = maxLeg; L >= minLeg; L--) {
     const first = vis.findIndex(s => s.leg === L);
@@ -1765,7 +1765,7 @@ text { font-family: var(--f-mono); }
     el("text", { x: c.x, y: c.y, "font-size": fs, fill: c.lb[4] || C.muted, "text-anchor": c.lb[3] }, map, c.lb[0]);
   });
   map.appendChild(solLabel);
-  if (minLeg <= 4) el("text", { x: px(210), y: py(-95), "font-size": 10, fill: C.violet, "text-anchor": "middle" }, map, "449 ly east · 7 jumps");
+  if (minLeg <= 4) el("text", { x: px(210), y: py(-95), "font-size": 11.5, fill: C.violet, "text-anchor": "middle" }, map, "449 ly east · 7 jumps");
   el("text", { x: W - pad, y: 16, "font-size": 11, fill: C.muted, "text-anchor": "end" }, map, "↑ galactic core");
   }
   drawMap();
@@ -2536,6 +2536,13 @@ text { font-family: var(--f-mono); }
     document.querySelectorAll((b.dataset.open || b.dataset.close) + " details").forEach(d => { d.open = open; });
   }));
   const tocLinks = [...document.querySelectorAll(".toc a")];
+  const setBars = () => {
+    const root = document.documentElement.style;
+    root.setProperty("--nav-h", document.querySelector(".site-nav").offsetHeight + "px");
+    root.setProperty("--toc-h", document.querySelector(".toc").offsetHeight + "px");
+  };
+  setBars();
+  addEventListener("resize", setBars);
   const secs = [...document.querySelectorAll("section[id]")];
   const top = document.querySelector(".totop");
   const onScroll = () => {
