@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Rislyss Engineers and Awards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: two records read top to bottom: the engineers as a grid of cards with a five-step grade track (invited, discovered and unfound engineers fade by status), then the Inara awards as cards with a progress bar, the near-complete ones outlined. Ends with handoffs to the hangar and flight log. Same cockpit palette as the rest of the site; single dark world by choice. */
+:root {
+  --bg: #0c0a08;
+  --panel: #15110d;
+  --line: #2e251c;
+  --fg: #ece3d7;
+  --muted: #998b7b;
+  --accent: #ff7a1a;
+  --accent-dim: #6b3a14;
+  --cyan: #74d4e2;
+  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 64px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
+p { margin: 0; }
+h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
+h3 { font-size: 19px; }
+section { display: grid; gap: 22px; }
+.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
+.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
+.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); pointer-events: none; }
+.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Engineers and awards */
+header { display: grid; gap: 14px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+h1 { font-size: clamp(44px, 7.5vw, 92px); line-height: .9; font-weight: 700; letter-spacing: .01em; }
+h1 span { color: var(--accent); }
+.bar { height: 4px; background: var(--line); position: relative; }
+.bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.awards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+.award { border: 1px solid var(--line); padding: 12px 14px; display: grid; gap: 6px; }
+.award .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.award .nm { font-family: var(--f-display); font-weight: 600; font-size: 15px; }
+.award .tier { font-family: var(--f-mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
+.award .det { font-size: 12.5px; color: var(--muted); }
+.award.near { border-color: var(--accent-dim); }
+.engs { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.eng-c { border: 1px solid var(--line); padding: 10px 12px; display: grid; gap: 6px; font-size: 13.5px; }
+.eng-c .r { display: flex; gap: 3px; }
+.eng-c .r i { width: 100%; height: 4px; background: var(--line); }
+.eng-c .r i.on { background: var(--accent); }
+.eng-c.invited { border-style: dashed; color: var(--muted); }
+.eng-c.known { color: var(--muted); opacity: .7; }
+.eng-c.undiscovered { color: var(--muted); opacity: .4; border-style: dotted; }
+.eng-c .st { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.next a { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; background: var(--panel); transition: border-color .2s; }
+.next a:hover, .next a:focus-visible { border-color: var(--accent); }
+.next a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
+.next .d { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; max-width: 80ch; }
+@media (max-width: 600px) { .next { grid-template-columns: minmax(0, 1fr); } }
+</style>
+<style>
+.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
+.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
+.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
+.site-nav .brand b { color: var(--accent); font-weight: 600; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
+.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="engineers.html" aria-current="page">Engineers</a></li><li><a class="pg" href="gallery.html">Gallery</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psychological</a></li></ul></div></nav>
+<main class="wrap" id="main">
+
+<header>
+  <div class="eyebrow">COMMANDER'S JOURNAL · ENGINEER PROGRESS AND INARA AWARDS · CMDR RISLYSS</div>
+  <h1>Engineers <span>and awards</span></h1>
+</header>
+
+<section>
+  <h2>Engineers</h2>
+  <div class="engs" id="engs"></div>
+  <p class="sub">19 of 38 engineers unlocked, 11 at grade 5. 1 invited, 9 discovered, 9 not yet found. 994 blueprints rolled across 14 engineers, per the game's statistics on 27 Oct. Dates show when Inara, or for the changes since October 2026 the journal, recorded each status.</p>
+</section>
+
+<section>
+  <h2>Inara awards</h2>
+  <div class="awards" id="awards"></div>
+  <p class="sub">Award levels are Inara's as of 4 Oct. The Traveller tier 3 (100,000 ly) was passed on 6 Oct; the statistics at the 6 Nov evening login read 214,144 ly. Inara will show it after its next sync. The Explorer tier 2 (2,500 systems) was passed on 29 Oct on the run home from Colonia.</p>
+</section>
+
+<nav class="next" aria-label="Continue reading">
+  <a href="hangar.html"><span class="label">Next</span><span class="t">The Hangar</span><span class="d">The ships these engineers have worked on, module by module.</span></a>
+  <a href="log.html"><span class="label">Then</span><span class="t">Flight Log</span><span class="d">The sessions where each grade and award was earned.</span></a>
+</nav>
+
+<footer>
+  <div>Engineer status comes from the Inara profile for CMDR rislyss, read on 4 October 2026, and from the EngineerProgress snapshots the game writes at each login since then. Award levels are Inara's as of 4 October 2026.</div>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  // Inara awards
+  const awards = [
+    ["The Traveller", 2, 97, "97,308 / 100,000 ly · 2,761 jumps"], ["The Explorer", 1, 87, "2,133 / 2,500 systems visited"],
+    ["The Exobiologist", 0, 82, "12 / 25 organic data registered"], ["The Miner", 0, 71, "713 / 1,000 minerals refined"],
+    ["The Trader", 0, 60, "6,053 / 10,000 commodities traded"], ["The Captain", 1, 50, "1,006 / 5,000 passengers delivered"],
+    ["The Soldier", 0, 12, "63 / 500 combat bonds"], ["The Samaritan", 0, 10, "101 / 1,000 items and refugees rescued"],
+    ["The Hunter", 0, 6, "31 / 500 bounties"], ["The Mercenary", 0, 0, "0 / 10 surface conflicts won"],
+    ["The Xeno-hunter", 0, 0, "0 / 100 Thargoids killed"], ["The Decorated Hero", 0, 0, "0 / 10 tier 5 medals"],
+    ["The Inarian", 7, 84, "1,532 / 1,825 days on Inara"], ["The Known Person", 3, 100, "Name set, account linked, ranked"]
+  ];
+  document.getElementById("awards").innerHTML = awards.map(a =>
+    `<div class="award${a[2] >= 80 && a[2] < 100 ? " near" : ""}"><div class="top"><span class="nm">${a[0]}</span><span class="tier">TIER ${a[1]} · ${a[2]}%</span></div>
+     <div class="bar"><i style="width:${a[2]}%"></i></div><span class="det">${a[3]}</span></div>`).join("");
+
+  // Engineers (status and date as recorded by Inara)
+  const engs = [
+    ["Felicity Farseer", 5, "Sep 2022"], ["Bill Turner", 5, "Dec 2024"], ["Didi Vatermann", 5, "Dec 2024"], ["Hera Tani", 5, "Dec 2024"],
+    ["Lei Cheung", 5, "Dec 2024"], ["Professor Palin", 5, "Dec 2024"], ["Selene Jean", 5, "Dec 2024"], ["The Dweller", 5, "Dec 2024"],
+    ["Tod 'The Blaster' McQuinn", 5, "Dec 2024"], ["Ram Tah", 5, "Oct 2026"], ["Marsha Hicks", 5, "Nov 2026"], ["Elvira Martuuk", 4, "Sep 2024"], ["Marco Qwent", 4, "Sep 2024"],
+    ["Liz Ryder", 3, "Dec 2024"], ["Tiana Fortune", 3, "Oct 2026"], ["Juri Ishmaak", 1, "Sep 2022"], ["Zacariah Nemo", 1, "Oct 2026"], ["Etienne Dorn", 1, "Nov 2026"], ["Mel Brandon", 1, "Nov 2026"],
+    ["Chloe Sedesi", "Invited", "Sep 2024"],
+    ["Baltanos", "Known", "Sep 2022"], ["Domino Green", "Known", "Sep 2022"], ["Eleanor Bresa", "Known", "Sep 2022"], ["Hero Ferrari", "Known", "Sep 2022"],
+    ["Jude Navarro", "Known", "Sep 2022"], ["Rosa Dayette", "Known", "Sep 2022"], ["Lori Jameson", "Known", "Aug 2024"],
+    ["Broo Tarquin", "Known", "Dec 2024"], ["Petra Olmanova", "Known", "Dec 2024"],
+    ["Colonel Bris Dekker", "Undiscovered"], ["Kit Fowler", "Undiscovered"], ["Oden Geiger", "Undiscovered"], ["Terra Velasquez", "Undiscovered"],
+    ["The Sarge", "Undiscovered"], ["Uma Laszlo", "Undiscovered"], ["Wellington Beck", "Undiscovered"], ["Yarden Bond", "Undiscovered"], ["Yi Shen", "Undiscovered"]
+  ];
+  document.getElementById("engs").innerHTML = engs.map(e => typeof e[1] === "number"
+    ? `<div class="eng-c"><span>${e[0]}</span><div class="r">${[1, 2, 3, 4, 5].map(n => `<i class="${n <= e[1] ? "on" : ""}"></i>`).join("")}</div><span class="st">GRADE ${e[1]} · ${e[2].toUpperCase()}</span></div>`
+    : `<div class="eng-c ${e[1].toLowerCase()}"><span>${e[0]}</span><span class="st">${e[1] === "Known" ? "DISCOVERED" : e[1].toUpperCase()}${e[2] ? " · " + e[2].toUpperCase() : ""}</span></div>`).join("");
+})();
+</script>
+
+</body>
+</html>

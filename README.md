@@ -11,6 +11,7 @@ Character site for CMDR Rislyss (Sarah Waters), an Elite Dangerous commander. St
 | `chronicle/<n>.html` | One page per chronicle chapter, numbered from 1 |
 | `log.html` | Flight log built from the ship's journals |
 | `hangar.html` | One panel per ship with its screenshot |
+| `engineers.html` | Engineer grades and Inara award progress |
 | `gallery.html` | Concept-sheet lineup with lightbox zoom |
 | `medical.html`, `psychological.html` | Pilots Federation medical and psychological records |
 | `gallery/ships/` | Hangar screenshots, named after the ship (`hymn-of-the-long-night.jpg`), 1600×900 |

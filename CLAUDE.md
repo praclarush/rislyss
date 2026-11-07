@@ -14,7 +14,7 @@ The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the 
 
 - Every page is self-contained: one inline `<style>` for the page, a second inline `<style>` for the site nav, inline scripts, fonts from Google Fonts only. No shared CSS or JS files.
 - Shared palette, repeated in each page's `:root`: `--bg #0c0a08`, `--panel #15110d`, `--line #2e251c`, `--fg #ece3d7`, `--muted #998b7b`, `--accent #ff7a1a`, `--accent-dim #6b3a14`, `--cyan #74d4e2`; fonts Chakra Petch (display), Barlow (body), JetBrains Mono (mono). Single dark theme by design.
-- The site nav is copied into every page, chapter pages included, with `aria-current="page"` on the current section. Adding a page means adding its link to the nav in every page. At 760px and below the nav hides the brand and wraps to two centred rows; keep that rule identical across pages.
+- The site nav is copied into every page, chapter pages included, with `aria-current="page"` on the current section. Adding a page means adding its link to the nav in every page. At 900px and below the nav hides the brand and wraps to two centred rows; keep that rule identical across pages.
 - Each page's first CSS comment (`/* Layout: ... */`) states its design intent. Keep it accurate when the layout changes.
 - Lightbox: `button.zoom` with `data-src` and `data-cap` around an `<img>`, one `dialog.lightbox` per page and a small script, as in `gallery.html`, `index.html` and `hangar.html`. Copy that pattern for new zoomable images.
 - Paths are relative. Pages in `chronicle/` prefix site links with `../`.
@@ -29,6 +29,7 @@ Each page has its own voice; match it when writing:
 | `index.html` | Formal Pilots Federation personnel file |
 | `chronicle.html`, `chronicle/` | Precise third-person technical record |
 | `log.html` | Factual journal data, real times |
+| `engineers.html` | Factual record of engineer grades and Inara awards |
 | `medical.html` | Clinical Pilots Federation medical record |
 | `psychological.html` | Clinical Pilots Federation psychological assessment |
 
@@ -48,10 +49,14 @@ In the chronicle keep time frames ambiguous (no day dates or short durations, bu
 - Ship screenshots come from `%USERPROFILE%\Pictures\Screenshots\Elite Dangerous\Ships`, named `<Model> <NAME>.jpg` to match the panel heading. Copy them to `gallery/ships/<ship-name>.jpg` (lowercase, hyphens: `hymn-of-the-long-night.jpg`), resized to 1600x900 JPEG, quality about 82. Helios has no screenshot yet.
 - `gallery.html` shows the concept sheets from `gallery/concepts/`; the flight-suit turnaround stays on the biography beside the physical record.
 
+## Engineers and awards
+
+- `engineers.html` renders from two arrays in its script: `engs` (`[name, grade 1-5, "Mon YYYY"]`, or `[name, "Invited"|"Known"|"Undiscovered", date]`) and `awards` (`[name, tier, percent, detail]`). Update the counts in the paragraph under each grid to match.
+
 ## Flight log
 
 - `log.html` holds its data in its script: `sys`, `LEGS` and the legend get every leg; `SHOW` (10) limits the map, legend and jump list to the latest legs. The jump total counts all legs.
-- Sections carry ids (`career`, `path`, `sessions`, `log-events`, `ledger`, `totals`, `awards-section`, `engineers`) for the sticky "On this page" index; a new section needs an id and an index link. Career history is a timeline of `div.era` (`p.when` with the date range and a `<small>` count, then `div.what` with the `h3` and list). The route, session and ledger notes sit in `<details class="notes">` as short paragraphs. Sessions and the event log render from the `sessions` and `log` arrays, folded by day with the latest open. Charts redraw at their real width on resize, so give them no fixed sizes.
+- Sections carry ids (`career`, `path`, `sessions`, `log-events`, `ledger`, `totals`) for the sticky "On this page" index; a new section needs an id and an index link. Career history is a timeline of `div.era` (`p.when` with the date range and a `<small>` count, then `div.what` with the `h3` and list). The route, session and ledger notes sit in `<details class="notes">` as short paragraphs. Sessions and the event log render from the `sessions` and `log` arrays, folded by day with the latest open. Charts redraw at their real width on resize, so give them no fixed sizes.
 - After editing `log.html`, extract its `<script>` blocks and run them under Node with a DOM stub to confirm they run. Headless Edge returns blank output.
 
 ## Checking changes
