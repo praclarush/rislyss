@@ -272,8 +272,8 @@ text { font-family: var(--f-mono); }
 <section>
   <h2>Fleet value</h2>
   <div class="panel hbars">
-    <div class="label long" style="margin-bottom:10px">Ships at Ray Gateway · value · purchase date per Inara</div>
-    <svg id="fleet" viewBox="0 0 520 420" role="img" aria-label="Fleet value by ship: Hephaestus highest at 78.3M CR, Helios lowest at 0"></svg>
+    <div class="label long" style="margin-bottom:10px">Value and purchase date per Inara · Aurora and Hymn show modules only, Helios is not yet valued</div>
+    <svg id="fleet" viewBox="0 0 520 420" role="img" aria-label="Fleet value by ship: Hephaestus highest at 78.3M CR; Hymn of the Long Night 18.4M CR in modules; Helios not yet valued"></svg>
   </div>
 </section>
 
@@ -311,7 +311,7 @@ text { font-family: var(--f-mono); }
       <div class="nm">Caspian Explorer <span>HYMN OF THE LONG NIGHT</span></div>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">90.0 ly</div></div><div><div class="label">Modules</div><div class="v">18.41M</div></div><div><div class="label">Rebuy</div><div class="v">920,395</div></div></div>
       <ul class="mods"><li><span class="mn">1C Mk II Ablative Lightweight Alloys</span><span class="me">Selene Jean · <b class="g">G5</b> Heavy Duty · Deep Plating</span></li><li><span class="mn">6A Power Plant</span><span class="me">Hera Tani · <b class="g">G5</b> Low Emissions · Thermal Spread</span></li><li><span class="mn">7A Mk II Gravity Optimised Thrusters</span><span class="me">Palin · <b class="g">G5</b> Dirty · Stripped Down</span></li><li><span class="mn">8A Mk II Supercharge Optimised Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range · Mass Manager</span></li><li><span class="mn">5D Life Support</span><span class="me">Bill Turner · <b class="g">G3</b> Lightweight</span></li><li><span class="mn">5A Balanced Power Distributor</span><span class="me">Dweller · <b class="g">G5</b> Engine Focused · Stripped Down</span></li><li><span class="mn">8D Sensors</span><span class="me">Lei Cheung · <b class="g">G5</b> Lightweight</span></li><li><span class="mn">5C Bi-Weave Shield Generator</span><span class="me">Lei Cheung · <b class="g">G5</b> Low Power · Stripped Down</span></li><li><span class="mn">1I Long Range Detailed Surface Scanner</span><span class="me">Lei Cheung · <b class="g">G5</b> Expanded Radius</span></li><li><span class="mn">0I Heat Sink Launcher ×2</span><span class="me">Ram Tah · <b class="g">G1</b> Ammo Capacity</span></li><li class="stock"><span class="mn">+11 stock</span><span class="me">7C Fuel Tank, 7A Fuel Scoop, 6A Auto Field-Maintenance Unit, 5H Guardian FSD Booster, 5D Mk II Vessel Hangar, 4H Planetary Vehicle Hangar, 1E Cargo Rack, 1E Auto Field-Maintenance Unit, 1D Repair Limpet Controller, 1E Supercruise Assist, 1E Advanced Docking Computer</span></li></ul>
-      <p class="sub" style="margin:0;font-size:13.5px">Exobiology build: fuel scoop, Guardian booster, surface scanner, field maintenance unit and a Mk II large vehicle hangar for a Nomad. Planned to about 88 ly. The materials and engineering route are planned. The Caspian hull was redeemed from a shipyard bundle in October 2026, fitted at Ray Gateway and engineered at eight workshops. Registered by the shipyard as Reliant Seeker; named Hymn of the Long Night on 17 October 2026, with her Nomad, Refrain. A 4H planetary vehicle hangar with two SRV Scarabs went into her size 4 slot at Jaques Station on 1 November 2026, so she can now land and send an SRV out; her range fell from 91.3 to 90.0 ly.</p>
+      <p class="sub" style="margin:0;font-size:13.5px">Exobiology build: fuel scoop, Guardian booster, surface scanner, field maintenance unit and a Mk II large vehicle hangar for a Nomad. The Caspian hull was redeemed from a shipyard bundle in October 2026, fitted at Ray Gateway and engineered at eight workshops. Registered by the shipyard as Reliant Seeker; named Hymn of the Long Night on 17 October 2026, with her Nomad, Refrain. A 4H planetary vehicle hangar with two SRV Scarabs went into her size 4 slot at Jaques Station on 1 November 2026, so she can now land and send an SRV out; her range fell from 91.3 to 90.0 ly.</p>
     </article>
     <article class="panel ship-active" id="ri-x02">
       <button class="zoom shot" type="button" data-src="gallery/ships/dreaming-void.jpg" data-cap="Diamondback Explorer DREAMING VOID · RI-X02"><img src="gallery/ships/dreaming-void.jpg" width="1600" height="900" alt="Diamondback Explorer Dreaming Void in the hangar" loading="lazy"></button>
@@ -431,11 +431,11 @@ text { font-family: var(--f-mono); }
   }
   const drawFleet = () => hbars("fleet", [
     ["Python · Hephaestus", 78336357, ""], ["Krait Phantom · Invictus", 76102259, "Sep 2024"], ["Fer-de-Lance · Artemis", 72005800, "Sep 2024"],
-    ["Imperial Clipper · Void Runner", 48147587, "Aug 2024"], ["Diamondback Explorer · Dreaming Void", 15403141, "Aug 2022"],
+    ["Imperial Clipper · Void Runner", 48147587, "Aug 2024"], ["Caspian Explorer · Hymn of the Long Night", 18407872, "modules only"], ["Diamondback Explorer · Dreaming Void", 15403141, "Aug 2022"],
     ["Mandalay · Aurora", 11542437, "modules only"], ["Type-8 · Compass Rose", 6000467, "Aug 2024"],
     ["Dolphin · Avalon", 5975922, "Aug 2022"], ["Sidewinder · Intrepid", 3322134, "Sep 2024"], ["Viper Mk III · Seraphim Rising", 2931232, "Aug 2022"],
     ["Hauler · Horizon", 677293, "Jul 2022"], ["Lynx Highliner · Helios", 0, "Oct 2026"]
-  ].map(r => [r[0], r[1], r[0].includes("Aurora") ? C.dim : C.accent, true, r[2]]), { fmt: v => v ? fmtM(v) : "0", left: 290, valueRoom: 150, rowH: 30 });
+  ].map(r => [r[0], r[1], /Aurora|Hymn/.test(r[0]) ? C.dim : C.accent, true, r[2]]), { fmt: v => v ? fmtM(v) : "not valued", left: 290, valueRoom: 150, rowH: 30 });
   drawFleet();
   let lastW = innerWidth, rt;
   addEventListener("resize", () => {
