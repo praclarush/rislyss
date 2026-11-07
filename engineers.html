@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: two records read top to bottom: the engineers as a grid of cards with a five-step grade track (invited, discovered and unfound engineers marked by dashed and dotted borders and muted text), then the Inara awards as cards with a progress bar, the near-complete ones outlined. Ends with handoffs to the hangar and flight log. Same cockpit palette as the rest of the site; single dark world by choice. */
+/* Layout: two records read top to bottom: the engineers as a grid of cards with a five-step grade track (invited, discovered and unfound engineers marked by dashed and dotted borders and muted text), then the Inara awards as cards with a progress bar, the near-complete ones outlined with their tier in orange. Ends with handoffs to the hangar and flight log. Same cockpit palette as the rest of the site; single dark world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -52,9 +52,10 @@ h1 span { color: var(--accent); }
 .award { border: 1px solid var(--line); padding: 12px 14px; display: grid; gap: 6px; }
 .award .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .award .nm { font-family: var(--f-display); font-weight: 600; font-size: 15px; }
-.award .tier { font-family: var(--f-mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
+.award .tier { font-family: var(--f-mono); font-size: 12px; color: var(--fg); white-space: nowrap; }
 .award .det { font-size: 12.5px; color: var(--muted); }
 .award.near { border-color: var(--accent-dim); }
+.award.near .tier { color: var(--accent); }
 .engs { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
 .eng-c { border: 1px solid var(--line); padding: 10px 12px; display: grid; gap: 6px; font-size: 13.5px; }
 .eng-c .r { display: flex; gap: 3px; }
