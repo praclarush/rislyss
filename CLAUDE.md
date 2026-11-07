@@ -37,9 +37,9 @@ In the chronicle keep time frames ambiguous (no day dates or short durations, bu
 
 ## Chronicle
 
-- `chronicle.html` is the index: header, prologue (`#prologue`), then a two-column block with "Where she stands now" (`#now`) on the left and the chapter list on the right, stacking at 900px and below.
+- `chronicle.html` is the index: header with the latest-entry card, prologue (`#prologue`), then a two-column block with "Where she stands now" (`#now`) on the left and the chapter list on the right, stacking at 900px and below.
 - Each chapter is `chronicle/<n>.html`: the chapter `<section class="chapter">` with its label (`Chapter seven · October 3312`), `<h1>` title, optional lead paragraphs and `<article class="entry">` entries, then a pager to the previous and next chapter. Chapter 1's previous link is `../chronicle.html#prologue`; the last chapter's next link is `../chronicle.html#now`.
-- New entries go at the end of the highest-numbered chapter. Entry stamp: `<b>Mon 3312</b>`, GST start and shutdown times, location (`class="loc"`). The newest entry carries `id="latest"`: move it to each new entry, and keep the index's `a.latest` link (chapter and entry title) pointing at it.
+- New entries go at the end of the highest-numbered chapter. Entry stamp: `<b>Mon 3312</b>`, GST start and shutdown times, location (`class="loc"`). The newest entry carries `id="latest"`: move it to each new entry, and keep the latest cards pointing at it: `nav.latest` in the `chronicle.html` header (chapter, month, title, one-line summary) and in the biography hero (month, title).
 - When an entry changes the latest chapter's date range or story, update its label on the chapter page and its date range and blurb in the index list. Also update the index's "Where she stands now" and the header's last-entry month.
 - Start a new chapter only when the user asks: copy the latest chapter page to `chronicle/<n+1>.html`, add it to the index list with a blurb, and repoint the previous page's next link and the new page's pager.
 

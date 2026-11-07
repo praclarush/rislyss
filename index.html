@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a Pilots Federation personnel file. Identity and live cockpit feed up top, then background, physical record with concept sheets, marks, character, private life, a one-line fleet note pointing to the hangar, and service record. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
+/* Layout: a Pilots Federation personnel file. Identity, a latest-news strip and the cockpit feed up top, then background, physical record with concept sheets, marks, character, private life, a one-line fleet note pointing to the hangar, and service record. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -50,6 +50,14 @@ h1 span { color: inherit; display: block; }
 .fleet-line { max-width: 70ch; }
 .fleet-line a { color: var(--accent); }
 .intro { color: var(--muted); font-size: 15px; max-width: 58ch; }
+.latest { display: grid; min-width: 0; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1px; border: 1px solid var(--accent-dim); background: var(--line); max-width: 640px; }
+.latest a { display: grid; gap: 3px; padding: 12px 16px; min-height: 44px; background: var(--panel); color: var(--fg); text-decoration: none; }
+.latest a:hover { background: var(--bg); }
+.latest a:hover .t { color: var(--accent); }
+.latest a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.latest .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.latest .t { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
+.latest .x { font-size: 14px; color: var(--muted); }
 abbr[title] { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
 .feed { padding: 8px; display: grid; gap: 8px; margin: 0; }
 .feed video { display: block; width: 100%; height: auto; aspect-ratio: 832 / 544; background: #000; object-fit: cover; }
@@ -189,6 +197,10 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
     <h1>Sarah <span>Waters</span></h1>
     <div class="callsign">Commander <b>Rislyss</b> · <abbr title="Exploration rank, eighth of nine before Elite">Pioneer</abbr> · <abbr title="Imperial Navy rank">Viscount</abbr> · Imperial pilot</div>
     <p class="intro">A character site for CMDR Rislyss, a pilot in the space game Elite Dangerous, set in the 34th century. The biography, chronicle and records are written in character; the flight log, hangar and engineers pages are built from the game's own journals.</p>
+    <nav class="latest" aria-label="Latest news">
+      <a href="chronicle/7.html#latest"><span class="d">Latest chronicle entry · Nov 3312</span><span class="t">Makonda Leisure Complex</span></a>
+      <a href="log.html#latest-session"><span class="d">Flight log</span><span class="t">Latest session</span></a>
+    </nav>
     <p class="quote">"Ex-programmer of Gutamaya COVAS systems; now explorer."</p>
     <div class="ranks">
       <span class="chip">Explorer <b>Pioneer</b></span>
