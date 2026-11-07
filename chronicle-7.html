@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Back in the bubble · Rislyss Chronicle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column, like a ship's log bound as a book. Chapters by era, dated entries within. Same cockpit palette as the flight log; single dark world by choice. */
+:root {
+  --bg: #0c0a08;
+  --panel: #15110d;
+  --line: #2e251c;
+  --fg: #ece3d7;
+  --muted: #998b7b;
+  --accent: #ff7a1a;
+  --accent-dim: #6b3a14;
+  --cyan: #74d4e2;
+  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 17px/1.7 var(--f-body); margin: 0; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 72px; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
+header { display: grid; gap: 18px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+h1 { font-size: clamp(38px, 7vw, 64px); line-height: .95; font-weight: 700; }
+h1 span { color: var(--accent); }
+.dek { color: var(--muted); font-size: 16px; margin: 0; max-width: 62ch; }
+figure { margin: 0; border: 1px solid var(--line); padding: 8px; background: var(--panel); }
+figure img { display: block; width: 100%; height: auto; }
+figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding: 8px 4px 2px; }
+.chapter { display: grid; gap: 22px; }
+.chapter > .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.chapter > .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+h2 { font-size: clamp(26px, 4.4vw, 34px); line-height: 1.1; }
+p { margin: 0; max-width: 66ch; }
+.chapter > p:first-of-type::first-letter { font-family: var(--f-display); font-size: 3.4em; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
+.entry { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; padding-top: 18px; border-top: 1px dashed var(--line); }
+.stamp { font-family: var(--f-mono); font-size: 12px; color: var(--muted); line-height: 1.5; display: grid; gap: 4px; align-content: start; }
+.stamp b { color: var(--fg); font-weight: 600; }
+.stamp .loc { color: var(--cyan); }
+.entry .body { display: grid; gap: 12px; min-width: 0; }
+.entry h3 { font-size: 19px; }
+.aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
+.now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
+.now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .stamp { grid-auto-flow: column; justify-content: start; gap: 12px; }
+}
+.chapter > h1 { font-size: clamp(30px, 5.5vw, 44px); line-height: 1.05; }
+.crumb { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; }
+.crumb a { color: var(--muted); text-decoration: none; }
+.crumb a:hover, .crumb a:focus-visible { color: var(--accent); outline: none; }
+.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.pager a { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s; }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
+.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pager .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.2; }
+.pager .nx { text-align: right; grid-column: 2; }
+@media (max-width: 600px) { .pager { grid-template-columns: minmax(0, 1fr); } .pager .nx { grid-column: auto; } }
+</style>
+<style>
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
+.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
+.site-nav .brand b { color: var(--accent); font-weight: 600; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
+.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 9px 2px 7px; white-space: nowrap; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html" aria-current="page" aria-current="page">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="gallery.html">Gallery</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
+<div class="wrap">
+
+<div class="crumb"><a href="chronicle.html">← The Rislyss Chronicle</a></div>
+
+<section class="chapter">
+  <div class="label">Chapter seven · October 3312</div>
+  <h1>Back in the bubble</h1>
+
+  <article class="entry">
+    <div class="stamp"><b>Oct 3312</b><span>17:47 to 20:47</span><span class="loc">LFT 509</span></div>
+    <div class="body">
+      <h3>LFT 509</h3>
+      <p>She took Invictus, refitted with an operations limpet controller, three jumps to LFT 509. At the Perpetual Toil she linked to five ship uplinks and recovered their logs; a System Authority vessel scanned her cargo twice and let her be. She mapped the moons B 3 c and B 3 b, set down on both, and on B 3 b drove out to ten abandoned data logs and a data point, recovering their records and salvaging materials from the debris around them.</p>
+      <p>On the way out she made a last link to the Perpetual Toil and sent her limpets into four sites of degraded emissions for salvage. Before leaving the system she ran a decontamination sweep of the ship's hull and interior. At Ray Gateway the cartographic data from the run home paid 5,695,971 credits and the data-link vouchers 1,007,186. She shut down at 20:47.</p>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="stamp"><b>Oct 3312</b><span>00:26 to 01:34</span><span class="loc">Arietis, Col 285</span></div>
+    <div class="body">
+      <h3>A Powerplay round</h3>
+      <p>She took Invictus out for Li Yong-Rui: nav beacon scans in Di Yi and two Arietis systems, then north through five systems to Col 285 Sector VH-O b21-7 and Col 285 Sector TL-R b19-6, with stops at power wreckage signatures. The work raised her to rank 8 with Li Yong-Rui. From one wreckage site she recovered four occupied escape pods, a black box and three wreckage components, and handed them in at Ray Gateway for 182,253 credits. She shut down at 01:34.</p>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="stamp"><b>Oct 3312</b><span>14:25 to 01:01</span><span class="loc">Diaguandri to Pyraleau</span></div>
+    <div class="body">
+      <h3>Outbound again</h3>
+      <p>She began the day on salvage for Li Yong-Rui in Invictus: nav beacons and power wreckage in Diaguandri, Simarasir and Volkhabe, fifteen escape pods recovered and handed in at Ray Gateway for 670,397 credits across three runs. She then took Void Runner to Altair for 95 tonnes of Altairian Skin and sold them at Offutt Enterprise in Volkhabe for 1,316,700 credits, a profit of 1,167,075 credits and 3,026 merits. In the evening she brought Void Runner home, had Hymn of the Long Night repaired, and set out for Colonia again: 36 jumps, 14 of them supercharged at neutron stars, coreward and below the galactic plane to Pyraleau HB-H b39-0, about 6,870 light years from Sol. She shut down there at 01:01.</p>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="stamp"><b>Oct 3312</b><span>21:48 to 02:14</span><span class="loc">Pyraleau to Colonia</span></div>
+    <div class="body">
+      <h3>Colonia again</h3>
+      <p>She crossed the remaining 15,434 light years from Pyraleau to Colonia in 61 jumps, 30 of them supercharged at neutron stars, stopping at Boeph WY-I d9-655, about 18,220 light years from Sol. At Dove Enigma she sold the cartographic data from the crossing for 4,839,093 credits and had Hymn's hull and wear repaired, then docked at Jaques Station beside Hephaestus and Artemis. She took an on-foot job for Holloway Bioscience Institute to download an employee directory from a data port at Konig Synthetics Enterprise on Colonia 5 c. It failed. A settlement worker, Garland Fisher, was killed, and Jaques posted a 1,000-credit bounty. She was shot down by a security officer, Alyza Diaz, recovered to the medical facility at Odin's Crag, where the bounty was settled, and returned to Jaques Station. She shut down at 02:14.</p>
+    </div>
+  </article>
+  <article class="entry">
+    <div class="stamp"><b>Nov 3312</b><span>14:57 to 02:05</span><span class="loc">Colonia</span></div>
+    <div class="body">
+      <h3>Two workshops</h3>
+      <p>She took Hephaestus out from Jaques Station to the rings of Colonia 4, mapped both with a probe each and prospected 23 asteroids. The refinery produced 17 tonnes of osmium, 14 of bertrandite, 10 of painite, 7 of praseodymium, 5 of silver and 4 each of platinum and palladium. She sold the metals at Jaques Station for 869,556 credits and flew 16 light years to Tir, where ten tonnes of osmium opened Marsha Hicks's workshop at The Watchtower. Hicks engineered the refinery to Shielded grade 5 in 25 rolls, reaching rank 5 with her in the same visit, and the remaining seven tonnes of osmium sold there for 109,746 credits.</p>
+      <p>Back at Jaques Station she refitted Hephaestus for rescue work: the 3A collector controller was sold, the prospector controller and 4B fuel scoop stored, and a 3C rescue multi-limpet controller, a 3A fuel scoop and a 4D shield generator fitted. The painite and bertrandite sold for 2,044,568 credits. At three distress calls in Luchtaine she recovered 31 occupied and 13 damaged escape pods and the salvage around them, and was fined 300 credits for discharging weapons there. Twenty-five occupied pods went to Etienne Dorn at Kraken's Retreat in Los and unlocked his workshop; the other six occupied pods and the thirteen damaged ones were handed in there for 276,312 credits, and the salvage sold for 104,655. In the afternoon Hymn of the Long Night was fitted with a size 4 planetary vehicle hangar and two SRV Scarabs, which took her range from 91.3 to 90.0 light years.</p>
+      <p>In the evening she flew Hymn to Carcosa and back, then took four settlement power jobs at Whirling Station in Ogmar, each requiring a large-capacity power regulator. Hymn made her first landing at Shen Astrophysics Forum on Ogmar A 4 b, and then landed at Lukashenko Cultivation Site in Magellan, Apte Genetics Centre on Ogmar B 7 and Morales Biological Expedition on Ogmar B 4 a, the Scarab taking her from ship to settlement each time. Ten wanted attackers were killed at Shen and Apte, for 10,850 credits in Likedeeler of Colonia bounties. The four jobs paid 271,186 credits and on-foot materials at Whirling Station, where she shut down at 02:05.</p>
+    </div>
+  </article>
+  <article class="entry">
+    <div class="stamp"><b>Nov 3312</b><span>23:45 to 01:43</span><span class="loc">Colonia</span></div>
+    <div class="body">
+      <h3>Lawless ground</h3>
+      <p>She took Hymn out from Whirling Station on a short loop through Asura and Santos Dumont, scanning the nav beacon in each, 26 and 21 bodies, and returned to Ogmar. From there she flew by Colonia to Carcosa and set Hymn down on the pad at Oliveira Genetics Exploration on Carcosa CD 3 a, a high-tech settlement held by The Nameless, an anarchy faction with no law to break.</p>
+      <p>She drove the Scarab off the pad and went through the settlement on foot under fire, using three medkits, an energy cell and a frag grenade. She took 100 items from its lockers and stores, among them nine optical lenses, eight memory chips, eight ion batteries, five encrypted memory chips, four insight data banks and a suit schematic, and downloaded six data sets, including shareholder information, virology and gene sequencing data. Thirty-eight of the settlement's people were killed, twenty-five of them guards, and she shut the settlement down. No crime or bounty was recorded. Hymn came down beside the Scarab at the edge of the settlement, took it aboard and returned to Jaques Station, where Sarah redeemed the ten Ogmar bounties for 8,137 credits after the broker's share and shut down at 01:43.</p>
+    </div>
+  </article>
+  <article class="entry">
+    <div class="stamp"><b>Nov 3312</b><span>02:39 to 03:30</span><span class="loc">Colonia</span></div>
+    <div class="body">
+      <h3>The Brig</h3>
+      <p>She took Artemis out of storage at Jaques Station, her first flight since the Fer-de-Lance was shipped to Colonia, and flew to the navigation beacon in Ogmar. She destroyed three wanted ships there with system authority vessels alongside: Dunkerson's Type-7 Transporter, Ivan Tefalco's Sidewinder and Richard Clavin's Viper Mk III, for 367,035 credits in Likedeeler of Colonia bounties. At a weapons-fire signal near Ogmar A 1 a pirate, Khalid of Milanov's Reavers, scanned her empty hold and attacked; his Eagle was destroyed for a further 47,344 credits.</p>
+      <p>By way of Kinesi she returned to Colonia, took an engineer invitation contract from the Colonia Council at Colonia Orbital and delivered it to Colonia Dream in Ratraii, which brought an invitation from Mel Brandon. At The Brig on Luchtaine A 1 c she handed over 100,000 credits of the Ogmar bounties to unlock Brandon's workshop at rank 1 and redeemed the remaining 314,379 credits for 235,784 after the broker's share. She shut down there at 03:30.</p>
+    </div>
+  </article>
+  <article class="entry">
+    <div class="stamp"><b>Nov 3312</b><span>00:23 to 02:00</span><span class="loc">Colonia</span></div>
+    <div class="body">
+      <h3>Yoon's Installation</h3>
+      <p>Artemis left The Brig for the navigation beacon in Tenjin. Of the wanted ships there she took one, Laura Nigella's Keelback of the Colonia Research Department, for 207,832 credits in Colonia Citizens Network and Last Phoenix Vault bounties, and left a Clipper, a Gunship and a Krait Mk II alone. She rearmed at Balakor's Research Post, returned to Jaques Station, redeemed the bounty for 155,873 credits after the broker's share and changed to Hymn of the Long Night.</p>
+      <p>Hymn flew to Carcosa and landed on the pad at Yoon's Installation, an industrial settlement of The Nameless on Carcosa AB 1 h. The settlement's defences fired on her Scarab as she approached and a Vulture dropship circled overhead. She went in on foot in the Maverick suit and took 51 components, 21 goods and 11 data sets from its stores and terminals, using four medkits and three energy cells. Thirty-eight of the settlement's people were killed, twenty-four of them guards, a turret was destroyed and she shut the settlement down. The Nameless are lawless; no crime or bounty was recorded. Hymn landed at the edge of the settlement to take the Scarab aboard, and she shut down in supercruise over the moon at 02:00.</p>
+    </div>
+  </article>
+  <article class="entry">
+    <div class="stamp"><b>Nov 3312</b><span>23:25 to 01:56</span><span class="loc">Colonia to the bubble</span></div>
+    <div class="body">
+      <h3>Back to the Bubble</h3>
+      <p>Colonia's settlements could not supply the components she needed to unlock its engineers and upgrade her suits, and she resolved to return to the bubble until she had them, leaving Artemis and Hephaestus at Jaques Station. Hymn of the Long Night flew from Carcosa to Diaguandri in a single run of 85 jumps and 23,428 light years, 49 of them boosted at neutron stars, stopping to scoop at Stuelou HA-T b32-4, Nyeajaae EF-C c27-1, two Bleia Eohn systems and Shasir. The tank fell no lower than 29.5 tonnes.</p>
+      <p>At Ray Gateway she refuelled and paid 52,247 credits in repairs, then went on through LHS 1442 to LHS 1163. At Hunziker Terminal, more than 83,000 light seconds from the star, she sold the data from the run for 5,995,863 credits, raising her standing with Azimuth Biotech to 89.9, and she shut down there at 01:56.</p>
+    </div>
+  </article>
+  <article class="entry">
+    <div class="stamp"><b>Nov 3312</b><span>01:45 to 02:43</span><span class="loc">Fiden</span></div>
+    <div class="body">
+      <h3>Makonda Leisure Complex</h3>
+      <p>A 125,000 credit donation she had agreed to make to the New LHS 1163 Nationalists lapsed unpaid. Hymn of the Long Night left Hunziker Terminal for Fiden by way of LP 355-65, and she read the nav beacons at Fiden and Teleu, her empty hold scanned by a pirate at each. She returned to Fiden and called in to Makonda Leisure Complex, a tourism settlement of the Brotherhood of Fiden, an anarchy faction, on the icy moon AB 1 d. The tower granted docking and Hymn landed on its large pad.</p>
+      <p>She took the Scarab out and stepped onto the ice in her flight suit, went straight back aboard, and changed into the Maverick. The settlement's defences opened fire on the Scarab, and she went in on foot. Her first pass took 49 components and 40 goods, among them four graphene and four health monitors, and she emptied the pack into the Scarab and went back in. The second pass took 38 components, 24 goods and 18 data sets before Russ Winters, a guard in a Dominator suit rated Harmless, killed her. Everything from the second pass was lost and the Scarab was destroyed. She recovered aboard Hymn over the moon and shut down there at 02:43. The Brotherhood are lawless; no crime or bounty was recorded.</p>
+    </div>
+  </article>
+</section>
+
+<nav class="pager" aria-label="Chapters">
+  <a href="chronicle-6.html"><span class="d">← Chapter six</span><span class="t">Colonia</span></a>
+  <a class="nx" href="chronicle.html#now"><span class="d">Today →</span><span class="t">Where she stands now</span></a>
+</nav>
+
+<footer>
+  <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
+</footer>
+
+</div>
+
+</body>
+</html>

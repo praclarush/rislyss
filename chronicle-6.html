@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Colonia · Rislyss Chronicle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column, like a ship's log bound as a book. Chapters by era, dated entries within. Same cockpit palette as the flight log; single dark world by choice. */
+:root {
+  --bg: #0c0a08;
+  --panel: #15110d;
+  --line: #2e251c;
+  --fg: #ece3d7;
+  --muted: #998b7b;
+  --accent: #ff7a1a;
+  --accent-dim: #6b3a14;
+  --cyan: #74d4e2;
+  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 17px/1.7 var(--f-body); margin: 0; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 72px; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
+header { display: grid; gap: 18px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+h1 { font-size: clamp(38px, 7vw, 64px); line-height: .95; font-weight: 700; }
+h1 span { color: var(--accent); }
+.dek { color: var(--muted); font-size: 16px; margin: 0; max-width: 62ch; }
+figure { margin: 0; border: 1px solid var(--line); padding: 8px; background: var(--panel); }
+figure img { display: block; width: 100%; height: auto; }
+figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding: 8px 4px 2px; }
+.chapter { display: grid; gap: 22px; }
+.chapter > .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.chapter > .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+h2 { font-size: clamp(26px, 4.4vw, 34px); line-height: 1.1; }
+p { margin: 0; max-width: 66ch; }
+.chapter > p:first-of-type::first-letter { font-family: var(--f-display); font-size: 3.4em; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
+.entry { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; padding-top: 18px; border-top: 1px dashed var(--line); }
+.stamp { font-family: var(--f-mono); font-size: 12px; color: var(--muted); line-height: 1.5; display: grid; gap: 4px; align-content: start; }
+.stamp b { color: var(--fg); font-weight: 600; }
+.stamp .loc { color: var(--cyan); }
+.entry .body { display: grid; gap: 12px; min-width: 0; }
+.entry h3 { font-size: 19px; }
+.aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
+.now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
+.now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .stamp { grid-auto-flow: column; justify-content: start; gap: 12px; }
+}
+.chapter > h1 { font-size: clamp(30px, 5.5vw, 44px); line-height: 1.05; }
+.crumb { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; }
+.crumb a { color: var(--muted); text-decoration: none; }
+.crumb a:hover, .crumb a:focus-visible { color: var(--accent); outline: none; }
+.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.pager a { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s; }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
+.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pager .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.2; }
+.pager .nx { text-align: right; grid-column: 2; }
+@media (max-width: 600px) { .pager { grid-template-columns: minmax(0, 1fr); } .pager .nx { grid-column: auto; } }
+</style>
+<style>
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
+.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
+.site-nav .brand b { color: var(--accent); font-weight: 600; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
+.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 9px 2px 7px; white-space: nowrap; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html" aria-current="page" aria-current="page">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="gallery.html">Gallery</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
+<div class="wrap">
+
+<div class="crumb"><a href="chronicle.html">← The Rislyss Chronicle</a></div>
+
+<section class="chapter">
+  <div class="label">Chapter six · October 3312</div>
+  <h1>Colonia</h1>
+  <p>Having arrived, she set about learning the region she had crossed the galaxy to reach.</p>
+
+  <article class="entry">
+    <div class="stamp"><b>Oct 3312</b><span>20:07 to 00:08</span><span class="loc">Colonia, Kinesi, Carcosa</span></div>
+    <div class="body">
+      <h3>Settling in</h3>
+      <p>She visited five settlements on two of Colonia's moons, going ashore briefly at each: Shore Cultivation Collection and Fiorentino Hydroponics Estate on Colonia 2 a, and Lavoie Genetics Institution, Hahn Hydroponics Collection and Romano Drilling Facility on Colonia 3 c a. At Jaques Station she had a large missile rack fitted to Hymn of the Long Night, the ship's first weapon, which brought her range to 90.8 light years.</p>
+      <p>She then flew to Kinesi, docking at Mortimer's Charm, and to Carcosa, where Robardin Rock is held by The Nameless, a faction at war. Near Carvalho Mineralogic Facility on Carcosa AB 1 h she came under fire. The megaship Dove Enigma had no berth for her, and she returned to Jaques Station, took a courier contract for the Colonia Council and delivered it to Robardin Rock. She shut down there at 00:08.</p>
+    </div>
+  </article>
+
+  <article class="entry">
+    <div class="stamp"><b>Oct 3312</b><span>13:17 to 15:38</span><span class="loc">Colonia to Diaguandri</span></div>
+    <div class="body">
+      <h3>The way home</h3>
+      <p>A notice from the Pilots Federation that it would issue permits for LFT 509, a system closed until then, brought her back to the bubble. She left Jaques Station and flew to Diaguandri in a single run of 84 jumps, 46 of them supercharged at neutron stars, covering 23,111 light years. Four of them passed 503 light years, the longest she has made. She docked at Ray Gateway two hours and ten minutes after leaving Jaques Station. Hephaestus and Artemis, sent for from Colonia, were still in transit there.</p>
+    </div>
+  </article>
+</section>
+
+<nav class="pager" aria-label="Chapters">
+  <a href="chronicle-5.html"><span class="d">← Chapter five</span><span class="t">Sol and the road to Colonia</span></a>
+  <a class="nx" href="chronicle-7.html"><span class="d">Chapter seven →</span><span class="t">Back in the bubble</span></a>
+</nav>
+
+<footer>
+  <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
+</footer>
+
+</div>
+
+</body>
+</html>

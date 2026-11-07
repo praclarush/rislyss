@@ -36,25 +36,29 @@ figure { margin: 0; border: 1px solid var(--line); padding: 8px; background: var
 figure img { display: block; width: 100%; height: auto; }
 figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding: 8px 4px 2px; }
 .chapter { display: grid; gap: 22px; }
-.chapter > .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
-.chapter > .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+.chapter > .label, .contents > .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.chapter > .label::after, .contents > .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
 h2 { font-size: clamp(26px, 4.4vw, 34px); line-height: 1.1; }
 p { margin: 0; max-width: 66ch; }
 .chapter > p:first-of-type::first-letter { font-family: var(--f-display); font-size: 3.4em; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
-.entry { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; padding-top: 18px; border-top: 1px dashed var(--line); }
-.stamp { font-family: var(--f-mono); font-size: 12px; color: var(--muted); line-height: 1.5; display: grid; gap: 4px; align-content: start; }
-.stamp b { color: var(--fg); font-weight: 600; }
-.stamp .loc { color: var(--cyan); }
-.entry .body { display: grid; gap: 12px; min-width: 0; }
-.entry h3 { font-size: 19px; }
-.aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
+.contents { display: grid; gap: 6px; }
+.toc { list-style: none; margin: 0; padding: 0; display: grid; }
+.toc a { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 1px dashed var(--line); color: var(--fg); text-decoration: none; }
+.toc li:first-child a { border-top: 0; }
+.toc .n { font-family: var(--f-mono); font-size: 12px; line-height: 1.5; color: var(--muted); display: grid; gap: 4px; align-content: start; padding-top: 4px; }
+.toc .n b { color: var(--accent); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.toc .t { display: grid; gap: 6px; }
+.toc h3 { font-size: 22px; line-height: 1.2; transition: color .2s; }
+.toc p { color: var(--muted); font-size: 15.5px; line-height: 1.6; }
+.toc a:hover h3, .toc a:focus-visible h3 { color: var(--accent); }
+.toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
 .now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
 footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
 @media (max-width: 600px) {
   body { font-size: 16px; }
-  .entry { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .stamp { grid-auto-flow: column; justify-content: start; gap: 12px; }
+  .toc a { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .toc .n { grid-auto-flow: column; justify-content: start; gap: 12px; }
 }
 </style>
 <style>
@@ -83,502 +87,48 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   </figure>
 </header>
 
-<section class="chapter">
+<section class="chapter" id="prologue">
   <div class="label">Prologue · Achenar · 3274 to 3308</div>
   <h2>The voice in the cockpit</h2>
   <p>Sarah Waters was born in Achenar in 3274 and raised in the Imperial capital, where Gutamaya builds most of the hulls in the sky. She trained in software and joined Gutamaya's cockpit voice team, the group that writes the COVAS systems guiding Imperial pilots through docking, fuel state and hull integrity.</p>
   <p>She stayed for the better part of a decade. The work kept her on the ground, and by her own account that was the reason she left: ten years spent writing the voice that warns a pilot of hull failure, without once being the pilot.</p>
 </section>
 
-<section class="chapter">
-  <div class="label">Chapter one · July to September 3308</div>
-  <h2>Learning to fly far</h2>
-  <p>She resigned in the summer of 3308, aged 34, and bought a Hauler, registered as Horizon. It is still in her fleet. Within her first months of flying she had located five engineers, Felicity Farseer, Elvira Martuuk, The Dweller, Tod McQuinn and Liz Ryder, mostly through word of mouth.</p>
-  <p>Her early career leaned toward exploration. The Pilots Federation rated her Mostly Aimless in July and Surveyor soon after. She bought and sold three Asp Explorers in quick succession before settling, in August, on a Diamondback Explorer. She named it Dreaming Void, and it remains her registered ship.</p>
-  <p>August also added a Dolphin, Avalon, and a Viper Mk III, Seraphim Rising. A Type-7 was bought and sold again. By September she held Pioneer in exploration, Broker in trade and Ensign in the Federal Navy, the last earned on Federation contracts accepted without much regard for allegiance. Farseer had engineered her frame shift drive to grade 5.</p>
-  <p>Late in September she bought a Federal Gunship. The record stops there and resumes twenty-three months later.</p>
-  <p class="aside">Her logs contain no account of 3308 to 3310, and she has not offered one.</p>
+<section class="contents">
+  <div class="label">Chapters</div>
+  <ol class="toc">
+    <li><a href="chronicle-1.html">
+      <div class="n"><b>Chapter one</b><span>July to September 3308</span></div>
+      <div class="t"><h3>Learning to fly far</h3><p>She resigns from Gutamaya, buys the Hauler Horizon and spends three months learning to fly far: five engineers found, three Asp Explorers bought and sold, and a Diamondback Explorer named Dreaming Void. Then the record stops for twenty-three months.</p></div>
+    </a></li>
+    <li><a href="chronicle-2.html">
+      <div class="n"><b>Chapter two</b><span>August to December 3310</span></div>
+      <div class="t"><h3>The Imperial return</h3><p>She returns aligned with the Empire, rises from Outsider to Viscount, buys Void Runner, Invictus and Artemis, pledges to Li Yong-Rui and meets Thargoids in the Pleiades. Then twenty-one months of silence.</p></div>
+    </a></li>
+    <li><a href="chronicle-3.html">
+      <div class="n"><b>Chapter three</b><span>October 3312</span></div>
+      <div class="t"><h3>Back in the black</h3><p>The logs resume in a Scarab on a Thargoid moon in the Pleiades. She flies home, finishes Aurora's refit module by module, takes her first Powerplay merits for Li Yong-Rui and works her way through the engineers to Zacariah Nemo in Yoru.</p></div>
+    </a></li>
+    <li><a href="chronicle-4.html">
+      <div class="n"><b>Chapter four</b><span>October 3312</span></div>
+      <div class="t"><h3>The exobiology expedition</h3><p>Hymn of the Long Night is built and engineered to search for life, shaken down, then flown out through Synuefai, Recepta and Oochost and home again with her holds full of exobiology data.</p></div>
+    </a></li>
+    <li><a href="chronicle-5.html">
+      <div class="n"><b>Chapter five</b><span>October 3312</span></div>
+      <div class="t"><h3>Sol and the road to Colonia</h3><p>With the expedition's data sold, she finally stops at Sol, a system she had passed many times, then crosses the nebulae to Colonia.</p></div>
+    </a></li>
+    <li><a href="chronicle-6.html">
+      <div class="n"><b>Chapter six</b><span>October 3312</span></div>
+      <div class="t"><h3>Colonia</h3><p>Her first days in Colonia: settlements on its moons, a faction war at Carcosa, and a permit notice that calls her home in a single run of 84 jumps.</p></div>
+    </a></li>
+    <li><a href="chronicle-7.html">
+      <div class="n"><b>Chapter seven</b><span>October 3312</span></div>
+      <div class="t"><h3>Back in the bubble</h3><p>LFT 509 opens to her, she salvages for Li Yong-Rui and goes back out to Colonia: mining and rescue for Hephaestus, bounties in Artemis, lawless settlements on foot, then home to the bubble for the components Colonia cannot supply.</p></div>
+    </a></li>
+  </ol>
 </section>
 
-<section class="chapter">
-  <div class="label">Chapter two · August to December 3310</div>
-  <h2>The Imperial return</h2>
-  <p>She reappeared in August 3310 aligned with the Empire. She bought two Type-8 Transporters, kept one as Compass Rose, and within weeks had risen in the Imperial Navy from Outsider to Baron, five ranks in quick succession. The pace suggests the groundwork was laid during the gap, though nothing in the record shows how.</p>
-  <p>Later that month she bought an Imperial Clipper and named it Void Runner. As a Gutamaya hull, its cockpit runs voice software from her former team, and she has said she still checks which COVAS build it carries. The Pilots Federation registered her as an Exobiologist, rank Compiler, around the same time.</p>
-  <p>September brought heavy turnover in the fleet. The Gunship and two Asp Explorers were sold. She bought a Krait Mk II and a Krait Phantom, sold the Mk II after a short trial, and kept the Phantom as Invictus. A Fer-de-Lance, Artemis, followed. The Navy promoted her to Viscount, and she pledged to Li Yong-Rui, for practical reasons as she put it.</p>
-  <p>That same month, flying Invictus in the Pleiades, she encountered Thargoids. Her encounter log ends at Pleiades Sector XF-N b7-1. She has not described what happened.</p>
-  <p>By December she had grade 5 access with nine engineers and a combat rank of Novice. The record then goes quiet for twenty-one months.</p>
-</section>
-
-<section class="chapter">
-  <div class="label">Chapter three · October 3312</div>
-  <h2>Back in the black</h2>
-  <p>When the logs resume she is where they left her: in an SRV Scarab on Pleiades Sector LY-Q b5-2 A 2, a rocky moon with six Thargoid sites and two mining locations, roughly 220 light years from Diaguandri.</p>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>00:03 to 01:47</span><span class="loc">LY-Q b5-2 A 2</span></div>
-    <div class="body">
-      <h3>The vigil</h3>
-      <p>She started the Scarab four times without moving it. The first start was aborted almost immediately. The second and third each followed a repair, one fault at a time, with a shutdown and restart to confirm the fix. On the fourth start the systems held.</p>
-      <p>She then connected to the open network and stayed put for seventy-seven minutes. The journal records nothing in that period, but what she did next shows how it was spent. She was carrying two years of unsold cartographic data, and when she next powered up she flew directly to Diaguandri, sold the data at Ray Gateway, refitted the Mandalay with field maintenance units at a nearby outfitter, and renewed her pledge to Li Yong-Rui, in that order.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>14:50 to 15:26</span><span class="loc">Pleiades to Diaguandri</span></div>
-    <div class="body">
-      <h3>The run home</h3>
-      <p>Ninety seconds after start-up, every system in the Scarab shut down at once. With six Thargoid signals on the moon, a Thargoid shutdown pulse is the most likely cause. She recovered the SRV into Void Runner's hangar, lifted off and entered supercruise without waiting for a second event.</p>
-      <p>The route planner proposed twenty-six jumps to Diaguandri. She replotted it to ten, through the Col 285 and Arietis sectors, refuelling from the scoop at each star. At Bharani a Viper Mk III locked her four times in about three seconds and then disengaged. On arrival at Diaguandri a system scan returned 146 signals, 115 of them fleet carriers.</p>
-      <p>At Ray Gateway she sold the data for 1,874,407 credits: 75 systems and 186 bodies, none of them first discoveries. A single unit of Meta-Alloys fetched 214,605, and sixteen tonnes of Neofabric Insulation sold at a small loss. She then took delivery of a Lynx Highliner held on order, later commissioned as the rescue ship Helios.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>17:22 to 18:39</span><span class="loc">Ebor · Caillie Town</span></div>
-    <div class="body">
-      <h3>The Stronghold and the refit</h3>
-      <p>She took out the Mandalay, then still named Athena, and jumped to Ebor, where a Stronghold Carrier held station above the fourth planet. It refused docking on grounds of restricted access. She renewed her pledge to Li Yong-Rui on the spot. The carrier refused her twice more, first on range and then for lack of a free pad, and scanned her cargo before she left without docking.</p>
-      <p>At Caillie Town, a 10th Hawk Squadron station undergoing expansion, she spent close to six million credits on the Mandalay. The mining lasers came out. In went two field maintenance units, a 4A and a 1A, a wake scanner, point defence and an advanced docking computer. She also replaced the 3A power plant with a lighter 2A. The ship was renamed Aurora, registration RI-X04.</p>
-      <p class="aside">The 2A plant could not supply the full fit, and the Guardian FSD booster went unpowered. That cost about 10.5 light years of range until the plant was upgraded.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>21:59 to 23:06</span><span class="loc">Diaguandri to Orrere</span></div>
-    <div class="body">
-      <h3>The fleet review</h3>
-      <p>Before departing she boarded nine of her stored ships in turn: Horizon, Seraphim Rising, Intrepid, Avalon, Compass Rose, Dreaming Void, Artemis, Invictus and Hephaestus. She made no changes to any of them and returned to Aurora.</p>
-      <p>She then took Dreaming Void north from Ray Gateway. The route passed a T dwarf in Tascheter Sector UE-Q a5-2 and the white dwarf LAWD 26, where the Codex logged a Wolf-Rayet star, then crossed the Sol neighbourhood to Orrere. Orrere lies in Edmund Mahon's territory, and her pledge registered her there as hostile.</p>
-      <p>The detailed surface scanner would not appear in any fire group, a configuration fault that took some time to resolve. Once it did, she mapped Orrere 2 b with two probes, meeting the efficiency target, landed and deployed the Scarab to collect gold and beryllium. She shut down in the SRV.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>00:41 to 02:13</span><span class="loc">Orrere to HR 3230</span></div>
-    <div class="body">
-      <h3>First merits, then east</h3>
-      <p>Further prospecting on Orrere 2 b yielded tellurium, antimony, ruthenium, zirconium and palladium. She jettisoned the bertrandite and beryllium, recovered the SRV and returned to Diaguandri in four jumps via Gnowee and Rana.</p>
-      <p>At Ray Gateway she sold the gold and palladium for 174,393 credits and five systems of data for 43,471. Diaguandri is a Li Yong-Rui stronghold, and the sale produced her first Powerplay merits: ten, in two awards, at rank zero.</p>
-      <p>She then flew Dreaming Void 449 light years east in seven jumps through the unpopulated Col 285 and Wregoe sectors to HR 3230, whose A-class primary set off a heat warning on arrival. She mapped HR 3230 3 a with two probes, landed on its moon and recovered manganese, selenium and zirconium with the Scarab. She shut down there, 446 light years from Diaguandri, the furthest point of her return so far.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>23:28 to 01:13</span><span class="loc">HR 3230 to Kuwemaki</span></div>
-    <div class="body">
-      <h3>The brokers and the engineers</h3>
-      <p>She flew Dreaming Void back to Diaguandri along a similar seven-jump route. Scanning ships on the approach to Ray Gateway earned merits at eight per scan, followed by a single unexplained award of 2,000, so her total went from 10 to 2,082 before she docked. The HR 3230 data sold for 270,959 credits, most of it for Wregoe WP-G d10-50, a system of twenty-one bodies.</p>
-      <p>She then switched to Aurora to gather the materials her engineering required, using the three material traders within a jump of Diaguandri. The encoded trader at Ray Gateway handled two trades without issue. At Thomas Orbital in Wolf 1241 she traded 144 iron for four tin and then six tin for one selenium, which left her with less tin than she had arrived with. She went on to Tesla Terminal in Njulngan for nine manufactured trades, then returned to Wolf 1241 and made up the tin with surplus mercury, molybdenum and niobium. That covered every material on Aurora's list.</p>
-      <p>With the Guardian booster now powered, Aurora reached Kuk in two jumps of 80 and 69 light years. At Prospector's Rest, Selene Jean took the lightweight alloy bulkheads to Heavy Duty grade 5 with Deep Plating in sixteen rolls. Four jumps of about 80 light years and one of 15 brought Aurora to Kuwemaki, 259 light years from Diaguandri. There, at The Jet's Hole, Hera Tani took the power plant to Overcharged grade 5 with Stripped Down, raising its output from 9.6 to 13.44 megawatts, the most the blueprint allows.</p>
-      <p>Even with both field maintenance units switched off, the ship still drew five percent more than the plant supplied, and switching off the wake scanner brings it back under. She shut down docked at The Jet's Hole.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>22:35 to 00:44</span><span class="loc">Kuwemaki to Diaguandri</span></div>
-    <div class="body">
-      <h3>Finishing the Aurora's Refit</h3>
-      <p>She left Kuwemaki to finish Aurora at six engineers on the way home.</p>
-      <p>Professor Palin at Arque took the thrusters from Dirty grade 3 to Clean grade 5. She tried his Thermal Spread experimental and replaced it with Stripped Down. Bill Turner at Alioth applied Lightweight grade 3 to the life support, the highest grade he offers. Grade 5 requires Etienne Dorn in Colonia, who has not yet opened his workshop to her. Didi Vatermann at Leesti engineered the single fitted shield booster to Thermal Resistant grade 5 with Super Capacitors.</p>
-      <p>Lei Cheung at Laksak worked on three modules. He took the shield generator to Enhanced Low Power grade 5 with Stripped Down, the sensors to Lightweight grade 5, and the surface scanner from grade 3 to grade 5. The shield generator's lower draw should bring Aurora within her power budget.</p>
-      <p>On the next jump, 81.8 light years to LP 567-20, her lifetime hyperspace distance passed 100,000 light years. At Wyrd, The Dweller engineered the power distributor to Engine Focused grade 5. She tried Cluster Capacitors before settling on Stripped Down.</p>
-      <p>At Meene, partway through the heat sink launcher work, her standing with Ram Tah reached rank 5. He completed the launcher at Lightweight grade 5 and took the point defence to grade 5 at 60 percent.</p>
-      <p>She returned to Ray Gateway in two jumps, sold a small amount of data, received four merits and shut down at 00:44. The session totalled 129 engineering rolls across nine modules.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>23:10 to 01:20</span><span class="loc">Achenar, Kuwemaki, Alioth</span></div>
-    <div class="body">
-      <h3>Fortune's Loss</h3>
-      <p>She took Aurora out of Ray Gateway and flew three jumps to Achenar, the system she was born in: 82 and 84 light years, then a short 13 to the capital. Achenar is closed to pilots without an Imperial permit; hers came with her Navy rank.</p>
-      <p>She docked at Fortune's Loss, Tiana Fortune's workshop, and paid the price of entry, 50 units of Decoded Emission Data. Tiana Fortune opened her workshop to her at rank 1.</p>
-      <p>The first work was on Aurora's wake scanner, the one module the refit had left untouched. Ten Lightweight rolls took it through grade 1 and grade 2, and her standing with Tiana Fortune rose to rank 3 along the way. Grade 3 is the planned target.</p>
-      <p>She then flew back to Diaguandri and had the 3A power plant from Aurora's original fit sent up from storage at Caillie Town. It was already engineered to Overcharged grade 3 and stripped down, and it replaced the 2A grade 5 plant, which could not carry everything she had fitted. The 2A went into storage.</p>
-      <p>Three courier contracts paid for the brokers' circuit: Wolf 1243, Wolf 1241 and Njulngan, 10,000 credits each. At Thomas Orbital she traded manganese for cadmium, and at Tesla Terminal precipitated alloys for fourteen units of conductive ceramics, the material every remaining job on Aurora had been waiting for. Li Yong-Rui's people credited her with another 49 merits along the way, 2,183 in all.</p>
-      <p>From Njulngan she flew four jumps to Kuwemaki. Hera Tani took the 3A plant through grade 4 and grade 5, raising its output from 15.12 to 16.8 megawatts. Aurora could now run every module except her field maintenance units with power to spare.</p>
-      <p>Five more jumps brought her to Alioth, where Bill Turner finished the wake scanner at Lightweight grade 3. She shut down there at 01:20, docked at Turner Metallics. The point defence turret, at grade 5 and 60 percent, is the only work left on Aurora's fitted modules.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>00:12 to 01:14</span><span class="loc">Meene, Damna, Arietis Sector RY-R b4-4</span></div>
-    <div class="body">
-      <h3>The last module, and a cargo of shells</h3>
-      <p>Aurora lifted from Turner Metallics and made three jumps to Meene: 82 and 85 light years, then 49. At Phoenix Base Ram Tah took the point defence turret from 60 to 100 percent of Lightweight grade 5 in two rolls. Every module Aurora's available engineers can work on is now finished. Her life support stays at grade 3 until Etienne Dorn in Colonia is unlocked.</p>
-      <p>Two jumps of 84 and 76 light years brought her home to Ray Gateway. With the Guardian booster powered, Aurora's loadout now gives a maximum range of 87.8 light years.</p>
-      <p>She then took the Imperial Clipper Void Runner out on a Powerplay assignment for Li Yong-Rui: rare goods sold in a system the power is working to acquire. Four jumps took her to Damna, a feudal system under Jerome Archer, where Nemere Market lies 3,022 light seconds from the arrival star. She bought its entire stock of Damna Carapaces, fifteen units at 315 credits each.</p>
-      <p>Two jumps of 43 and 30 light years brought her to Arietis Sector RY-R b4-4, an unoccupied system Li Yong-Rui is working to acquire. Starport Of Starlight paid 2,891 credits a unit, 43,365 in all, nine times the purchase price. The sale earned 3,665 merits, taking her total from 2,183 to 5,848.</p>
-      <p>One jump of 19 light years returned her to Ray Gateway, where she shut down at 01:14.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>20:06 to 21:04</span><span class="loc">Diaguandri, Arietis Sector UJ-Q b5-1</span></div>
-    <div class="body">
-      <h3>The beacon</h3>
-      <p>For a Li Yong-Rui bounty assignment she took the Fer-de-Lance Artemis out of storage for the first time since her return and dropped at the Diaguandri navigation beacon, a threat-level 2 location. Every ship she scanned there earned eight merits.</p>
-      <p>She destroyed four wanted ships: an Adder, a Diamondback Scout, a Cobra Mk III and a Master-ranked Krait Mk II carrying a bounty of 605,338 credits. Her shields failed once and recovered within a minute. The Krait brought 90 merits, and a single award of 3,200 followed, taking her total to 9,280.</p>
-      <p>At Ray Gateway she redeemed 817,557 credits in bounties, rearmed, and changed back to Void Runner with ten collector limpets. She worked an encoded-emissions signal in Diaguandri, then jumped 11 light years to Arietis Sector UJ-Q b5-1 and worked four more signal sources there for materials. The collectors also brought aboard six tonnes of military cargo marked as stolen; she jettisoned all of it before jumping home, and shut down at Ray Gateway at 21:04.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>23:03 to 23:57</span><span class="loc">Diaguandri</span></div>
-    <div class="body">
-      <h3>Power wreckage</h3>
-      <p>Void Runner went out again with thirty limpets for a salvage assignment. Power Wreckage Signatures in Diaguandri held black boxes, escape pods and wreckage components. The first, near Diaguandri C 1, yielded seven items; Search and Rescue at Ray Gateway paid 155,164 credits for them and Li Yong-Rui 280 merits. A second, at threat level 3 near Diaguandri AB 2, paid 158,849 credits and another 280 merits, for 9,887 in all.</p>
-      <p>The third signal, at threat level 2, was occupied. Void Runner's shields failed on arrival, her cargo was scanned, and she came under fire while the collectors were still working. The hull went from 65 percent to nothing in seven seconds. Her attacker was Mike Perkins, an Expert-ranked pilot in a Diamondback Explorer.</p>
-      <p>She took the rebuy at Ray Gateway for 2,674,868 credits, restocked twenty limpets and shut down at 23:57.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>22:51 to 00:47</span><span class="loc">Diaguandri, Arietis sectors, Yoru, Caledo</span></div>
-    <div class="body">
-      <h3>Rank five</h3>
-      <p>Void Runner returned to the Power Wreckage Signatures in Diaguandri. One near Diaguandri AB 1, at threat level 2, gave up a black box, four escape pods and three wreckage components, collected under two cargo scans. Search and Rescue at Ray Gateway paid 185,938 credits. Li Yong-Rui added 280 merits for the salvage and two single awards of 2,931 and 2,800.</p>
-      <p>From the Powerplay contact she collected fifteen Sirius Franchise Packages and ten units of Power Tracker Malware. She delivered the packages to Starport Of Starlight in Arietis Sector RY-R b4-4, the acquisition system she had supplied with rare goods, for 90 merits. She then collected fifteen Sirius Corporate Contracts at Ray Gateway and flew them 20.8 light years into Pranav Antal territory, to Gremlin's Grove in Arietis Sector KD-H a11-0. The delivery paid 72 merits and an award of 3,600, and lifted her to rank 5 with Li Yong-Rui. She ended the run with 16,761 merits.</p>
-      <p>Back at Ray Gateway she redeemed a Caspian Explorer from a shipyard bundle. It is the hull of the planned exobiology ship, registered by the shipyard as Reliant Seeker and still unfitted.</p>
-      <p>She then took Aurora north-east: 82 and 85 light years through 76 Sigma Ceti and ICZ DB-W b2-6, then 52 into Yoru, an Aisling Duval system. The Party of Yoru gave her two expansion data courier contracts, which she delivered to T.h. Orbiter in Shui Wei Sector QD-S b4-2 for 30,000 credits and to Otomo Orbital in Caledo for 10,000. She shut down docked at Otomo Orbital at 00:47, 230 light years from home.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>17:54 to 19:27</span><span class="loc">Yoru and its neighbours</span></div>
-    <div class="body">
-      <h3>The Party of Yoru</h3>
-      <p>Aurora returned to Yoru and worked for the Party of Yoru, a minor faction supporting its own expansion. Over the session she completed nine of its missions in short hops of 6 to 26 light years: expansion data couriers to Shui Wei Sector QD-S b4-6, Karid, Orang, Murato, Lepchaimyu, T'u Tu and CD-79 950, two crates of rare artwork recovered from a degraded-emissions signal in T'u Tu, and seven tonnes of polymers to Amarigeni.</p>
-      <p>The missions paid 242,353 credits, the largest single payment 60,000 for the courier to Hillcoat Horizons. She shut down docked at Hannu Mines in CD-79 950 at 19:27.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>22:04 to 23:52</span><span class="loc">Yoru, Xihe, Hollos, Diaguandri</span></div>
-    <div class="body">
-      <h3>Zacariah Nemo</h3>
-      <p>At Caidin Reach the Party of Yoru offered her an Engineer Invitation Contract. She flew Aurora home in three jumps and changed to Void Runner for the cargo space, then went north through the Tascheter, Piscium and Core Sys sectors to Xihe. At Zhen Dock she bought twenty-five units of Xihe Biomorphic Companions for 116,650 credits.</p>
-      <p>Four jumps took her to Hollos, where delivering the contract at Bharadwaj Hub brought Zacariah Nemo's invitation. A short jump to Yoru followed. At Nemo Cyber Party Base on Yoru 4 she handed over the twenty-five Xihe companions, and Zacariah Nemo opened his workshop to her at rank 1.</p>
-      <p>Five jumps returned her to Diaguandri, where she sold sixteen systems of data for 377,461 credits. She then patrolled the Diaguandri navigation beacon and four signal sources in Artemis, scanning sixteen ships for Li Yong-Rui and bringing her merits to 17,053. She docked at Ray Gateway, returned to Aurora and shut down at 23:52.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>23:40 to 01:18</span><span class="loc">Arque, HIP 20567, Epsilon Indi, Altair</span></div>
-    <div class="body">
-      <h3>Meta-alloys</h3>
-      <p>She took Aurora three jumps to Arque and bought a 2-tonne anti-corrosion cargo rack at Professor Palin's Abel Laboratory for 10,050 credits, then flew it home. At Ray Gateway the rack went into the Krait Phantom Invictus, now the fleet's salvage vessel, in place of her vehicle hangar, giving her 34 tonnes of cargo.</p>
-      <p>Invictus flew five jumps south to HIP 20567, an anarchy system 53 light years beyond HIP 19591, and dropped twice at its seventh planet. Her collector limpets recovered four units of Meta-Alloys and one Titan Drive Component.</p>
-      <p>She then turned north. After a stop at the fleet carrier GFK-W1N in Hyades Sector ZU-Y d93 she crossed past Sol's neighbourhood to Epsilon Indi, where the carrier H9K-0TK sold her eleven more Meta-Alloys at 2,495,439 credits each, 27,449,829 in all. A twelfth came from the carrier W3H-29V in EZ Aquarii for 776,127. The purchases took her balance from 145.8 to 117.6 million credits.</p>
-      <p>With sixteen Meta-Alloys and the Titan Drive Component in the hold, she jumped 12 light years to Altair and shut down docked at Solo Orbiter at 01:18.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>01:15 to 02:29</span><span class="loc">Luyten's Star, Diaguandri, LHS 417, HR 3230</span></div>
-    <div class="body">
-      <h3>The sale</h3>
-      <p>Invictus left Altair for Luyten's Star, 29 light years, and escaped an interdiction by Glenn Dawkins on the way in. At the fleet carrier B4Z-LQY she sold all sixteen Meta-Alloys at 19,457,200 credits each, 311,315,200 in all, against an average of 1,764,122 paid.</p>
-      <p>She came under fire as she undocked. Her shields failed within two seconds and her hull fell to 40 percent before she jumped 22 light years to CD-37 15492. The attacker does not appear in the record. At the carrier DSI1 there she paid 51,017 credits for repairs and sold the Titan Drive Component for 36,207,500. Counting the alloys she bought, the anti-corrosion rack and the repairs, the run returned about 319 million credits, and her balance stood at 465.8 million.</p>
-      <p>Three jumps took Invictus home, where ten systems of data sold for 788,377. She changed to Aurora and flew to LHS 417, mapped two moons around its ninth planet with five probes, and touched down briefly beside a wrecked SRV on LHS 417 9 e a. Six jumps of about 84 light years then took Aurora east to HR 3230, where she landed on 3 a a, took the Scarab out for eleven minutes of prospecting, and shut down on the surface at 02:29.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>00:28 to 02:35</span><span class="loc">HR 3230, the brokers, LHS 501, Diaguandri C 3</span></div>
-    <div class="body">
-      <h3>Palladium</h3>
-      <p>Aurora lifted from HR 3230 3 a a and returned to Diaguandri in six jumps. After selling nine systems of data for 428,994 credits she worked the three material brokers: one encoded trade at Ray Gateway, six raw trades at Thomas Orbital in Wolf 1241 and eight manufactured trades at Tesla Terminal in Njulngan. The fifteen trades are the set planned for Reliant Seeker's engineering, among them 34 conductive ceramics, 20 conductive components and 13 tin.</p>
-      <p>She then took Invictus to LHS 501 and bought twenty-one units of palladium at Omenma Berth for 102,018 credits, for an EXO contract to source and return palladium to Garrido's Locus, a settlement on Diaguandri C 3. On the approach to the settlement Invictus lost her shields and her hull fell to 54 percent; she landed and was repaired for 17,694 credits.</p>
-      <p>On foot at the settlement she was fined for reckless endangerment and shot by its security. She recovered at Detainment Centre Delta-7, a megaship in Tascheter Sector AV-Y b5, flew Invictus back 56.5 light years and delivered the palladium. EXO paid 14,430,912 credits. She shut down docked at Garrido's Locus at 02:35.</p>
-    </div>
-  </article>
-
-</section>
-
-<section class="chapter">
-  <div class="label">Chapter four · October 3312</div>
-  <h2>The exobiology expedition</h2>
-  <p>The expedition begins with the ship built for it: a Caspian Explorer, redeemed from a shipyard bundle earlier in the month and refitted at Ray Gateway to cross long distances, land, and survey the worlds she passes for life. The shipyard registered her as Reliant Seeker. Once her engineering was done she was named Hymn of the Long Night. Her first sessions were spent with the engineers.</p>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>22:50 to 01:33</span><span class="loc">Diaguandri, Deciat, Laksak, Koli Discii</span></div>
-    <div class="body">
-      <h3>The Caspian</h3>
-      <p>At Ray Gateway she took out the Caspian Explorer redeemed earlier in the week and stripped her of her delivery fit: cargo racks, vehicle and fighter hangars, limpet controllers, two field maintenance units and the shield. In their place went a Bi-Weave shield, a Guardian frame shift drive booster, a Mk II vessel hangar, a field maintenance unit, repair limpets and supercruise assist, with a 6A power plant and a 5A power distributor. The outfit cost 18,495,257 credits. She still carried the name the shipyard assigned, Reliant Seeker, and its default ident RI-12E.</p>
-      <p>She flew the Caspian four jumps to Deciat, where Felicity Farseer took the frame shift drive to Long Range grade 5 in sixteen rolls and added Mass Manager. A heat sink launcher bought at Garay Terminal completed the utility mounts. Three jumps of 72 to 75 light years took her to Lei Cheung at Laksak, who engineered the sensors to Lightweight grade 5, the shield to Low Power grade 5, and the surface scanner as far as grade 3. The shield's Stripped Down experimental was not applied, which went unnoticed until her shakedown cruise. Five jumps returned the ship to Ray Gateway with a range of 83.5 light years.</p>
-      <p>She then flew Aurora to a crash site on Koli Discii C 6 a and prospected in the SRV for ruthenium, tungsten, tellurium, antimony and zirconium, and came back by way of Wolf 1241, where she shut down at Thomas Orbital at 01:33.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>02:37 to 03:10</span><span class="loc">Wolf 1241, Meene, Laksak</span></div>
-    <div class="body">
-      <h3>Finishing work</h3>
-      <p>At Thomas Orbital she sold thirteen systems of data for 365,174 credits and made six raw-material trades, then took Aurora home and changed to the Caspian. Ram Tah at Meene gave both heat sink launchers Ammo Capacity grade 1, and Lei Cheung at Laksak finished the surface scanner's Expanded Radius at grade 5. She shut down docked at Trader's Rest at 03:10.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>19:16 to 21:16</span><span class="loc">Arque, Wyrd, Kuk, Kuwemaki, Alioth</span></div>
-    <div class="body">
-      <h3>Hymn of the Long Night</h3>
-      <p>The Caspian left Laksak on a circuit of five engineers. Professor Palin at Arque took her thrusters to Dirty Drive grade 5 with Stripped Down. The Dweller at Wyrd took the power distributor to Engine Focused grade 5, also Stripped Down. Selene Jean at Kuk took the armour to Heavy Duty grade 5 with Deep Plating. At Kuwemaki she docked at Hera Tani's workshop and left again without work, flew on to Alioth, and had Bill Turner take the life support to Lightweight grade 3, the most he offers.</p>
-      <p>At Ray Gateway she bought a 4A power plant for 1,225,049 credits, then returned it to storage and kept the 6A. After two raw trades at Thomas Orbital she flew back to Kuwemaki, where Hera Tani took the 6A to Low Emissions grade 5 with Thermal Spread, for cooler running while scooping fuel. Repairs on her return to Ray Gateway cost 216,089 credits.</p>
-      <p>There she named the ship Hymn of the Long Night, ident RI-X05, and her Nomad Refrain, ident X05-N1. She shut down at 21:16.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>23:21 to 00:48</span><span class="loc">Jackson's Lighthouse, HIP 15609, Laksak</span></div>
-    <div class="body">
-      <h3>Shakedown</h3>
-      <p>Hymn of the Long Night's shakedown cruise left Ray Gateway for the neutron star Jackson's Lighthouse, three jumps east. She charged her drive in its jet cone twice, the second time for a 207.7 light-year jump back west to HIP 15609, the longest in her record. In HIP 15609 an NPC, Nhi Vanye, interdicted her; she submitted, and the encounter is recorded no further.</p>
-      <p>She mapped HIP 15609 2 e with two probes against a target of four, launched the Nomad Refrain from the ship's hangar, set it down, and walked out to the expedition's first organism: Stratum Paleas, Lime variant, a new entry in her Codex. Three samples completed the analysis. Vista Genomics at Ray Gateway paid 1,362,000 credits for it.</p>
-      <p>The cruise also showed that the shield's Stripped Down experimental had never been applied. She flew three jumps to Laksak, where Lei Cheung added it, and three back to Ray Gateway, where she shut down at 00:48.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>17:53 to 01:16</span><span class="loc">Synuefai, Mel 22 Sector</span></div>
-    <div class="body">
-      <h3>Synuefai</h3>
-      <p>Hymn of the Long Night left Ray Gateway for the expedition proper after selling the shakedown cruise's cartographic data for 208,154 credits. On the way out her shields dropped and her hull fell to 72 percent; the journal does not record the cause. She docked again, paid 54,067 credits for repairs, and left at once.</p>
-      <p>Five jumps south-west through the Arietis and Col 285 sectors brought her to Synuefai, about 510 light years from Sol. Over the rest of the day she worked a dozen systems in Synuefai and Mel 22 Sector, mapping each candidate world with the surface scanner and launching the Nomad Refrain from the hangar, as a fighter is launched, to fly down to the colonies. Hymn of the Long Night never landed; with no crew aboard, she was set to follow the Nomad at a distance. The method held: thirteen analyses on twelve bodies, every one completed.</p>
-      <p>Stratum Tectonicas accounted for seven of them, in Lime and Green variants. The others were Tussock Stigmasis, Bacterium Cerbrus, Clypeus Speculumi under a B-class star in HIP 17681, and Stratum Cucumisis in Emerald and Lime. Nine variants were new to her Codex, including Bacterium Cerbrus Teal and Tubus Sororibus Teal, logged but not sampled. None of the data has been sold.</p>
-      <p>She shut down at 01:16 aboard the Nomad at Mel 22 Sector DH-U c3-7 A 3.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>23:09 to 00:57</span><span class="loc">Synuefai, HIP 16403, Wredguia</span></div>
-    <div class="body">
-      <h3>HIP 16403</h3>
-      <p>She started up aboard Refrain where she had left it, recovered to Hymn of the Long Night, and continued through Synuefai. Two moons in Synuefai EE-J b29-1 gave Stratum Tectonicas, Green variant, and Synuefai LN-Q d6-50 2 a gave Stratum Cucumisis, Emerald.</p>
-      <p>HIP 16403 has an A-class primary. Its moon 7 a, mapped with a single probe against a target of two, carried three species new to her Codex: Cactoida Vermis, Green; Osseus Discus, Blue; and Clypeus Lacrimam, Orange. She analysed all three from the Nomad, with the ship following overhead.</p>
-      <p>She jumped on to Wredguia EM-E b25-1, about 605 light years from Sol, and shut down at 00:57 aboard Hymn of the Long Night, with nineteen analyses unsold.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>01:48 to 02:42</span><span class="loc">Wredguia, Synuefai</span></div>
-    <div class="body">
-      <h3>Synuefai OO-K</h3>
-      <p>She began on Wredguia EM-E b25-1 10 a, where Stratum Cucumisis, Green variant, was new to her Codex. She paused partway through the sampling and completed the analysis on foot.</p>
-      <p>The frame shift drive's break-in was complete. Hymn of the Long Night's rated maximum jump range rose from 83.8 to 91.3 light years, and from here on she drew on the margin, running the drive harder than she had since Deciat.</p>
-      <p>In Synuefai OO-K c11-7 she mapped two planets with two probes each. Planet 2 carried four species: she analysed Stratum Tectonicas, Lime, and logged three more new to her Codex without sampling them: Tussock Cultro, Green; Bacterium Alcyoneum, Green; and Osseus Spiralis, Indigo. Planet 3 gave a second Stratum Tectonicas.</p>
-      <p>Five jumps then took her south-west to Synuefai SL-Q b11-2, four of them between 81 and 83 light years, about 970 light years from Sol, where A 2 gave Stratum Tectonicas, Green, and a Bacterium Cerbrus colony she logged but did not sample. She recovered Refrain to the ship and shut down at 02:42, with twenty-three analyses unsold.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>01:06 to 01:40</span><span class="loc">Synuefai</span></div>
-    <div class="body">
-      <h3>Synuefai SE-C</h3>
-      <p>She continued south-west through Synuefai in five jumps. Synuefai DN-X b7-1 AB 2, mapped with two probes against a target of two, and Synuefai ZG-Z b6-0 AB 5 each gave Stratum Tectonicas, Green variant. Neither held anything new to her Codex.</p>
-      <p>Two further jumps, the first of 82.7 light years, brought her to Synuefai SE-C c2-4, about 1,140 light years from Sol, where she shut down at 01:40 with twenty-five analyses unsold.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>02:14 to 03:11</span><span class="loc">Synuefai</span></div>
-    <div class="body">
-      <h3>Recepta</h3>
-      <p>She worked two planets in Synuefai SE-C c2-4 before leaving it. A 2 needed six probes to map and gave Stratum Tectonicas, Lime. B 4 gave Recepta Umbrux, Maroon variant, the first of its genus in her Codex.</p>
-      <p>In Synuefai JC-B d1-5, planets 4 and 5 both carried Stratum Tectonicas in its Emerald variant, also new to her Codex, and Synuefai QA-B b6-1 BC 5 gave the Green. A final jump of 53.7 light years brought her to Synuefai HT-E b4-1, about 1,145 light years from Sol, where she shut down at 03:11 with thirty analyses unsold.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>14:37 to 02:13</span><span class="loc">Synuefai, Oochost</span></div>
-    <div class="body">
-      <h3>Oochost</h3>
-      <p>After two more Green Stratum Tectonicas in Synuefai HT-E b4-1, where she also logged Bacterium Tela, Orange, new to her Codex, she crossed into the Oochost sector and worked it planet by planet: Stratum Tectonicas in Green, Emerald and Lime, out to Oochost PN-I c26-0, nearly 1,400 light years from Sol.</p>
-      <p>At the neutron star Oochost JE-E d13-16 she charged her frame shift drive in the jet cone and made a single jump of 393.5 light years east across the sector to Oochost JP-P c22-1, nearly twice the length of the jump she made in the same way on her shakedown cruise and the longest in her record.</p>
-      <p>Oochost RB-M c24-1 gave five planets of Stratum Tectonicas, and Oochost JY-F d12-4 3 a Stratum Cucumisis, Emerald. At Oochost TK-D b46-0, about 1,400 light years from Sol and the farthest point of the expedition so far, three planets carried Stratum Tectonicas in a Turquoise variant new to her Codex.</p>
-      <p>From there she turned north, sampled once more in Oochost SK-C d14-15, and crossed back into Synuefai. She shut down at 02:13 in Synuefai QL-L b1, about 1,065 light years from Sol, with fifty analyses unsold.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>18:34 to 01:33</span><span class="loc">Synuefai, Mel 22 Sector, Taurus Dark Region</span></div>
-    <div class="body">
-      <h3>Northward</h3>
-      <p>She held a northward course through Synuefai, sampling as she went. Synuefai KR-Y c3-3 gave four planets of Stratum Tectonicas and Synuefai RS-W c4-0 three more, in the Lime and Green variants she had by then recorded many times.</p>
-      <p>Synuefai XK-A b20-2, a young T Tauri star, held Stratum Tectonicas in an Amethyst variant new to her Codex. Synuefai FB-U d4-10 gave the Turquoise variant first found in Oochost, and further planets in Synuefai and Mel 22 Sector the Green, Lime and Emerald.</p>
-      <p>In the Taurus Dark Region, QI-B b1 carried Cactoida Vermis on two planets, in Amethyst and Mauve variants, both new to her Codex. One more jump brought her to Mel 22 Sector TU-V b3-3, about 555 light years from Sol, where she shut down at 01:33 with sixty-seven analyses unsold.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>17:32 to 02:10</span><span class="loc">Taurus Dark Region, Pleiades Sector</span></div>
-    <div class="body">
-      <h3>The end of the expedition</h3>
-      <p>The last samples came from the Taurus Dark Region and its margins: Stratum Tectonicas in Turquoise, Emerald, Lime and Green on twelve planets, and Stratum Cucumisis, Emerald, on HIP 21804 3 a. Two final Lime Tectonicas in Pleiades Sector XZ-Y c10 and c11, about 430 light years from Sol, closed the work.</p>
-      <p>There she declared the expedition complete and plotted a four-jump course for Diaguandri. Since leaving the bubble Hymn of the Long Night had made 79 jumps and covered 4,808 light years, reaching about 1,400 light years from Sol. She carried 82 organic analyses and the expedition's cartographic data, none of it yet sold, and had added 23 variants to her Codex. Her hull stood at 97.8 percent and her modules between 95.6 and 99.0.</p>
-      <p>She intends to stop at Ray Gateway only long enough to repair the ship and sell the data, then leave again: first for Sol, to explore the system humanity came from, then by way of a few further stops to Colonia. She shut down at 02:10.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>14:06 to 14:41</span><span class="loc">Pleiades Sector, Diaguandri</span></div>
-    <div class="body">
-      <h3>Homecoming</h3>
-      <p>The first jump of the course home did not complete. A Thargoid hyperdiction pulled Hymn of the Long Night out of witch space in Pleiades Sector XZ-Y c11 and shut her systems down, her ninth recorded Thargoid encounter. She took no damage, restarted, and jumped again. Four jumps brought her to Diaguandri, where Ray Gateway repaired the wear of the expedition for 91,458 credits.</p>
-      <p>At Vista Genomics she handed over all eighty-two organic analyses, in three sales, for 1,566,783,200 credits. One of them, the Turquoise Stratum Tectonicas she found in Oochost, carried a first-logged bonus of 76,043,200 credits for being the first record of it there. The cartographic data of eighty-two systems paid a further 27,696,515. The sales raised her Pilots Federation exobiology rank from Compiler to Taxonomist and her standing with Li Yong-Rui from rank 5 to rank 7.</p>
-      <p>Her balance stood at 2,063 million credits, more than four times what it had been when the expedition left.</p>
-    </div>
-  </article>
-</section>
-
-<section class="chapter">
-  <div class="label">Chapter five · October 3312</div>
-  <h2>Sol and the road to Colonia</h2>
-  <p>With the expedition's data sold, she stayed at Ray Gateway only long enough for the ship to be serviced, then set out for Colonia by way of Sol, which she had passed many times and never stopped to see.</p>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>14:45 to 15:42</span><span class="loc">Sol</span></div>
-    <div class="body">
-      <h3>The cradle</h3>
-      <p>Two jumps took Hymn of the Long Night to Sol. She scanned the system's nav beacon, then dropped to Earth for its memorials, the listening posts of the Memorial to the Second Thargoid War and the Pilots' Memorial, and the tourist beacon called the Cradle of Humanity.</p>
-      <p>At Mars she scanned the beacon over the Nonhuman Relic. She then turned outward and spent a long stretch in supercruise to reach one of the ancient uncrewed probes launched from Earth before humanity left it, far beyond the planets, where she shut down at 15:42.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>18:42 to 01:48</span><span class="loc">Sol to Skaudai</span></div>
-    <div class="body">
-      <h3>Into the nebulae</h3>
-      <p>She entered the course for Colonia into the navigation computer at Sol and left by the sightseeing route: Rhapsody in Blue at HIP 111647, then the first neutron stars of the journey and the IC 1287 Nebula. In the jet cone of the neutron star at Bleia Eohn RY-Y d1-24 the ship was caught and could not be pulled clear; she rode the stream to its end before the drive took the charge and the jump completed.</p>
-      <p>In Red Spider Sector KI-S b4-1, beside the Red Spider Nebula, she found two notable stellar phenomena: a Roseum Lagrange cloud holding Purpureum Metallic Crystals, and a Viride cloud holding Rubeum Metallic Crystals. Supercharged jumps took her on through the Omega, Lagoon and Trifid nebulae to the Eagle Nebula, where she stopped at the centre of the sector beside the Pillars of Creation.</p>
-      <p>Beyond the Eagle she passed Viridian Dreams, a green gas giant at Nyeajaae IT-M c9-19, and the Collection of Wonders at Skaude AA-A h294, a system with two black holes and three ringed stars. At Skaudai YP-O e6-17, Campana Aurora, three more phenomena: a Luteolum cloud with Flavum and Purpureum crystals, a Croceum cloud with Solid Mineral Spheres and Rubeum crystals, and a Viride cloud with Rubeum crystals and Lattice Mineral Spheres.</p>
-      <p>Fifty-nine jumps, thirty-one of them supercharged, carried her about 11,780 light years from Sol, more than half the way to Colonia. She shut down at Skaudai at 01:48.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>14:16 to 01:51</span><span class="loc">Skaudai to Colonia</span></div>
-    <div class="body">
-      <h3>Colonia</h3>
-      <p>Past the Skaudai Guardian ruins system she came to the Fields of Elysium at Clooku GR-U d3-112: two Earth-like worlds, both ringed, in close orbit about each other. She stayed to look. Beyond them Arcane Allure, at Boelts QJ-Y d1-1149, a ringed green gas giant with water-based life, and Matryoshka at Eoch Flyuae YK-K c10-56, three bodies whose orbits appear to carry them through one another. Universal Cartographics' explanation is that the three share a single orbital track in a slow resonance, and from most vantage points pass so close that they seem to overlap. At close range a gap always remains.</p>
-      <p>At Evelyn's Light, the memorial beacon to Evelyn Faye Roy, she stopped and scanned the listening post. On the way she made the longest jump in her record, a supercharged 501.7 light years. Monde de la Mort followed, and a last sampling stop in Spoihaae RD-Z d1-224, where Tussock Catena and Frutexa Flammasis, both new to her Codex, grew on two moons.</p>
-      <p>She reached Colonia and docked at Jaques Station, 22,000 light years from Sol, after 94 jumps from Sol, 57 of them supercharged. The frame shift drive had worn to 96.6 percent, far less than she had expected; the yard restored it. Vista Genomics paid 353,830,400 credits for six analyses, every one of them first logged by her, and Universal Cartographics 18,515,907 for the systems behind her. She arranged for Hephaestus and Artemis to be brought out from Diaguandri, at a cost of 221,272,144 credits. She shut down at 01:51.</p>
-    </div>
-  </article>
-</section>
-
-<section class="chapter">
-  <div class="label">Chapter six · October 3312</div>
-  <h2>Colonia</h2>
-  <p>Having arrived, she set about learning the region she had crossed the galaxy to reach.</p>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>20:07 to 00:08</span><span class="loc">Colonia, Kinesi, Carcosa</span></div>
-    <div class="body">
-      <h3>Settling in</h3>
-      <p>She visited five settlements on two of Colonia's moons, going ashore briefly at each: Shore Cultivation Collection and Fiorentino Hydroponics Estate on Colonia 2 a, and Lavoie Genetics Institution, Hahn Hydroponics Collection and Romano Drilling Facility on Colonia 3 c a. At Jaques Station she had a large missile rack fitted to Hymn of the Long Night, the ship's first weapon, which brought her range to 90.8 light years.</p>
-      <p>She then flew to Kinesi, docking at Mortimer's Charm, and to Carcosa, where Robardin Rock is held by The Nameless, a faction at war. Near Carvalho Mineralogic Facility on Carcosa AB 1 h she came under fire. The megaship Dove Enigma had no berth for her, and she returned to Jaques Station, took a courier contract for the Colonia Council and delivered it to Robardin Rock. She shut down there at 00:08.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>13:17 to 15:38</span><span class="loc">Colonia to Diaguandri</span></div>
-    <div class="body">
-      <h3>The way home</h3>
-      <p>A notice from the Pilots Federation that it would issue permits for LFT 509, a system closed until then, brought her back to the bubble. She left Jaques Station and flew to Diaguandri in a single run of 84 jumps, 46 of them supercharged at neutron stars, covering 23,111 light years. Four of them passed 503 light years, the longest she has made. She docked at Ray Gateway two hours and ten minutes after leaving Jaques Station. Hephaestus and Artemis, sent for from Colonia, were still in transit there.</p>
-    </div>
-  </article>
-</section>
-
-<section class="chapter">
-  <div class="label">Chapter seven · October 3312</div>
-  <h2>Back in the bubble</h2>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>17:47 to 20:47</span><span class="loc">LFT 509</span></div>
-    <div class="body">
-      <h3>LFT 509</h3>
-      <p>She took Invictus, refitted with an operations limpet controller, three jumps to LFT 509. At the Perpetual Toil she linked to five ship uplinks and recovered their logs; a System Authority vessel scanned her cargo twice and let her be. She mapped the moons B 3 c and B 3 b, set down on both, and on B 3 b drove out to ten abandoned data logs and a data point, recovering their records and salvaging materials from the debris around them.</p>
-      <p>On the way out she made a last link to the Perpetual Toil and sent her limpets into four sites of degraded emissions for salvage. Before leaving the system she ran a decontamination sweep of the ship's hull and interior. At Ray Gateway the cartographic data from the run home paid 5,695,971 credits and the data-link vouchers 1,007,186. She shut down at 20:47.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>00:26 to 01:34</span><span class="loc">Arietis, Col 285</span></div>
-    <div class="body">
-      <h3>A Powerplay round</h3>
-      <p>She took Invictus out for Li Yong-Rui: nav beacon scans in Di Yi and two Arietis systems, then north through five systems to Col 285 Sector VH-O b21-7 and Col 285 Sector TL-R b19-6, with stops at power wreckage signatures. The work raised her to rank 8 with Li Yong-Rui. From one wreckage site she recovered four occupied escape pods, a black box and three wreckage components, and handed them in at Ray Gateway for 182,253 credits. She shut down at 01:34.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>14:25 to 01:01</span><span class="loc">Diaguandri to Pyraleau</span></div>
-    <div class="body">
-      <h3>Outbound again</h3>
-      <p>She began the day on salvage for Li Yong-Rui in Invictus: nav beacons and power wreckage in Diaguandri, Simarasir and Volkhabe, fifteen escape pods recovered and handed in at Ray Gateway for 670,397 credits across three runs. She then took Void Runner to Altair for 95 tonnes of Altairian Skin and sold them at Offutt Enterprise in Volkhabe for 1,316,700 credits, a profit of 1,167,075 credits and 3,026 merits. In the evening she brought Void Runner home, had Hymn of the Long Night repaired, and set out for Colonia again: 36 jumps, 14 of them supercharged at neutron stars, coreward and below the galactic plane to Pyraleau HB-H b39-0, about 6,870 light years from Sol. She shut down there at 01:01.</p>
-    </div>
-  </article>
-
-  <article class="entry">
-    <div class="stamp"><b>Oct 3312</b><span>21:48 to 02:14</span><span class="loc">Pyraleau to Colonia</span></div>
-    <div class="body">
-      <h3>Colonia again</h3>
-      <p>She crossed the remaining 15,434 light years from Pyraleau to Colonia in 61 jumps, 30 of them supercharged at neutron stars, stopping at Boeph WY-I d9-655, about 18,220 light years from Sol. At Dove Enigma she sold the cartographic data from the crossing for 4,839,093 credits and had Hymn's hull and wear repaired, then docked at Jaques Station beside Hephaestus and Artemis. She took an on-foot job for Holloway Bioscience Institute to download an employee directory from a data port at Konig Synthetics Enterprise on Colonia 5 c. It failed. A settlement worker, Garland Fisher, was killed, and Jaques posted a 1,000-credit bounty. She was shot down by a security officer, Alyza Diaz, recovered to the medical facility at Odin's Crag, where the bounty was settled, and returned to Jaques Station. She shut down at 02:14.</p>
-    </div>
-  </article>
-  <article class="entry">
-    <div class="stamp"><b>Nov 3312</b><span>14:57 to 02:05</span><span class="loc">Colonia</span></div>
-    <div class="body">
-      <h3>Two workshops</h3>
-      <p>She took Hephaestus out from Jaques Station to the rings of Colonia 4, mapped both with a probe each and prospected 23 asteroids. The refinery produced 17 tonnes of osmium, 14 of bertrandite, 10 of painite, 7 of praseodymium, 5 of silver and 4 each of platinum and palladium. She sold the metals at Jaques Station for 869,556 credits and flew 16 light years to Tir, where ten tonnes of osmium opened Marsha Hicks's workshop at The Watchtower. Hicks engineered the refinery to Shielded grade 5 in 25 rolls, reaching rank 5 with her in the same visit, and the remaining seven tonnes of osmium sold there for 109,746 credits.</p>
-      <p>Back at Jaques Station she refitted Hephaestus for rescue work: the 3A collector controller was sold, the prospector controller and 4B fuel scoop stored, and a 3C rescue multi-limpet controller, a 3A fuel scoop and a 4D shield generator fitted. The painite and bertrandite sold for 2,044,568 credits. At three distress calls in Luchtaine she recovered 31 occupied and 13 damaged escape pods and the salvage around them, and was fined 300 credits for discharging weapons there. Twenty-five occupied pods went to Etienne Dorn at Kraken's Retreat in Los and unlocked his workshop; the other six occupied pods and the thirteen damaged ones were handed in there for 276,312 credits, and the salvage sold for 104,655. In the afternoon Hymn of the Long Night was fitted with a size 4 planetary vehicle hangar and two SRV Scarabs, which took her range from 91.3 to 90.0 light years.</p>
-      <p>In the evening she flew Hymn to Carcosa and back, then took four settlement power jobs at Whirling Station in Ogmar, each requiring a large-capacity power regulator. Hymn made her first landing at Shen Astrophysics Forum on Ogmar A 4 b, and then landed at Lukashenko Cultivation Site in Magellan, Apte Genetics Centre on Ogmar B 7 and Morales Biological Expedition on Ogmar B 4 a, the Scarab taking her from ship to settlement each time. Ten wanted attackers were killed at Shen and Apte, for 10,850 credits in Likedeeler of Colonia bounties. The four jobs paid 271,186 credits and on-foot materials at Whirling Station, where she shut down at 02:05.</p>
-    </div>
-  </article>
-  <article class="entry">
-    <div class="stamp"><b>Nov 3312</b><span>23:45 to 01:43</span><span class="loc">Colonia</span></div>
-    <div class="body">
-      <h3>Lawless ground</h3>
-      <p>She took Hymn out from Whirling Station on a short loop through Asura and Santos Dumont, scanning the nav beacon in each, 26 and 21 bodies, and returned to Ogmar. From there she flew by Colonia to Carcosa and set Hymn down on the pad at Oliveira Genetics Exploration on Carcosa CD 3 a, a high-tech settlement held by The Nameless, an anarchy faction with no law to break.</p>
-      <p>She drove the Scarab off the pad and went through the settlement on foot under fire, using three medkits, an energy cell and a frag grenade. She took 100 items from its lockers and stores, among them nine optical lenses, eight memory chips, eight ion batteries, five encrypted memory chips, four insight data banks and a suit schematic, and downloaded six data sets, including shareholder information, virology and gene sequencing data. Thirty-eight of the settlement's people were killed, twenty-five of them guards, and she shut the settlement down. No crime or bounty was recorded. Hymn came down beside the Scarab at the edge of the settlement, took it aboard and returned to Jaques Station, where Sarah redeemed the ten Ogmar bounties for 8,137 credits after the broker's share and shut down at 01:43.</p>
-    </div>
-  </article>
-  <article class="entry">
-    <div class="stamp"><b>Nov 3312</b><span>02:39 to 03:30</span><span class="loc">Colonia</span></div>
-    <div class="body">
-      <h3>The Brig</h3>
-      <p>She took Artemis out of storage at Jaques Station, her first flight since the Fer-de-Lance was shipped to Colonia, and flew to the navigation beacon in Ogmar. She destroyed three wanted ships there with system authority vessels alongside: Dunkerson's Type-7 Transporter, Ivan Tefalco's Sidewinder and Richard Clavin's Viper Mk III, for 367,035 credits in Likedeeler of Colonia bounties. At a weapons-fire signal near Ogmar A 1 a pirate, Khalid of Milanov's Reavers, scanned her empty hold and attacked; his Eagle was destroyed for a further 47,344 credits.</p>
-      <p>By way of Kinesi she returned to Colonia, took an engineer invitation contract from the Colonia Council at Colonia Orbital and delivered it to Colonia Dream in Ratraii, which brought an invitation from Mel Brandon. At The Brig on Luchtaine A 1 c she handed over 100,000 credits of the Ogmar bounties to unlock Brandon's workshop at rank 1 and redeemed the remaining 314,379 credits for 235,784 after the broker's share. She shut down there at 03:30.</p>
-    </div>
-  </article>
-  <article class="entry">
-    <div class="stamp"><b>Nov 3312</b><span>00:23 to 02:00</span><span class="loc">Colonia</span></div>
-    <div class="body">
-      <h3>Yoon's Installation</h3>
-      <p>Artemis left The Brig for the navigation beacon in Tenjin. Of the wanted ships there she took one, Laura Nigella's Keelback of the Colonia Research Department, for 207,832 credits in Colonia Citizens Network and Last Phoenix Vault bounties, and left a Clipper, a Gunship and a Krait Mk II alone. She rearmed at Balakor's Research Post, returned to Jaques Station, redeemed the bounty for 155,873 credits after the broker's share and changed to Hymn of the Long Night.</p>
-      <p>Hymn flew to Carcosa and landed on the pad at Yoon's Installation, an industrial settlement of The Nameless on Carcosa AB 1 h. The settlement's defences fired on her Scarab as she approached and a Vulture dropship circled overhead. She went in on foot in the Maverick suit and took 51 components, 21 goods and 11 data sets from its stores and terminals, using four medkits and three energy cells. Thirty-eight of the settlement's people were killed, twenty-four of them guards, a turret was destroyed and she shut the settlement down. The Nameless are lawless; no crime or bounty was recorded. Hymn landed at the edge of the settlement to take the Scarab aboard, and she shut down in supercruise over the moon at 02:00.</p>
-    </div>
-  </article>
-  <article class="entry">
-    <div class="stamp"><b>Nov 3312</b><span>23:25 to 01:56</span><span class="loc">Colonia to the bubble</span></div>
-    <div class="body">
-      <h3>Back to the Bubble</h3>
-      <p>Colonia's settlements could not supply the components she needed to unlock its engineers and upgrade her suits, and she resolved to return to the bubble until she had them, leaving Artemis and Hephaestus at Jaques Station. Hymn of the Long Night flew from Carcosa to Diaguandri in a single run of 85 jumps and 23,428 light years, 49 of them boosted at neutron stars, stopping to scoop at Stuelou HA-T b32-4, Nyeajaae EF-C c27-1, two Bleia Eohn systems and Shasir. The tank fell no lower than 29.5 tonnes.</p>
-      <p>At Ray Gateway she refuelled and paid 52,247 credits in repairs, then went on through LHS 1442 to LHS 1163. At Hunziker Terminal, more than 83,000 light seconds from the star, she sold the data from the run for 5,995,863 credits, raising her standing with Azimuth Biotech to 89.9, and she shut down there at 01:56.</p>
-    </div>
-  </article>
-  <article class="entry">
-    <div class="stamp"><b>Nov 3312</b><span>01:45 to 02:43</span><span class="loc">Fiden</span></div>
-    <div class="body">
-      <h3>Makonda Leisure Complex</h3>
-      <p>A 125,000 credit donation she had agreed to make to the New LHS 1163 Nationalists lapsed unpaid. Hymn of the Long Night left Hunziker Terminal for Fiden by way of LP 355-65, and she read the nav beacons at Fiden and Teleu, her empty hold scanned by a pirate at each. She returned to Fiden and called in to Makonda Leisure Complex, a tourism settlement of the Brotherhood of Fiden, an anarchy faction, on the icy moon AB 1 d. The tower granted docking and Hymn landed on its large pad.</p>
-      <p>She took the Scarab out and stepped onto the ice in her flight suit, went straight back aboard, and changed into the Maverick. The settlement's defences opened fire on the Scarab, and she went in on foot. Her first pass took 49 components and 40 goods, among them four graphene and four health monitors, and she emptied the pack into the Scarab and went back in. The second pass took 38 components, 24 goods and 18 data sets before Russ Winters, a guard in a Dominator suit rated Harmless, killed her. Everything from the second pass was lost and the Scarab was destroyed. She recovered aboard Hymn over the moon and shut down there at 02:43. The Brotherhood are lawless; no crime or bounty was recorded.</p>
-    </div>
-  </article>
-</section>
-
-<section class="now">
+<section class="now" id="now">
   <h3>Where she stands now</h3>
   <ul>
     <li>Aboard Hymn of the Long Night over Fiden AB 1 d, back in the bubble until she has the components Colonia could not supply, with one of Hymn's two Scarabs lost at Makonda Leisure Complex. Invictus and Void Runner are stored at Ray Gateway. Balance 2,243 million credits; 334 hours logged.</li>
@@ -595,7 +145,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 
 <footer>
   <div>Compiled from the ship's journals of CMDR Rislyss to October 3312, with start-up and shutdown times in Galactic Standard, and her Pilots Federation service record for 3308 to 3310.</div>
-  <div>New entries are added at the end of chapter four.</div>
+  <div>New entries are added at the end of the latest chapter.</div>
 </footer>
 
 </div>
