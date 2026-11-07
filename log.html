@@ -102,6 +102,7 @@ section { display: grid; gap: 20px; }
 .panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
 .panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
 .label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.label.long { text-transform: none; letter-spacing: .02em; font-size: 13px; }
 
 /* Header */
 header { display: grid; gap: 28px; }
@@ -186,7 +187,7 @@ h1 span { color: var(--accent); }
 .legend i { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; }
 .jumps { display: grid; gap: 0; font-size: 13px; }
 .jumps { max-height: 38rem; overflow-y: auto; padding-right: 4px; }
-.jleg { font-family: var(--f-display); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; padding: 10px 0 4px; display: flex; align-items: center; gap: 8px; }
+.jleg { font-family: var(--f-display); font-size: 12px; letter-spacing: .02em; padding: 10px 0 4px; display: flex; align-items: center; gap: 8px; }
 .jleg i { width: 14px; height: 2px; display: inline-block; }
 .jump { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px; padding: 7px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
 .jump:last-child { border-bottom: 0; }
@@ -521,11 +522,11 @@ text { font-family: var(--f-mono); }
   <h2>Ledger</h2>
   <div class="two">
     <div class="panel wf">
-      <div class="label" style="margin-bottom:10px">Credit balance, 3 to 27 October</div>
+      <div class="label long" style="margin-bottom:10px">Credit balance, 3 to 27 October</div>
       <svg id="wf" viewBox="0 0 520 300" role="img" aria-label="Waterfall of the credit balance from 148.7M to 2,243.5M CR by source"></svg>
     </div>
     <div class="panel wf">
-      <div class="label" style="margin-bottom:10px">Exploration data sold · top systems by bodies</div>
+      <div class="label long" style="margin-bottom:10px">Exploration data sold · top systems by bodies</div>
       <svg id="expl" viewBox="0 0 520 300" role="img" aria-label="Exploration data sold: bodies per system, top ten systems"></svg>
     </div>
   </div>
@@ -699,7 +700,7 @@ text { font-family: var(--f-mono); }
   <h2>Lifetime totals</h2>
   <div class="two">
     <div class="panel hbars">
-      <div class="label" style="margin-bottom:10px">Lifetime earnings by activity</div>
+      <div class="label long" style="margin-bottom:10px">Lifetime earnings by activity</div>
       <svg id="earn" viewBox="0 0 520 250" role="img" aria-label="Lifetime earnings by activity, exobiology largest at 2,042M CR"></svg>
     </div>
     <div class="panel hbars">

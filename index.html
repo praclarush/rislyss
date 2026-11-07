@@ -32,22 +32,19 @@ h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em
 h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
 h3 { font-size: 19px; }
 section { display: grid; gap: 22px; }
-.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.label { font-family: var(--f-body); font-size: 13px; letter-spacing: .02em; text-transform: none; color: var(--muted); font-weight: 600; }
 .mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 .sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
 .panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
-.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); pointer-events: none; }
-.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
-.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
 
 /* Identity */
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 32px; align-items: center; }
 .hero-text { display: grid; gap: 18px; align-content: center; }
-.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+.eyebrow { font-family: var(--f-body); font-size: 14px; color: var(--muted); }
 h1 { font-size: clamp(44px, 7.5vw, 92px); line-height: .9; font-weight: 700; letter-spacing: .01em; }
-h1 span { color: var(--accent); display: block; }
+h1 span { color: inherit; display: block; }
 .callsign { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em; }
-.callsign b { color: var(--cyan); font-weight: 600; }
+.callsign b { color: var(--fg); font-weight: 600; }
 .quote { font-style: italic; color: var(--muted); max-width: 46ch; padding: 10px 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--accent-dim) 14%, transparent); }
 .feed { padding: 8px; display: grid; gap: 8px; margin: 0; }
 .feed video { display: block; width: 100%; height: auto; aspect-ratio: 832 / 544; background: #000; object-fit: cover; }
@@ -71,7 +68,7 @@ h1 span { color: var(--accent); display: block; }
 .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
 .timeline li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px dashed var(--line); font-size: 14.5px; line-height: 1.5; }
 .timeline li:first-child { border-top: 0; padding-top: 4px; }
-.timeline .y { font-family: var(--f-mono); font-size: 12px; color: var(--cyan); padding-top: 2px; }
+.timeline .y { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
 .timeline .gap .y, .timeline .gap span:last-child { color: var(--muted); font-style: italic; }
 
 /* Physical record */
@@ -89,7 +86,7 @@ button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
 /* Marks */
 .marks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .mark { display: grid; gap: 8px; align-content: start; }
-.mark .where { font-family: var(--f-mono); font-size: 12px; color: var(--cyan); letter-spacing: .06em; text-transform: uppercase; }
+.mark .where { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
 .mark p { font-size: 14.5px; line-height: 1.5; }
 
 /* Character */
@@ -119,7 +116,7 @@ button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
 .ship .id { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
 .ship .nm { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.15; }
 .ship .cls { font-size: 13.5px; color: var(--muted); }
-.ship .st { font-family: var(--f-mono); font-size: 12px; color: var(--cyan); margin-top: 4px; }
+.ship .st { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
 .ship.hl { border-color: var(--accent-dim); }
 .ship.hl .st { color: var(--accent); }
 .ship-feature { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); border: 1px solid var(--accent-dim); background: var(--panel); color: var(--fg); text-decoration: none; margin-bottom: 28px; transition: border-color .2s cubic-bezier(.22, 1, .36, 1); }
@@ -131,7 +128,7 @@ button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
 .sf-text .nm { font-family: var(--f-display); font-size: clamp(26px, 3vw, 34px); font-weight: 600; line-height: 1.1; text-wrap: balance; }
 .sf-text .cls { color: var(--muted); }
 .sf-text .st { font-family: var(--f-mono); font-size: 13px; color: var(--accent); }
-.sf-text .go { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); margin-top: 8px; }
+.sf-text .go { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-top: 8px; }
 .fleet-group { display: grid; gap: 10px; margin-top: 22px; }
 .fleet-group h3 { font-size: 15px; color: var(--muted); font-weight: 600; }
 
@@ -204,7 +201,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 
 <header class="hero">
   <div class="hero-text">
-    <div class="eyebrow">PILOTS FEDERATION PERSONNEL FILE · REGISTRY RI-X · UPDATED OCT 3312</div>
+    <div class="eyebrow">Pilots Federation personnel file · Registry RI-X · Updated Oct 3312</div>
     <h1>Sarah <span>Waters</span></h1>
     <div class="callsign">Commander <b>Rislyss</b> · Pioneer · Viscount · Imperial pilot</div>
     <p class="quote">"Ex-programmer of Gutamaya COVAS systems; now explorer."</p>
