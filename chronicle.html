@@ -66,11 +66,11 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 .site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
 .site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
 .site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; justify-content: space-between; gap: 0; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding-inline: 2px; } }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 9px 2px 7px; white-space: nowrap; } }
 </style>
 </head>
 <body>
-<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html" aria-current="page">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html" aria-current="page">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="gallery.html">Gallery</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
 <div class="wrap">
 
 <header>
@@ -78,7 +78,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <h1>The <span>Rislyss</span> Chronicle</h1>
   <p class="dek">The life of Sarah Waters, former Gutamaya cockpit programmer turned explorer, told from her ship's journals and her Pilots Federation service record.</p>
   <figure>
-    <img src="img/rislyss-profile.jpg" width="1536" height="1024" alt="Sarah Waters in an off-white Imperial flight suit with an eagle shoulder patch and dark armoured gloves, seated in a worn cockpit under amber displays with a blue nebula through the canopy">
+    <img src="gallery/rislyss-profile.jpg" width="1536" height="1024" alt="Sarah Waters in an off-white Imperial flight suit with an eagle shoulder patch and dark armoured gloves, seated in a worn cockpit under amber displays with a blue nebula through the canopy">
     <figcaption>CMDR Rislyss at the controls of Dreaming Void</figcaption>
   </figure>
 </header>
