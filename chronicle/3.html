@@ -34,7 +34,7 @@ h1 span { color: var(--accent); }
 .dek { color: var(--muted); font-size: 16px; margin: 0; max-width: 62ch; }
 figure { margin: 0; border: 1px solid var(--line); padding: 8px; background: var(--panel); }
 figure img { display: block; width: 100%; height: auto; }
-figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding: 8px 4px 2px; }
+figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding: 8px 4px 2px; }
 .chapter { display: grid; gap: 22px; }
 .chapter > .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
 .chapter > .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
@@ -47,7 +47,7 @@ p { margin: 0; max-width: 66ch; }
 .stamp .loc { color: var(--cyan); }
 .entry .body { display: grid; gap: 12px; min-width: 0; }
 .entry h2 { font-size: 19px; }
-.aside { border-left: 2px solid var(--accent-dim); padding-left: 14px; color: var(--muted); font-size: 15px; font-style: italic; }
+.aside { padding: 12px 16px; border: 1px solid var(--line); background: color-mix(in srgb, var(--accent-dim) 14%, transparent); color: var(--muted); font-size: 15.5px; font-style: italic; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
 .now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
 footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
@@ -63,7 +63,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 .crumb a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }.pager { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
 .pager a { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s; }
 .pager a:hover, .pager a:focus-visible { border-color: var(--accent); }
-.pager a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }.pager .d { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pager a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }.pager .d { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .pager .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.2; }
 .pager .nx { text-align: right; grid-column: 2; }
 @media (max-width: 600px) { .pager { grid-template-columns: minmax(0, 1fr); } .pager .nx { grid-column: auto; } }
