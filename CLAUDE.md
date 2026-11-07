@@ -14,7 +14,7 @@ The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the 
 
 - Every page is self-contained: one inline `<style>` for the page, a second inline `<style>` for the site nav, inline scripts, fonts from Google Fonts only. No shared CSS or JS files.
 - Shared palette, repeated in each page's `:root`: `--bg #0c0a08`, `--panel #15110d`, `--line #2e251c`, `--fg #ece3d7`, `--muted #998b7b`, `--accent #ff7a1a`, `--accent-dim #6b3a14`, `--cyan #74d4e2`; fonts Chakra Petch (display), Barlow (body), JetBrains Mono (mono). Single dark theme by design.
-- The site nav is copied into every page, chapter pages included, with `aria-current="page"` on the current section. Adding a page means adding its link to the nav in every page. At 480px and below the nav wraps to two centred rows; keep that rule identical across pages.
+- The site nav is copied into every page, chapter pages included, with `aria-current="page"` on the current section. Adding a page means adding its link to the nav in every page. At 760px and below the nav hides the brand and wraps to two centred rows; keep that rule identical across pages.
 - Each page's first CSS comment (`/* Layout: ... */`) states its design intent. Keep it accurate when the layout changes.
 - Lightbox: `button.zoom` with `data-src` and `data-cap` around an `<img>`, one `dialog.lightbox` per page and a small script, as in `gallery.html`, `index.html` and `hangar.html`. Copy that pattern for new zoomable images.
 - Paths are relative. Pages in `chronicle/` prefix site links with `../`.
