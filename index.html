@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Sarah Waters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a Pilots Federation personnel file. Identity and live cockpit feed up top, then background, physical record with concept sheets, marks, character, private life, fleet and service record. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
+:root {
+  --bg: #0c0a08;
+  --panel: #15110d;
+  --line: #2e251c;
+  --fg: #ece3d7;
+  --muted: #998b7b;
+  --accent: #ff7a1a;
+  --accent-dim: #6b3a14;
+  --cyan: #74d4e2;
+  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 64px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
+p { margin: 0; }
+h2 { font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+h3 { font-size: 19px; }
+section { display: grid; gap: 22px; }
+.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
+.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
+.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); pointer-events: none; }
+.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Identity */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 32px; align-items: center; }
+.hero-text { display: grid; gap: 18px; align-content: center; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+h1 { font-size: clamp(44px, 7.5vw, 92px); line-height: .9; font-weight: 700; letter-spacing: .01em; }
+h1 span { color: var(--accent); display: block; }
+.callsign { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em; }
+.callsign b { color: var(--cyan); font-weight: 600; }
+.quote { font-style: italic; color: var(--muted); border-left: 2px solid var(--accent-dim); padding-left: 14px; max-width: 46ch; }
+.feed { padding: 8px; display: grid; gap: 8px; margin: 0; }
+.feed video { display: block; width: 100%; height: auto; aspect-ratio: 832 / 544; background: #000; object-fit: cover; }
+.feed figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; padding: 0 4px 2px; flex-wrap: wrap; }
+.feed .rec { color: var(--accent); }
+.feed .rec::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: 1px; animation: blink 1.6s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+.facts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.fact { padding: 14px 14px 14px 0; display: grid; gap: 2px; min-width: 0; }
+.fact + .fact { padding-left: 14px; border-left: 1px solid var(--line); }
+.fact .v { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
+.ranks { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--f-mono); font-size: 12px; border: 1px solid var(--line); padding: 4px 10px; color: var(--muted); }
+.chip b { color: var(--fg); font-weight: 600; }
+
+/* Background */
+.background { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.prose { display: grid; gap: 16px; font-size: 17px; line-height: 1.7; }
+.prose p { max-width: 64ch; }
+.prose p:first-child::first-letter { font-family: var(--f-display); font-size: 3.4em; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px dashed var(--line); font-size: 14.5px; line-height: 1.5; }
+.timeline li:first-child { border-top: 0; padding-top: 4px; }
+.timeline .y { font-family: var(--f-mono); font-size: 12px; color: var(--cyan); padding-top: 2px; }
+.timeline .gap .y, .timeline .gap span:last-child { color: var(--muted); font-style: italic; }
+
+/* Physical record */
+.physical { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px; align-items: start; }
+.spec { margin: 0; display: grid; gap: 0; }
+.spec div { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; line-height: 1.45; }
+.spec dt { font-family: var(--f-display); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.spec dd { margin: 0; }
+.sheet { margin: 0; padding: 8px; display: grid; gap: 8px; }
+.sheet img, .thumbs img { display: block; width: 100%; height: auto; cursor: zoom-in; background: #c9c9c9; }
+.sheet figcaption, .thumbs figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); padding: 0 4px 2px; }
+.thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.thumbs figure { margin: 0; padding: 6px; display: grid; gap: 6px; align-content: start; }
+button.zoom { all: unset; display: block; cursor: zoom-in; }
+button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Marks */
+.marks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.mark { display: grid; gap: 8px; align-content: start; }
+.mark .where { font-family: var(--f-mono); font-size: 11px; color: var(--cyan); letter-spacing: .06em; text-transform: uppercase; }
+.mark p { font-size: 14.5px; line-height: 1.5; }
+
+/* Character */
+.character { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.traits { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 15px; }
+.traits li { padding-left: 18px; position: relative; line-height: 1.5; }
+.traits li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 2px; background: var(--accent); }
+.tells { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.tell { border: 1px solid var(--line); padding: 14px; display: grid; gap: 8px; align-content: start; }
+.tap { display: flex; gap: 5px; align-items: end; height: 22px; }
+.tap i { width: 5px; background: var(--accent); height: 100%; animation: tap var(--d, .5s) ease-in-out infinite alternate; }
+.tap i:nth-child(2) { animation-delay: calc(var(--d, .5s) * .5); }
+.tell.slow .tap i { background: var(--cyan); }
+@keyframes tap { from { height: 30%; } to { height: 100%; } }
+.tell p { font-size: 14px; line-height: 1.5; }
+.tell b { font-family: var(--f-display); font-weight: 600; font-size: 15px; display: block; color: var(--fg); }
+
+/* Private life */
+.private { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; align-items: start; }
+.stamp { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); border: 2px solid var(--accent); padding: 10px 12px; transform: rotate(-4deg); justify-self: start; opacity: .85; line-height: 1.3; }
+.private .prose { font-size: 16px; }
+.private .prose p:first-child::first-letter { all: unset; }
+
+/* Fleet */
+.fleet { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ship { border: 1px solid var(--line); padding: 14px; display: grid; gap: 4px; align-content: start; background: var(--panel); }
+.ship .id { font-family: var(--f-mono); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+.ship .nm { font-family: var(--f-display); font-size: 19px; font-weight: 600; line-height: 1.15; }
+.ship .cls { font-size: 13.5px; color: var(--muted); }
+.ship .st { font-family: var(--f-mono); font-size: 11px; color: var(--cyan); margin-top: 4px; }
+.ship.hl { border-color: var(--accent-dim); }
+.ship.hl .st { color: var(--accent); }
+
+/* Service record */
+.record { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.stat { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
+.stat:not(:nth-child(4n+1)) { padding-left: 16px; border-left: 1px solid var(--line); }
+.stat .v { font-family: var(--f-display); font-size: clamp(24px, 3.4vw, 34px); font-weight: 600; line-height: 1.1; }
+.stat .n { font-size: 12.5px; color: var(--muted); }
+
+.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.next a { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; background: var(--panel); transition: border-color .2s; }
+.next a:hover, .next a:focus-visible { border-color: var(--accent); outline: none; }
+.next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
+.next .d { color: var(--muted); font-size: 14px; }
+
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
+
+dialog.lightbox { border: 1px solid var(--line); background: var(--bg); padding: 10px; max-width: min(96vw, 1300px); color: var(--fg); }
+dialog.lightbox::backdrop { background: rgba(0, 0, 0, .8); }
+dialog.lightbox img { display: block; max-width: 100%; max-height: 82vh; width: auto; height: auto; margin: 0 auto; }
+dialog.lightbox .bar { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 8px 2px 0; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+dialog.lightbox button { font: 600 12px var(--f-display); letter-spacing: .14em; text-transform: uppercase; background: none; color: var(--fg); border: 1px solid var(--line); padding: 6px 12px; cursor: pointer; }
+dialog.lightbox button:hover, dialog.lightbox button:focus-visible { border-color: var(--accent); outline: none; }
+
+@media (max-width: 900px) {
+  .hero, .background, .physical, .character, .private { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fact:nth-child(4) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+4) { border-top: 1px solid var(--line); }
+  .marks, .fleet, .thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .record { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:not(:nth-child(4n+1)) { padding-left: 0; border-left: 0; }
+  .stat:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fact:nth-child(4) { padding-left: 14px; border-left: 1px solid var(--line); }
+  .fact:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .tells, .next { grid-template-columns: minmax(0, 1fr); }
+  .marks, .fleet { grid-template-columns: minmax(0, 1fr); }
+  .spec div { grid-template-columns: 96px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed .rec::before, .tap i { animation: none; }
+}
+</style>
+<style>
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
+.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
+.site-nav .brand b { color: var(--accent); font-weight: 600; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
+.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; justify-content: space-between; gap: 0; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding-inline: 2px; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html" aria-current="page">Biography</a></li><li><a class="pg" href="chronicle.html">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">PILOTS FEDERATION PERSONNEL FILE · REGISTRY RI-X · UPDATED OCT 3312</div>
+    <h1>Sarah <span>Waters</span></h1>
+    <div class="callsign">Commander <b>Rislyss</b> · Pioneer · Viscount · Imperial pilot</div>
+    <p class="quote">"Ex-programmer of Gutamaya COVAS systems; now explorer."</p>
+    <div class="ranks">
+      <span class="chip">Explorer <b>Pioneer</b></span>
+      <span class="chip">Imperial Navy <b>Viscount</b></span>
+      <span class="chip">Federal Navy <b>Ensign</b></span>
+      <span class="chip">Trade <b>Broker</b></span>
+      <span class="chip">Exobiologist <b>Taxonomist</b></span>
+      <span class="chip">Combat <b>Novice</b></span>
+    </div>
+  </div>
+  <figure class="feed panel">
+    <video src="img/cockpit-feed.mp4" poster="img/rislyss-profile.jpg" width="832" height="544" autoplay muted loop playsinline aria-label="Sarah Waters in the pilot seat, turning to look out of the canopy at a blue nebula and back"></video>
+    <figcaption><span class="rec">COCKPIT FEED</span><span>Dreaming Void · RI-X02</span></figcaption>
+  </figure>
+</header>
+
+<div class="facts">
+  <div class="fact"><span class="label">Born</span><span class="v">3274</span></div>
+  <div class="fact"><span class="label">Age</span><span class="v">38</span></div>
+  <div class="fact"><span class="label">Birthplace</span><span class="v">Achenar</span></div>
+  <div class="fact"><span class="label">Home base</span><span class="v">Ray Gateway</span></div>
+  <div class="fact"><span class="label">Allegiance</span><span class="v">Empire</span></div>
+  <div class="fact"><span class="label">Pledged</span><span class="v">Li Yong-Rui</span></div>
+</div>
+
+<section>
+  <h2>Background</h2>
+  <div class="background">
+    <div class="prose">
+      <p>Sarah Waters was born in Achenar in 3274 and raised in the Imperial capital. She trained in software and spent the better part of a decade at Gutamaya on the cockpit voice team, writing the COVAS systems that guide Imperial pilots through docking, fuel state and hull integrity. She resigned in 3308. By her own account, she had spent ten years writing the voice that warns a pilot of hull failure without once being the pilot.</p>
+      <p>Her first ship was a Hauler, registered as Horizon and still in her fleet. Over the summer of 3308 she bought and sold three Asp Explorers before settling on a Diamondback Explorer, Dreaming Void, which remains her registered ship. The Pilots Federation took her from Mostly Aimless to Pioneer in under two months. She flew Federation contracts to the rank of Ensign and bought a Federal Gunship. She then drops out of the record for twenty-three months.</p>
+      <p>She returned in August 3310 aligned with the Empire and rose quickly from Outsider to Baron, then to Viscount. Her fleet grew to include the Imperial Clipper Void Runner, the Krait Phantom Invictus, the Fer-de-Lance Artemis and the Python Hephaestus. She pledged to Li Yong-Rui and logged twelve first-discovery organics. In September 3310, flying Invictus in the Pleiades, she encountered Thargoids. She later left her SRV on a Thargoid-site moon in Pleiades Sector LY-Q b5-2, and the record goes quiet for a further twenty-one months.</p>
+      <p>In October 3312 she resumed from the same Scarab, survived a systems shutdown on the surface, and flew ten jumps home to Diaguandri, where her fleet is kept at Ray Gateway. She sold two years of cartographic data and renewed her Li Yong-Rui pledge. She then refitted the Mandalay Aurora for long-range work, with two field maintenance units and grade 5 engineering from ten engineers, as far as her current access allows, and began delivering rare goods for Li Yong-Rui in Void Runner.</p>
+    </div>
+    <div class="panel">
+      <div class="label" style="margin-bottom:8px">Career timeline</div>
+      <ol class="timeline">
+        <li><span class="y">3274</span><span>Born in Achenar.</span></li>
+        <li><span class="y">c. 3298–3308</span><span>Software engineer on Gutamaya's COVAS voice team.</span></li>
+        <li><span class="y">Jul 3308</span><span>Leaves Gutamaya at 34. Buys the Hauler Horizon.</span></li>
+        <li><span class="y">Aug 3308</span><span>Buys the Diamondback Explorer Dreaming Void.</span></li>
+        <li><span class="y">Sep 3308</span><span>Pioneer. Federal Navy Ensign. Buys a Federal Gunship.</span></li>
+        <li class="gap"><span class="y">3308–3310</span><span>Twenty-three months unaccounted for.</span></li>
+        <li><span class="y">Aug 3310</span><span>Returns aligned with the Empire. Rapid promotion to Baron. Buys Void Runner.</span></li>
+        <li><span class="y">Sep 3310</span><span>Viscount. Pledges to Li Yong-Rui. Meets Thargoids in the Pleiades aboard Invictus.</span></li>
+        <li class="gap"><span class="y">3310–3312</span><span>Parks the Scarab in LY-Q b5-2 and disappears again.</span></li>
+        <li><span class="y">Oct 3312</span><span>Survives a systems shutdown in the Pleiades and returns to Diaguandri. Refit of Aurora begins.</span></li>
+        <li><span class="y">Oct 3312</span><span>Aurora refit completed. Lifetime hyperspace distance passes 100,000 ly.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Physical record</h2>
+  <div class="physical">
+    <dl class="spec">
+      <div><dt>Height</dt><dd>162 cm · 5′4″</dd></div>
+      <div><dt>Weight</dt><dd>56.6 kg · 125 lb</dd></div>
+      <div><dt>Build</dt><dd>Lithe, lean and toned, consistent with ration diet and extended low-g service</dd></div>
+      <div><dt>Measurements</dt><dd>86-64-88 cm · 34-25-35 in · 30D</dd></div>
+      <div><dt>Skin</dt><dd>Pale, faint freckles across the nose, tans poorly</dd></div>
+      <div><dt>Hair</dt><dd>Chestnut, shoulder-length, tied back in flight</dd></div>
+      <div><dt>Eyes</dt><dd>Pale blue, fine crow's-feet at the corners</dd></div>
+      <div><dt>Face</dt><dd>Oval, high cheekbones, narrow nose</dd></div>
+      <div><dt>Hands</dt><dd>Slender and long-fingered; steady from a decade of keyboard work, now calloused from stick and throttle</dd></div>
+      <div><dt>Posture</dt><dd>Upright and composed, with the formal bearing typical of the Imperial capital</dd></div>
+      <div><dt>Voice</dt><dd>Low and measured; Imperial English accent, noticeably sharper when irritated</dd></div>
+      <div><dt>Blood type</dt><dd class="mono">O negative</dd></div>
+    </dl>
+    <figure class="sheet panel">
+      <button class="zoom" type="button" data-src="img/concept-suit-turnaround.jpg" data-cap="Flight suit turnaround: front, side and back">
+        <img src="img/concept-suit-turnaround.jpg" width="1264" height="843" alt="Concept sheet of Sarah Waters in an off-white segmented Imperial flight suit with dark gloves and boots, shown from the front, side and back">
+      </button>
+      <figcaption>Flight suit turnaround · off-white segmented Imperial suit, eagle patch on the left shoulder, armoured gloves</figcaption>
+    </figure>
+  </div>
+  <div class="thumbs">
+    <figure class="panel">
+      <button class="zoom" type="button" data-src="img/concept-suit-profile.jpg" data-cap="Flight suit, side profile">
+        <img src="img/concept-suit-profile.jpg" width="1264" height="843" alt="Side profile of Sarah Waters in the flight suit, ponytail down her back" loading="lazy">
+      </button>
+      <figcaption>Flight suit · profile</figcaption>
+    </figure>
+    <figure class="panel">
+      <button class="zoom" type="button" data-src="img/concept-suit-back.jpg" data-cap="Flight suit, back detail with the spine module lit">
+        <img src="img/concept-suit-back.jpg" width="1264" height="843" alt="Three back views of the flight suit showing the segmented spine panel and a glowing blue module" loading="lazy">
+      </button>
+      <figcaption>Flight suit · back detail</figcaption>
+    </figure>
+    <figure class="panel">
+      <button class="zoom" type="button" data-src="img/concept-offduty.jpg" data-cap="Off duty: tank top, shorts and a thigh holster">
+        <img src="img/concept-offduty.jpg" width="1264" height="843" alt="Sarah Waters in a black tank top, denim shorts and trainers with a thigh holster, front and back views" loading="lazy">
+      </button>
+      <figcaption>Off duty · station wear</figcaption>
+    </figure>
+    <figure class="panel">
+      <button class="zoom" type="button" data-src="img/concept-loungewear.jpg" data-cap="Quarters: grey loungewear, barefoot">
+        <img src="img/concept-loungewear.jpg" width="1264" height="843" alt="Sarah Waters in a grey tank top and shorts, barefoot, front, side and back views" loading="lazy">
+      </button>
+      <figcaption>Quarters · loungewear</figcaption>
+    </figure>
+    <figure class="panel">
+      <button class="zoom" type="button" data-src="img/concept-dress-uniform.jpg" data-cap="Imperial Navy dress uniform: front, side and back">
+        <img src="img/concept-dress-uniform.jpg" width="1248" height="832" alt="Sarah Waters in a navy-blue Imperial Navy dress uniform with gold piping, a gold eagle on the chest and black knee boots, front, side and back views" loading="lazy">
+      </button>
+      <figcaption>Dress uniform · Imperial Navy</figcaption>
+    </figure>
+    <figure class="panel">
+      <button class="zoom" type="button" data-src="img/concept-lingerie.jpg" data-cap="Quarters: black lace underwear, barefoot">
+        <img src="img/concept-lingerie.jpg" width="1248" height="832" alt="Sarah Waters in black lace underwear, barefoot, front, side and back views" loading="lazy">
+      </button>
+      <figcaption>Quarters · underwear</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <h2>Distinguishing marks and augments</h2>
+  <div class="marks">
+    <div class="mark panel"><span class="where">Left eyebrow</span><p>Small scar through the brow, from a hard landing during her Federation contract period.</p></div>
+    <div class="mark panel"><span class="where">Right forearm</span><p>Burn scar, sustained during the Scarab systems shutdown in the Pleiades, 3312.</p></div>
+    <div class="mark panel"><span class="where">Behind left ear</span><p>Small tattoo of Achenar's star. Her only recorded personal marking.</p></div>
+    <div class="mark panel"><span class="where">Base of skull</span><p>Neural interface port, installed at Gutamaya for COVAS development work.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Character</h2>
+  <div class="character">
+    <div class="panel" style="display:grid;gap:14px">
+      <div class="label">Personality</div>
+      <ul class="traits">
+        <li>Precise and economical in speech, with a dry sense of humour that is easy to miss.</li>
+        <li>Self-sufficient. Tolerates isolation and long deployments well.</li>
+        <li>Slow to trust. Warm and loyal once trust is established.</li>
+        <li>Methodical, with a strong tendency to diagnose and repair faults herself.</li>
+        <li>Strongly attached to her ships; protective of the people close to her.</li>
+      </ul>
+      <div class="label" style="margin-top:6px">Habits</div>
+      <ul class="traits">
+        <li>Redirects personal questions toward technical detail.</li>
+        <li>Drinks tea black. Keeps irregular hours.</li>
+        <li>Flies with COVAS volume reduced and routinely checks the installed voice build.</li>
+        <li>Has never sold a ship she was attached to.</li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:14px">
+      <p class="sub" style="font-size:15px;color:var(--fg)">When thinking, she taps two fingers on the console in a steady rhythm. Changes in its speed are a reliable indicator of her state.</p>
+      <div class="tells">
+        <div class="tell">
+          <div class="tap" style="--d:.16s" aria-hidden="true"><i></i><i></i></div>
+          <b>Too close</b>
+          <p>Rhythm quickens when a personal question comes too close.</p>
+        </div>
+        <div class="tell slow">
+          <div class="tap" style="--d:.9s" aria-hidden="true"><i></i><i></i></div>
+          <b>Interested</b>
+          <p>Rhythm slows, usually followed by a single technical question to keep the conversation going.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Private life</h2>
+  <div class="private">
+    <div class="stamp">Restricted<br>Not for circulation</div>
+    <div class="prose">
+      <p>Bisexual, with a strong preference for women. She has had relationships with both men and women and treats the subject as private, including with people she trusts. Currently single. She does not name former partners unless asked.</p>
+      <p>Casual encounters are occasional rather than habitual, typically at a port of call between contracts, with terms made clear on both sides beforehand. She chooses partners who are calm, sharp and indifferent to her rank or fleet, and she leaves before the next jump window. She does not discuss these encounters afterwards. Her personal logs sometimes retain a name; there is no record of follow-up contact.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Fleet</h2>
+  <div class="fleet">
+    <div class="ship hl"><span class="id"><span>RI-X04</span><span>Explorer</span></span><span class="nm">Aurora</span><span class="cls">Mandalay</span><span class="st">Refit finished · Ray Gateway</span></div>
+    <div class="ship hl"><span class="id"><span>RI-X02</span><span>Explorer</span></span><span class="nm">Dreaming Void</span><span class="cls">Diamondback Explorer</span><span class="st">Registered ship · Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-V01</span><span>Salvage</span></span><span class="nm">Invictus</span><span class="cls">Krait Phantom</span><span class="st">Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-G03</span><span>General</span></span><span class="nm">Void Runner</span><span class="cls">Imperial Clipper</span><span class="st">Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-C02</span><span>Combat</span></span><span class="nm">Artemis</span><span class="cls">Fer-de-Lance</span><span class="st">Jaques Station, Colonia</span></div>
+    <div class="ship"><span class="id"><span>RI-C01</span><span>Combat</span></span><span class="nm">Seraphim Rising</span><span class="cls">Viper Mk III</span><span class="st">Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-M01</span><span>Miner</span></span><span class="nm">Hephaestus</span><span class="cls">Python</span><span class="st">Jaques Station, Colonia</span></div>
+    <div class="ship"><span class="id"><span>RI-T01</span><span>Trader</span></span><span class="nm">Compass Rose</span><span class="cls">Type-8 Transporter</span><span class="st">Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-P01</span><span>Passenger</span></span><span class="nm">Avalon</span><span class="cls">Dolphin</span><span class="st">Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-R01</span><span>Rescue</span></span><span class="nm">Helios</span><span class="cls">Lynx Highliner</span><span class="st">Ray Gateway · awaiting outfit</span></div>
+    <div class="ship"><span class="id"><span>RI-G01</span><span>General</span></span><span class="nm">Intrepid</span><span class="cls">Sidewinder</span><span class="st">Ray Gateway</span></div>
+    <div class="ship"><span class="id"><span>RI-G02</span><span>General</span></span><span class="nm">Horizon</span><span class="cls">Hauler</span><span class="st">First ship · since 3308</span></div>
+    <div class="ship"><span class="id"><span>RI-X05</span><span>Explorer</span></span><span class="nm">Hymn of the Long Night</span><span class="cls">Caspian Explorer</span><span class="st">Active ship · Fiden · Nomad Refrain, one SRV Scarab, one lost at Fiden</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Service record</h2>
+  <div class="record">
+    <div class="stat"><span class="label">Systems visited</span><span class="v num">2,656</span></div>
+    <div class="stat"><span class="label">Light years jumped</span><span class="v num">214,144</span><span class="n">At last network update.</span></div>
+    <div class="stat"><span class="label">Hyperspace jumps</span><span class="v num">3,511</span></div>
+    <div class="stat"><span class="label">Bodies scanned</span><span class="v num">6,841</span></div>
+    <div class="stat"><span class="label">Passengers delivered</span><span class="v num">1,006</span><span class="n">69 ejected. No statement on file.</span></div>
+    <div class="stat"><span class="label">First footfalls</span><span class="v num">11</span></div>
+    <div class="stat"><span class="label">First-discovery organics</span><span class="v num">12</span></div>
+    <div class="stat"><span class="label">Murders</span><span class="v num">0</span></div>
+  </div>
+</section>
+
+<nav class="next" aria-label="Continue reading">
+  <a href="chronicle.html"><span class="label">Next</span><span class="t">The Chronicle</span><span class="d">Her career as a running record, from Achenar to the completion of Aurora.</span></a>
+  <a href="log.html"><span class="label">Then</span><span class="t">Flight Log</span><span class="d">Routes, sessions, ledger, hangar and engineers, from the ship's journals.</span></a>
+</nav>
+
+<footer>
+  <div>Personnel file compiled October 3312 from the Pilots Federation service record and the ship's journals. Service figures are as of her last connection to the network unless noted.</div>
+  <div>Portrait, cockpit feed and concept sheets are character renderings.</div>
+</footer>
+
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label="Concept image">
+  <img id="lightbox-img" alt="">
+  <div class="bar"><span id="lightbox-cap"></span><button type="button" id="lightbox-close">Close</button></div>
+</dialog>
+
+<script>
+(function () {
+  const dlg = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  const cap = document.getElementById("lightbox-cap");
+  document.querySelectorAll("button.zoom").forEach(b => b.addEventListener("click", () => {
+    img.src = b.dataset.src;
+    img.alt = b.querySelector("img").alt;
+    cap.textContent = b.dataset.cap;
+    dlg.showModal();
+  }));
+  document.getElementById("lightbox-close").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+  const v = document.querySelector(".feed video");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.pause(); v.controls = true; }
+})();
+</script>
+
+</body>
+</html>

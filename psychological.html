@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Rislyss Psychological Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a Pilots Federation psychological assessment, the companion to the medical record. Examination header and key findings up top, the summary, then the clinical sections in two columns, the trauma history and risk in full width, and the examiner's note. Same cockpit palette as the other pages; single dark world by choice. */
+:root {
+  --bg: #0c0a08;
+  --panel: #15110d;
+  --line: #2e251c;
+  --fg: #ece3d7;
+  --muted: #998b7b;
+  --accent: #ff7a1a;
+  --accent-dim: #6b3a14;
+  --cyan: #74d4e2;
+  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
+p { margin: 0; }
+h2 { font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+h3 { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); }
+section { display: grid; gap: 18px; align-content: start; min-width: 0; }
+.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
+.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
+.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); pointer-events: none; }
+.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Header */
+.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.hero-text { display: grid; gap: 16px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+h1 { font-size: clamp(40px, 6.5vw, 80px); line-height: .92; font-weight: 700; letter-spacing: .01em; }
+h1 span { color: var(--accent); display: block; }
+.subject { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em; }
+.subject b { color: var(--cyan); font-weight: 600; }
+.exam { display: grid; gap: 0; }
+.exam div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
+.exam div:first-child { padding-top: 0; }
+.exam dt { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.exam dd { margin: 0; }
+.stamp { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); border: 2px solid var(--cyan); padding: 10px 12px; transform: rotate(-3deg); justify-self: start; opacity: .9; line-height: 1.3; margin-top: 18px; }
+
+.facts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.fact { padding: 14px 14px 14px 0; display: grid; gap: 2px; min-width: 0; }
+.fact + .fact { padding-left: 14px; border-left: 1px solid var(--line); }
+.fact .v { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
+.fact .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+
+/* Clinical sections */
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 40px; align-items: start; }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.45; }
+th { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; text-align: left; padding: 0 12px 8px 0; border-bottom: 1px solid var(--accent-dim); }
+td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th:last-child, td:last-child { padding-right: 0; }
+td:first-child { color: var(--muted); }
+.wide td:first-child { width: 132px; }
+.note { font-size: 14px; color: var(--muted); line-height: 1.55; }
+.prose { display: grid; gap: 12px; font-size: 15px; line-height: 1.65; }
+.prose p { max-width: 68ch; }
+.prose i { color: var(--fg); }
+ul.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; font-size: 14.5px; line-height: 1.5; }
+ul.items li { padding: 9px 0; border-bottom: 1px solid var(--line); }
+ul.items li b { font-family: var(--f-display); font-weight: 600; letter-spacing: .03em; color: var(--fg); }
+ol.recs { margin: 0; padding: 0; list-style: none; counter-reset: rec; display: grid; gap: 0; font-size: 14.5px; line-height: 1.55; }
+ol.recs li { counter-increment: rec; display: grid; grid-template-columns: 36px minmax(0, 1fr); padding: 10px 0; border-bottom: 1px solid var(--line); }
+ol.recs li::before { content: counter(rec, decimal-leading-zero); font-family: var(--f-mono); font-size: 12px; color: var(--accent); padding-top: 2px; }
+.status { font-family: var(--f-mono); font-size: 12px; white-space: nowrap; }
+.status.ok { color: var(--cyan); }
+.status.open { color: var(--accent); }
+.risk { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 40px; align-items: start; }
+.level { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.level div { padding: 14px 0; display: grid; gap: 2px; }
+.level div + div { padding-left: 14px; border-left: 1px solid var(--line); }
+.level .v { font-family: var(--f-display); font-size: 22px; font-weight: 600; line-height: 1.2; }
+.level .v.low { color: var(--cyan); }
+.level .v.mod { color: var(--accent); }
+
+/* Assessment */
+.assess { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.assess p { font-size: 17px; line-height: 1.7; max-width: 64ch; }
+.sign { display: grid; gap: 6px; font-size: 14px; }
+.sign .mono { color: var(--muted); font-size: 12px; }
+
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
+
+@media (max-width: 900px) {
+  .hero, .cols, .assess, .risk { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fact:nth-child(4) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+4) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fact:nth-child(4) { padding-left: 14px; border-left: 1px solid var(--line); }
+  .fact:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .wide td:first-child { width: 104px; }
+  table { font-size: 14px; }
+  .trauma thead { display: none; }
+  .trauma tr { display: grid; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .trauma td { border: 0; padding: 2px 0; }
+  .trauma td:first-child { color: var(--fg); font-family: var(--f-display); font-weight: 600; }
+}
+</style>
+<style>
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
+.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
+.site-nav .brand b { color: var(--accent); font-weight: 600; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
+.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; justify-content: space-between; gap: 0; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding-inline: 2px; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html" aria-current="page">Psych</a></li></ul></div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">PILOTS FEDERATION PSYCHOLOGICAL ASSESSMENT · LONG-RANGE SOLO CLEARANCE · OCT 3312</div>
+    <h1>Psychological <span>Assessment</span></h1>
+    <div class="subject">WATERS, Sarah · Commander <b>Rislyss</b> · Registry RI-X</div>
+    <p class="sub">Pre-departure evaluation for extended solo operation beyond regular repair coverage.</p>
+  </div>
+  <div class="panel">
+    <dl class="exam">
+      <div><dt>Born</dt><dd>3274, Achenar · age 38</dd></div>
+      <div><dt>Allegiance</dt><dd>Empire · pledged to Li Yong-Rui, Powerplay rank 8</dd></div>
+      <div><dt>Examined</dt><dd>October 3312 · counselling suite, Ray Gateway, Diaguandri</dd></div>
+      <div><dt>Reason</dt><dd>Long-range solo clearance ahead of an open-ended exobiology expedition aboard the Caspian Explorer <i>Hymn of the Long Night</i> (RI-X05). Required by the station's long-term hangar lease after two prior unexplained absences of roughly two years each.</dd></div>
+      <div><dt>Sources</dt><dd>Two interview sessions (52 and 38 minutes), Pilots Federation service record, October 3312 flight fitness examination, Navy and Powerplay standing reports</dd></div>
+    </dl>
+    <div class="stamp">Cleared for solo long-range operation<br>with recommendations</div>
+  </div>
+</header>
+
+<div class="facts">
+  <div class="fact"><span class="label">Diagnosis</span><span class="v">None</span><span class="n">no criteria met</span></div>
+  <div class="fact"><span class="label">Acute risk</span><span class="v">Low</span><span class="n">incident in flight</span></div>
+  <div class="fact"><span class="label">Absence risk</span><span class="v">Moderate</span><span class="n">unreported withdrawal</span></div>
+  <div class="fact"><span class="label">Interviews</span><span class="v num">2</span><span class="n">52 + 38 min</span></div>
+  <div class="fact"><span class="label">Check-in</span><span class="v num">3 wk</span><span class="n">by message, via relay</span></div>
+  <div class="fact"><span class="label">Sleep</span><span class="v">Irregular</span><span class="n">confirmed</span></div>
+</div>
+
+<section>
+  <h2>Summary</h2>
+  <div class="assess">
+    <p>A composed, highly competent former software engineer who has built her adult life around systems she can understand and control. She is psychologically fit for extended solo flight and in several respects better suited to it than to life in the populated systems. Her principal risk is not instability but withdrawal: she has twice disappeared from service for long periods without explanation, she declines to discuss either absence, and the expedition she is about to undertake has no defined end point. No psychiatric diagnosis is made.</p>
+    <div class="panel sign">
+      <span class="label">Watch her hands</span>
+      <span>Two-finger tapping, steady at rest. Faster when a question lands too close; slows almost to stillness when she is engaged, followed by one technical question in return.</span>
+      <span class="mono">RELIABLE ENGAGEMENT INDICATOR</span>
+    </div>
+  </div>
+</section>
+
+<div class="cols">
+
+<section>
+  <h2>Presentation</h2>
+  <div class="prose">
+    <p>Arrived on time, in a Gutamaya flight suit, hair tied back. Formal Imperial bearing throughout. Speech low, measured and grammatically precise, with a dry humour usually directed at herself. Eye contact good on technical subjects, reduced on personal ones. Affect restricted but appropriate; she smiled twice, both times when describing a ship.</p>
+    <p>She tapped two fingers on the arm of the chair for most of both sessions. The rhythm was steady during discussion of her fleet and engineering, accelerated sharply when asked about the years 3308 to 3310 and 3310 to 3312, and slowed almost to stillness when the interviewer asked about the Caspian's drive tuning. When the tapping slowed she asked a technical question in return. The examiner regards this as a reliable indicator of engagement versus threat and recommends future assessors watch her hands rather than her face.</p>    <p class="note">Oriented, alert, no evidence of thought disorder, perceptual disturbance or intoxication. Insight good. Judgement good in operational matters; see risk assessment for exceptions.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Background</h2>
+  <div class="prose">
+    <p>Raised in Achenar. Describes her upbringing in a single sentence and moves on. Nine to ten years as a software engineer on Gutamaya's cockpit voice (COVAS) team. Left in 3308 at 34, by her account after realising she had spent a decade writing "the calm voice that tells a pilot their hull is failing" without ever being the pilot. This is the clearest statement of motive she offered in either session, and the examiner considers it genuine.</p>
+    <p>Career since then has been rapid and broad: exploration, Federation contract work to Ensign, Imperial Navy rank to Viscount within a month of joining, Powerplay rank 5 within a week of renewing her pledge. Two absences, 3308 to 3310 and 3310 to 3312, are undocumented. The second followed directly on a Thargoid encounter in the Pleiades in September 3310 and ended with her return to the same moon in October 3312, where she survived a systems shutdown that left a burn on her right forearm.</p>
+    <p class="note">Single. Lives alone. No named next of kin on file. Owns thirteen ships and has sold or lost very few in four years.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Personality structure</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Openness</td><td>High. Curious, self-taught across domains, drawn to new and unmapped things. Curiosity is structured: she researches before she goes.</td></tr>
+      <tr><td>Conscientiousness</td><td>Very high. Plans to module level, routes engineers in optimal order, keeps written lists and checks them. Perfectionist tendencies are present but functional; she can declare a job "as finished as it gets" and stop.</td></tr>
+      <tr><td>Extraversion</td><td>Low. Restored by solitude and long quiet. Socially capable and polite, not socially driven.</td></tr>
+      <tr><td>Agreeableness</td><td>Moderate. Cooperative and fair with strangers, unwilling to be pushed. Does not seek approval and is mildly suspicious of praise.</td></tr>
+      <tr><td>Emotional stability</td><td>High under acute stress, moderate over the long term. Recovers quickly from immediate danger; carries older material unprocessed.</td></tr>
+      <tr><td>Cognitive style</td><td>Thinks like a programmer. Reads situations as systems with faults, inputs and versions; under uncertainty she gathers data, models it and acts on the model. An excellent long-range pilot and a poor reporter of her own emotional state, which she describes in technical terms ("the numbers moved," "it held") rather than names.</td></tr>
+      <tr><td>Values</td><td>Competence, self-reliance, privacy and loyalty to what she has chosen. Her allegiance to Li Yong-Rui is pragmatic by her own account. Her loyalty to her ships is not.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Attachment and relationships</h2>
+  <div class="prose">
+    <p>Guarded, slow to trust, warm once trust is established. Attachment is invested far more readily in ships than in people. She keeps every ship she has loved, names them with care, and before her first flight after returning in 3312 she climbed into each of nine stored hulls and sat in it briefly. She described this as "ridiculous" and did it anyway. The examiner reads the fleet as her household: stable, always where she left it, and incapable of leaving her.</p>
+    <p>She reports no current partner and declined to name past ones. Private about her sexuality, which she disclosed as bisexual with a strong preference for women only when asked directly and only because the form required it. Occasional short-term encounters away from home, with clear terms and no follow-up, are consistent with her general pattern of keeping intimacy bounded and departure available. This is not considered maladaptive in itself. It does mean she will have no personal contact who expects to hear from her during the expedition.</p>
+    <p>She shows genuine concern for strangers in distress (repeated rescue of occupied escape pods, care for live cargo she had no duty to check on) and is uncomfortable with violence. She described bounty work as something she "didn't enjoy" and "isn't meant to."</p>
+  </div>
+</section>
+
+<section>
+  <h2>Coping: adaptive</h2>
+  <ul class="items">
+    <li><b>Task absorption.</b> Engineering, route planning and sampling routines settle her quickly. She describes the exobiology cycle of jump, scan, map, launch, fly and sample as the first time in years she has "not thought about anything else for hours."</li>
+    <li><b>Humour.</b> Dry and self-directed, used to discharge embarrassment and fear without denying either.</li>
+    <li><b>Physical routine.</b> Keeps to a standard low-g conditioning routine wherever she is docked, to hold bone density and muscle mass against long periods in low gravity. She treats it as maintenance, the same way she treats her ships.</li>
+    <li><b>Retreat to quiet.</b> After a near-loss of <i>Invictus</i> at Luyten's Star she flew the same night to an empty moon and spent time prospecting by hand. This restored her.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Coping: less adaptive</h2>
+  <ul class="items">
+    <li><b>Deflection.</b> Personal questions are redirected into technical detail. She does not announce the change of subject; she simply makes it.</li>
+    <li><b>Compartmentalisation.</b> Effective in the short term. The two absences, the Thargoid encounter and the 69 ejected passengers on her record are sealed off entirely. When asked about the passengers she said, "No," and nothing else.</li>
+    <li><b>Control through modification.</b> She is planning a heavily customised COVAS suite linked to her own biometrics, intended to suppress low-priority announcements under stress and execute emergency macros by voice, staying "as close to illegal as I can without crossing that line." The examiner notes the obvious link to her former career and does not consider the project itself a concern. The neural interface port at the base of her skull is relevant here: she again declined to disclose its firmware version.</li>
+  </ul>
+</section>
+
+</div>
+
+<section>
+  <h2>Stress and trauma history</h2>
+  <table class="trauma">
+    <thead><tr><th>Event</th><th>Response observed or reported</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Thargoid encounter, Pleiades, September 3310</td><td>Declines to discuss. Disappeared from service shortly afterwards. Returned voluntarily to the same location two years later.</td><td><span class="status open">Unprocessed</span></td></tr>
+      <tr><td>Two-year absences, 3308 to 3310 and 3310 to 3312</td><td>Declines to discuss. Speech and tapping both shift when approached.</td><td><span class="status open">Not assessable</span></td></tr>
+      <tr><td>Surface systems shutdown, Pleiades Sector LY-Q b5-2, October 3312</td><td>Escaped promptly and correctly. Reports fear afterwards, in supercruise. Forearm burn healed without functional loss. No intrusive symptoms reported.</td><td><span class="status ok">Resolved</span></td></tr>
+      <tr><td>Interdiction and hull loss to 40%, Luyten's Star, October 3312</td><td>Correct withdrawal under fire. Trembling for "a minute or two" afterwards. Sought solitude the same night. Normal stress response with good recovery.</td><td><span class="status ok">Resolved</span></td></tr>
+      <tr><td>69 passengers ejected (career record)</td><td>Refuses to discuss. Possible moral injury.</td><td><span class="status open">Not assessable</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note">No symptoms meeting criteria for post-traumatic stress were elicited. The examiner stresses that this reflects what she was willing to discuss, and the two areas she will not discuss are exactly where such material would be expected.</p>
+</section>
+
+<section>
+  <h2>Risk assessment for solo long-range operation</h2>
+  <div class="level">
+    <div><span class="label">Acute incident</span><span class="v low">Low</span></div>
+    <div><span class="label">Prolonged unreported absence</span><span class="v mod">Moderate</span></div>
+  </div>
+  <div class="risk">
+    <div class="prose">
+      <h3>Protective factors</h3>
+      <p>Exceptional technical competence. Thorough preparation, including a field maintenance unit and a route plan checked against telemetry. Calm, fast and correct decisions under acute threat. Comfort with isolation. Strong attachment to her ship, which in her case functions as a reason to come home intact. Low risk-seeking: she submits to interdictions she cannot win and leaves fights she does not need.</p>
+      <h3>Strengths</h3>
+      <p>Precision. Patience. Mechanical and systems insight that would serve any crew. An unforced courtesy toward strangers and an unwillingness to hurt people that has survived combat contracts. A capacity for wonder that she undersells: she remembers the colour of every organism she has sampled.</p>
+    </div>
+    <div class="prose">
+      <h3>Risk factors</h3>
+      <ul class="items">
+        <li><b>Withdrawal.</b> Twice she has vanished for around two years. She has paid long-term rent on her hangar space and apartment "for longer than I like to think about," and stated she has no fixed return date. The examiner considers a third extended absence the single most likely adverse outcome of this expedition.</li>
+        <li><b>Isolation.</b> No partner, no next of kin on file, no one who will notice if she stops reporting. The expedition removes her from the few routine human contacts she has.</li>
+        <li><b>Sleep.</b> Irregular hours confirmed. She has slept in the seat of her Nomad on a planetary surface rather than return to the mothership.</li>
+        <li><b>Pauses.</b> She reports stopping partway through sampling to sit or stand on the surface for several minutes with her lamp off, then resuming. She describes these as restful and the examiner accepts that account. If they lengthen, recur without a clear trigger, or occur during hazardous operations, they should be reassessed.</li>
+        <li><b>Self-auditing.</b> Her perfectionism shows mainly as checking her own work, and she was visibly irritated at finding an engineering item she had marked complete that was not. Under long-term fatigue this kind of self-criticism can intensify.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Recommendations</h2>
+  <ol class="recs">
+    <li><span>Cleared for solo long-range operation without restriction on range or duration.</span></li>
+    <li><span>Agree a contact interval before departure. She accepted a check-in with Ray Gateway by message every three weeks of station time while she is in range of a relay, with a "nothing to report" message acceptable. She asked that it not be routed through the station's COVAS. The examiner agreed.</span></li>
+    <li><span>Agree a return condition in her own terms. Asked what would bring her home, she said, "When the hold's full, or when she needs something I can't fix." The examiner has recorded both as her stated criteria and asked her to treat them as binding.</span></li>
+    <li><span>Sleep: keep to a regular rest period aboard <i>Hymn of the Long Night</i>. Sleeping in the Nomad on the surface is not advised as a habit.</span></li>
+    <li><span>Before the next annual examination, disclose the neural interface firmware version and the scope of the COVAS modifications, given the proposed biometric link.</span></li>
+    <li><span>Voluntary counselling offered on return regarding the 3310 Pleiades encounter. She declined. The offer stands.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Examiner's note</h2>
+  <div class="assess">
+    <p>Station staff report that out of her flight suit the subject tends to wear little, or noticeably reduced, clothing. Asked about it, she attributed it to the hours spent sealed in a suit and said she "likes to feel the air" once she is out of one. I consider this a reasonable response to prolonged full-body confinement, consistent with what I have seen in other long-duration pilots, and not a concern.</p>
+    <div class="panel sign">
+      <span class="label">Examining officer</span>
+      <span>Station Counselling, Ray Gateway</span>
+      <span class="mono">PILOTS FEDERATION · OCT 3312</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>Psychological assessment compiled October 3312 at Ray Gateway, Diaguandri, before the departure of <i>Hymn of the Long Night</i>.</div>
+</footer>
+
+</div>
+</body>
+</html>

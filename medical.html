@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Rislyss Medical Record</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a Pilots Federation medical record. Examination header and key figures up top, then the survey tables in two columns, marks and augments, and the examiner's assessment. Same cockpit palette as the other pages; single dark world by choice. */
+:root {
+  --bg: #0c0a08;
+  --panel: #15110d;
+  --line: #2e251c;
+  --fg: #ece3d7;
+  --muted: #998b7b;
+  --accent: #ff7a1a;
+  --accent-dim: #6b3a14;
+  --cyan: #74d4e2;
+  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
+p { margin: 0; }
+h2 { font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
+section { display: grid; gap: 18px; align-content: start; min-width: 0; }
+.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
+.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
+.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); pointer-events: none; }
+.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Header */
+.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.hero-text { display: grid; gap: 16px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
+h1 { font-size: clamp(40px, 6.5vw, 80px); line-height: .92; font-weight: 700; letter-spacing: .01em; }
+h1 span { color: var(--accent); display: block; }
+.subject { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em; }
+.subject b { color: var(--cyan); font-weight: 600; }
+.exam { display: grid; gap: 0; }
+.exam div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
+.exam div:first-child { padding-top: 0; }
+.exam dt { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.exam dd { margin: 0; }
+.stamp { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); border: 2px solid var(--cyan); padding: 10px 12px; transform: rotate(-3deg); justify-self: start; opacity: .9; line-height: 1.3; margin-top: 18px; }
+
+.facts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.fact { padding: 14px 14px 14px 0; display: grid; gap: 2px; min-width: 0; }
+.fact + .fact { padding-left: 14px; border-left: 1px solid var(--line); }
+.fact .v { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
+.fact .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+
+/* Survey tables */
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 40px; align-items: start; }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.45; }
+th { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; text-align: left; padding: 0 12px 8px 0; border-bottom: 1px solid var(--accent-dim); }
+td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th:last-child, td:last-child { padding-right: 0; }
+td:first-child { color: var(--muted); }
+td.num, th.num { text-align: right; white-space: nowrap; }
+tr.ratio td { border-bottom-style: dashed; }
+.wide td:first-child { width: 132px; }
+.note { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+/* Assessment */
+.assess { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.assess p { font-size: 17px; line-height: 1.7; max-width: 64ch; }
+.sign { display: grid; gap: 6px; font-size: 14px; }
+.sign .mono { color: var(--muted); font-size: 12px; }
+
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
+
+@media (max-width: 900px) {
+  .hero, .cols, .assess { grid-template-columns: minmax(0, 1fr); }
+  .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fact:nth-child(4) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+4) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fact:nth-child(4) { padding-left: 14px; border-left: 1px solid var(--line); }
+  .fact:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .wide td:first-child { width: 104px; }
+  table { font-size: 14px; }
+}
+</style>
+<style>
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
+.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
+.site-nav .brand b { color: var(--accent); font-weight: 600; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); outline: none; }
+.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
+@media (max-width: 480px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; justify-content: space-between; gap: 0; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding-inline: 2px; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html">Chronicle</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="medical.html" aria-current="page">Medical</a></li><li><a class="pg" href="psychological.html">Psych</a></li></ul></div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">PILOTS FEDERATION MEDICAL RECORD · ANNUAL FLIGHT FITNESS EXAMINATION · OCT 3312</div>
+    <h1>Medical <span>Record</span></h1>
+    <div class="subject">WATERS, Sarah · Commander <b>Rislyss</b> · Registry RI-X</div>
+    <p class="sub">Flight fitness examination and anthropometric survey.</p>
+  </div>
+  <div class="panel">
+    <dl class="exam">
+      <div><dt>Born</dt><dd>3274, Achenar · age 38</dd></div>
+      <div><dt>Sex</dt><dd>Female</dd></div>
+      <div><dt>Allegiance</dt><dd>Empire · pledged to Li Yong-Rui</dd></div>
+      <div><dt>Examined</dt><dd>October 3312 · medical bay, Ray Gateway, Diaguandri</dd></div>
+      <div><dt>Reason</dt><dd>Return-to-flight assessment after extended absence and a surface systems shutdown in Pleiades Sector LY-Q b5-2</dd></div>
+    </dl>
+    <div class="stamp">Fit for unrestricted flight</div>
+  </div>
+</header>
+
+<div class="facts">
+  <div class="fact"><span class="label">Height</span><span class="v num">162 cm</span><span class="n">5′4″</span></div>
+  <div class="fact"><span class="label">Weight</span><span class="v num">56.6 kg</span><span class="n">125 lb</span></div>
+  <div class="fact"><span class="label">BMI</span><span class="v num">21.6</span><span class="n">normal</span></div>
+  <div class="fact"><span class="label">Body fat</span><span class="v num">22%</span><span class="n">bioimpedance</span></div>
+  <div class="fact"><span class="label">Blood type</span><span class="v num">O neg</span><span class="n">universal donor</span></div>
+  <div class="fact"><span class="label">Resting HR</span><span class="v num">58 bpm</span><span class="n">112/72 mmHg</span></div>
+</div>
+
+<div class="cols">
+
+<section>
+  <h2>General</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Height</td><td>162.0 cm (5′4″)</td></tr>
+      <tr><td>Weight</td><td>56.6 kg (125 lb)</td></tr>
+      <tr><td>BMI</td><td>21.6 kg/m² (normal)</td></tr>
+      <tr><td>Body fat</td><td>22% (bioimpedance)</td></tr>
+      <tr><td>Lean mass</td><td>44.1 kg</td></tr>
+      <tr><td>Somatotype</td><td>Ectomorph-mesomorph</td></tr>
+      <tr><td>Build</td><td>Lithe, lean and toned, consistent with ration diet and extended low-g service</td></tr>
+      <tr><td>Posture</td><td>Upright, no spinal deviation; formal Imperial bearing</td></tr>
+      <tr><td>Dominant hand</td><td>Right</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Circumferences</h2>
+  <table>
+    <thead><tr><th>Site</th><th class="num">cm</th><th class="num">in</th></tr></thead>
+    <tbody>
+      <tr><td>Head</td><td class="num">55.0</td><td class="num">21.7</td></tr>
+      <tr><td>Neck</td><td class="num">31.0</td><td class="num">12.2</td></tr>
+      <tr><td>Chest (bust)</td><td class="num">86.0</td><td class="num">34</td></tr>
+      <tr><td>Underbust</td><td class="num">76.0</td><td class="num">30</td></tr>
+      <tr><td>Waist (natural)</td><td class="num">64.0</td><td class="num">25</td></tr>
+      <tr><td>Hips</td><td class="num">88.0</td><td class="num">35</td></tr>
+      <tr><td>Upper arm, relaxed</td><td class="num">25.0</td><td class="num">9.8</td></tr>
+      <tr><td>Forearm</td><td class="num">22.0</td><td class="num">8.7</td></tr>
+      <tr><td>Wrist</td><td class="num">14.5</td><td class="num">5.7</td></tr>
+      <tr><td>Thigh, upper</td><td class="num">51.0</td><td class="num">20.1</td></tr>
+      <tr><td>Calf</td><td class="num">33.0</td><td class="num">13.0</td></tr>
+      <tr><td>Ankle</td><td class="num">20.0</td><td class="num">7.9</td></tr>
+      <tr class="ratio"><td>Waist-to-hip ratio</td><td class="num" colspan="2">0.73</td></tr>
+      <tr class="ratio"><td>Waist-to-height ratio</td><td class="num" colspan="2">0.40</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Lengths and breadths</h2>
+  <table>
+    <thead><tr><th>Measure</th><th class="num">cm</th><th class="num">in</th></tr></thead>
+    <tbody>
+      <tr><td>Sitting height</td><td class="num">85.5</td><td class="num">33.7</td></tr>
+      <tr><td>Shoulder breadth (biacromial)</td><td class="num">36.0</td><td class="num">14.2</td></tr>
+      <tr><td>Hip breadth (bitrochanteric)</td><td class="num">33.0</td><td class="num">13.0</td></tr>
+      <tr><td>Arm span</td><td class="num">161.0</td><td class="num">63.4</td></tr>
+      <tr><td>Arm length, shoulder to wrist</td><td class="num">54.0</td><td class="num">21.3</td></tr>
+      <tr><td>Inseam</td><td class="num">74.0</td><td class="num">29.1</td></tr>
+      <tr><td>Buttock-to-knee</td><td class="num">56.5</td><td class="num">22.2</td></tr>
+      <tr><td>Hand length</td><td class="num">17.8</td><td class="num">7.0</td></tr>
+      <tr><td>Hand breadth</td><td class="num">7.4</td><td class="num">2.9</td></tr>
+      <tr><td>Foot length</td><td class="num">23.5</td><td class="num">9.3</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Hands are slender and long-fingered, with stick and throttle callouses across both palms. Fine motor control is excellent; tremor nil.</p>
+</section>
+
+<section>
+  <h2>Sizing</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Brassiere</td><td>30D (UK)</td></tr>
+      <tr><td>Clothing</td><td>UK 8 · EU 36 · US 4</td></tr>
+      <tr><td>Shoe</td><td>EU 37 · US 6.5</td></tr>
+      <tr><td>Glove</td><td>6.5</td></tr>
+      <tr><td>Flight suit</td><td>Gutamaya women's S, regular length</td></tr>
+      <tr><td>Helmet</td><td>S (55 cm)</td></tr>
+    </tbody>
+  </table>
+  <h2>Cockpit fit</h2>
+  <p class="note">Seated anthropometrics fall within the design envelope of every hull in the RI-X fleet. Rudder and pedal reach on the Imperial Clipper <i>Void Runner</i> sits near the short limit; the seat runs two notches forward of standard. No other adjustments recorded.</p>
+</section>
+
+<section>
+  <h2>Vital signs</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Resting heart rate</td><td class="mono">58 bpm</td></tr>
+      <tr><td>Blood pressure</td><td class="mono">112/72 mmHg</td></tr>
+      <tr><td>Respiratory rate</td><td class="mono">14 /min</td></tr>
+      <tr><td>SpO₂</td><td class="mono">98% on room air</td></tr>
+      <tr><td>Core temperature</td><td class="mono">36.7 °C</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Clinical findings</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Blood type</td><td>O negative (universal donor; flagged for station blood reserve)</td></tr>
+      <tr><td>Visual acuity</td><td>6/6 (20/20) uncorrected, both eyes</td></tr>
+      <tr><td>Colour vision</td><td>Normal</td></tr>
+      <tr><td>Hearing</td><td>Normal; mild high-frequency dip, consistent with years of cockpit audio work</td></tr>
+      <tr><td>Bone density</td><td>Z-score -0.8 (low normal), consistent with extended low-g living; follow-up in 12 months</td></tr>
+      <tr><td>G tolerance</td><td>Within limits, relaxed and straining</td></tr>
+      <tr><td>Allergies</td><td>None known</td></tr>
+      <tr><td>Medication</td><td>None regular</td></tr>
+      <tr><td>Psychological</td><td>Self-contained and composed; reports irregular sleep hours. No concerns for flight.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Distinguishing marks</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Left eyebrow</td><td>Small linear scar through the brow, healed; from a hard landing during Federation contract service</td></tr>
+      <tr><td>Right forearm</td><td>Burn scar, healed; from the Scarab systems shutdown, Pleiades Sector LY-Q b5-2</td></tr>
+      <tr><td>Behind left ear</td><td>Small tattoo of Achenar's star</td></tr>
+      <tr><td>Face</td><td>Faint freckles across the nose; fine crow's-feet at the outer eyes</td></tr>
+      <tr><td>Clitoral hood</td><td>Pierced (bar)</td></tr>
+    </tbody>
+  </table>
+  <h2>Augmentations</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Neural interface port</td><td>Base of the skull. Gutamaya-era install from COVAS development work. Port seated, no inflammation, interface responsive. Firmware version not recorded; subject declined to disclose.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Physical features</h2>
+  <table class="wide">
+    <tbody>
+      <tr><td>Skin</td><td>Pale, tans poorly and burns easily; Fitzpatrick type I-II</td></tr>
+      <tr><td>Complexion</td><td>Clear, slightly dry from recycled station air</td></tr>
+      <tr><td>Hair</td><td>Chestnut, shoulder-length, tied back in flight</td></tr>
+      <tr><td>Hair texture</td><td>Fine and straight, with a slight wave at the ends</td></tr>
+      <tr><td>Eyebrows</td><td>Chestnut, fine and straight; left brow parted by the scar</td></tr>
+      <tr><td>Eyes</td><td>Pale blue, fine crow's-feet at the outer corners</td></tr>
+      <tr><td>Eyelashes</td><td>Medium length, darker than the hair</td></tr>
+      <tr><td>Face</td><td>Oval, high cheekbones</td></tr>
+      <tr><td>Nose</td><td>Narrow, straight bridge</td></tr>
+      <tr><td>Lips</td><td>Thin to medium, neutral set at rest</td></tr>
+      <tr><td>Teeth</td><td>Straight, complete; routine Imperial dental work, no prosthetics</td></tr>
+      <tr><td>Ears</td><td>Small, close-set; no piercings</td></tr>
+      <tr><td>Jaw and chin</td><td>Narrow jaw, small pointed chin</td></tr>
+      <tr><td>Nails</td><td>Short, unpolished, kept trimmed for console work</td></tr>
+      <tr><td>Body hair</td><td>Fine, light; armpits shaved, pubic hair trimmed into a thin strip</td></tr>
+      <tr><td>Nipples</td><td>Inverted</td></tr>
+      <tr><td>Areolae</td><td>5 cm (2 in); pale, slightly darker than skin tone</td></tr>
+      <tr><td>Labia</td><td>Labial hypertrophy, type 3 (4 cm, 1.5 in)</td></tr>
+      <tr><td>Clitoris</td><td>2.5 cm (1 in)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+
+<section>
+  <h2>Assessment</h2>
+  <div class="assess">
+    <p>Healthy 38-year-old female pilot in good physical condition after a prolonged period away from active service. Low-normal bone density reflects her low-g history and warrants a follow-up scan. The forearm burn has healed without functional loss. Cleared for unrestricted flight, including long-range operations beyond regular repair coverage.</p>
+    <div class="panel sign">
+      <span class="label">Examining officer</span>
+      <span>Station Medical, Ray Gateway</span>
+      <span class="mono">PILOTS FEDERATION · OCT 3312</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>Medical record compiled October 3312 at Ray Gateway, Diaguandri.</div>
+</footer>
+
+</div>
+</body>
+</html>
