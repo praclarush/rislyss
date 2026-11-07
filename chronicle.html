@@ -42,6 +42,11 @@ h2 { font-size: clamp(26px, 4.4vw, 34px); line-height: 1.1; }
 p { margin: 0; max-width: 66ch; }
 .chapter > p:first-of-type::first-letter { font-family: var(--f-display); font-size: 3.4em; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
 .contents { display: grid; gap: 6px; }
+.latest { display: grid; gap: 2px; padding: 12px 16px; margin: 6px 0 4px; border: 1px solid var(--accent-dim); background: var(--panel); color: var(--fg); text-decoration: none; }
+.latest:hover { border-color: var(--accent); }
+.latest:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.latest .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.latest .t { font-family: var(--f-display); font-size: 19px; font-weight: 600; }
 .toc { list-style: none; margin: 0; padding: 0; display: grid; }
 .toc a { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 1px dashed var(--line); color: var(--fg); text-decoration: none; }
 .toc li:first-child a { border-top: 0; }
@@ -119,6 +124,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 
   <section class="contents">
     <div class="label">Chapters</div>
+    <a class="latest" href="chronicle/7.html#latest"><span class="d">Latest entry · Chapter seven</span><span class="t">Makonda Leisure Complex</span></a>
     <ol class="toc">
       <li><a href="chronicle/1.html">
         <div class="n"><b>Chapter one</b><span>July to September 3308</span></div>

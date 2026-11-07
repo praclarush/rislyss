@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a cockpit side-panel read top to bottom: identity, then a sticky section index over career (a vertical timeline), flight path, sessions and the event log (both folded by day), ledger and lifetime totals. Charts redraw at their real width so their text stays at reading size. Ends with handoffs to the hangar and chronicle. Single dark HUD world by choice. */
+/* Layout: a cockpit side-panel read top to bottom: identity, then a link to the latest session and a sticky section index over flight path, sessions and the event log (both folded by day, newest first), ledger, career (a vertical timeline folded by era, latest open) and lifetime totals. Charts redraw at their real width so their text stays at reading size. Ends with handoffs to the hangar and chronicle. Single dark HUD world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -161,7 +161,18 @@ h1 span { color: var(--accent); }
 .era .when { font-family: var(--f-mono); font-size: 13px; line-height: 1.5; color: var(--fg); text-align: right; margin: 0; padding-top: 2px; }
 .era .when small { display: block; font-size: 12px; color: var(--muted); }
 .era .what { display: grid; gap: 10px; max-width: 76ch; }
-.era h3 { font-size: 20px; }
+.era h3 { font-size: 20px; display: inline; }
+.efold > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; cursor: pointer; list-style: none; min-height: 44px; }
+.efold > summary::-webkit-details-marker { display: none; }
+.efold > summary h3::before { content: "▸"; display: inline-block; width: 1.1em; color: var(--accent); transition: transform .2s cubic-bezier(.22, 1, .36, 1); }
+.efold[open] > summary h3::before { transform: rotate(90deg); }
+.efold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.efold .ec { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.efold ul { margin-top: 10px; }
+.latest { display: grid; gap: 2px; justify-items: start; max-width: 62ch; padding: 12px 16px; border: 1px solid var(--accent-dim); background: var(--panel); color: var(--fg); text-decoration: none; }
+.latest:hover { border-color: var(--accent); }
+.latest:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.latest .go { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
 .era ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 13.5px; }
 .era li { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
 .era li .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
@@ -249,7 +260,7 @@ h1 span { color: var(--accent); }
 .toc a { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 11px 0; border-bottom: 2px solid transparent; }
 .toc a:hover { color: var(--fg); }
 .toc a.on { color: var(--fg); border-bottom-color: var(--accent); }
-section[id] { scroll-margin-top: 112px; }
+section[id], #latest-session { scroll-margin-top: 112px; }
 .totop { position: fixed; right: 16px; bottom: 16px; z-index: 6; display: grid; place-items: center; width: 44px; height: 44px; background: var(--panel); border: 1px solid var(--line); color: var(--fg); text-decoration: none; font: 600 18px var(--f-display); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .25s cubic-bezier(.22, 1, .36, 1), transform .25s cubic-bezier(.22, 1, .36, 1); }
 .totop.show { opacity: 1; transform: none; pointer-events: auto; }
 .totop:hover { border-color: var(--accent); }
@@ -297,7 +308,7 @@ text { font-family: var(--f-mono); }
   .toc { gap: 0 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .totop, .sd::before, .lday .day::before, .notes > summary::before { transition: none; }
+  .totop, .sd::before, .lday .day::before, .notes > summary::before, .efold > summary h3::before { transition: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .route-line { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.4s .3s ease-out forwards; }
@@ -334,6 +345,7 @@ text { font-family: var(--f-mono); }
 <header id="top">
   <div class="eyebrow">COMMANDER'S JOURNAL + INARA PROFILE · JUL 2022 – NOV 2026 · 63,252 JOURNAL EVENTS · 97 ACHIEVEMENTS</div>
   <h1>CMDR <span>Rislyss</span></h1>
+  <a class="latest" id="latest-link" href="#latest-session">Latest session</a>
   <div class="idline">
     <div>Squadron <b>United Systems Cooperative</b> · Member</div>
     <div>Pledged <b>Li Yong-Rui</b> · rank 8 · 43,846 merits</div>
@@ -378,156 +390,13 @@ text { font-family: var(--f-mono); }
 </header>
 
 <nav class="toc" aria-label="On this page">
-  <a href="#career">Career</a>
   <a href="#path">Flight path</a>
   <a href="#sessions">Sessions</a>
   <a href="#log-events">Log</a>
   <a href="#ledger">Ledger</a>
+  <a href="#career">Career</a>
   <a href="#totals">Totals</a>
 </nav>
-
-<section id="career">
-  <h2>Career history</h2>
-  <div class="panel swim"><svg id="swim" viewBox="0 0 1000 250" role="img" aria-label="Achievements from July 2022 to October 2026 by category"></svg></div>
-  <div class="eras">
-    <div class="era">
-      <p class="when">Jul – Sep 2022<small>42 achievements</small></p>
-      <div class="what">
-      <h3>Learning to fly far</h3>
-      <ul>
-        <li><span class="d">24 Jul</span><span>First Inara record. Found Farseer, Martuuk, the Dweller, McQuinn and Ryder.</span></li>
-        <li><span class="d">28 Jul</span><span>Explorer: Mostly Aimless, then Surveyor the same day.</span></li>
-        <li><span class="d">29–31 Jul</span><span>Bought three Asp Explorers, sold one. Trailblazer, then Pathfinder.</span></li>
-        <li><span class="d">2 Aug</span><span>Bought the Diamondback Explorer, later named Dreaming Void.</span></li>
-        <li><span class="d">7–9 Aug</span><span>Explorer: Ranger. Bought the Dolphin and the Viper Mk III.</span></li>
-        <li><span class="d">24 Sep</span><span>Explorer: Pioneer. Trade: Broker. Federal Navy: Ensign. Farseer at grade 5.</span></li>
-        <li><span class="d">28 Sep</span><span>Bought a Federal Gunship. Then 23 months of silence.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">Aug – Dec 2024<small>54 achievements</small></p>
-      <div class="what">
-      <h3>The Imperial return</h3>
-      <ul>
-        <li><span class="d">17 Aug</span><span>Bought two Type-8 Transporters, sold one.</span></li>
-        <li><span class="d">23–24 Aug</span><span>Imperial Navy: Outsider to Baron across five ranks.</span></li>
-        <li><span class="d">28 Aug</span><span>Bought the Imperial Clipper. Exobiologist: Compiler.</span></li>
-        <li><span class="d">31 Aug</span><span>Martuuk to grade 3, Qwent to grade 3. Sold the Gunship and two Asps on 1 Sep.</span></li>
-        <li><span class="d">8–13 Sep</span><span>Bought the Krait Phantom and the Fer-de-Lance.</span></li>
-        <li><span class="d">15–18 Sep</span><span>Imperial Navy: Viscount. Pledged Li Yong-Rui. Last Thargoid encounter, in the Krait Phantom at Pleiades Sector XF-N b7-1.</span></li>
-        <li><span class="d">23 Dec</span><span>Combat: Novice. Eight engineers recorded at grade 5.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">3–15 Oct 2026</p>
-      <div class="what">
-      <h3>Back in the black</h3>
-      <ul>
-        <li><span class="d">3 Oct</span><span>Four short launches, all parked in the SRV in the Pleiades.</span></li>
-        <li><span class="d">4 Oct</span><span>Flew 10 jumps home to Diaguandri and sold 1.87M CR of data.</span></li>
-        <li><span class="d">4 Oct</span><span>Pledged Li Yong-Rui again, after 21 months away.</span></li>
-        <li><span class="d">4 Oct</span><span>Refitted the Mandalay and renamed it Aurora.</span></li>
-        <li><span class="d">4 Oct</span><span>Took Dreaming Void north past Sol to Orrere, mapped a moon and prospected it.</span></li>
-        <li><span class="d">4 Oct</span><span>Earned her first 10 Powerplay merits, then ran 449 ly east to HR 3230.</span></li>
-        <li><span class="d">5 Oct</span><span>Flew home, made 2,120 merits, ran the 15-trade materials plan for Aurora.</span></li>
-        <li><span class="d">5 Oct</span><span>Aurora: Heavy Duty G5 armour from Selene Jean, Overcharged G5 power plant from Hera Tani.</span></li>
-        <li><span class="d">6 Oct</span><span>Six engineers in one evening: 129 rolls on nine Aurora modules. Ram Tah reached rank 5.</span></li>
-        <li><span class="d">7 Oct</span><span>Aurora's refit declared finished as far as it can go for now.</span></li>
-        <li><span class="d">6 Oct</span><span>Passed 100,000 ly in hyperspace.</span></li>
-        <li><span class="d">8 Oct</span><span>Unlocked Tiana Fortune in Achenar and took her to rank 3 on Aurora's wake scanner.</span></li>
-        <li><span class="d">8 Oct</span><span>Swapped Aurora to her stored 3A power plant and took it to G5 at Hera Tani: 16.8 MW. Wake scanner Lightweight G3 at Bill Turner.</span></li>
-        <li><span class="d">9 Oct</span><span>Finished Aurora's point defence at Ram Tah: Lightweight G5. Her refit is complete as far as her engineers allow.</span></li>
-        <li><span class="d">9 Oct</span><span>First rare-goods run for Li Yong-Rui in Void Runner: 15 Damna Carapaces sold in an acquisition system for 3,665 merits.</span></li>
-        <li><span class="d">10 Oct</span><span>Artemis back in service: four bounties at the Diaguandri nav beacon for 817,557 CR, including a Master-ranked Krait Mk II worth 605,338 CR.</span></li>
-        <li><span class="d">10 Oct</span><span>Power wreckage salvage in Void Runner: 314,013 CR and 560 merits in two hand-ins. Destroyed on the third run by an Expert-ranked Diamondback Explorer; rebuy 2.67M CR.</span></li>
-        <li><span class="d">11 Oct</span><span>Powerplay rank 5 with Li Yong-Rui: salvage, Sirius franchise packages to an acquisition system and corporate contracts to a Pranav Antal station. 16,761 merits.</span></li>
-        <li><span class="d">11 Oct</span><span>Redeemed a Caspian Explorer from a shipyard bundle, registered by the shipyard as Reliant Seeker.</span></li>
-        <li><span class="d">11 Oct</span><span>Aurora flew two expansion courier jobs for the Party of Yoru into Aisling Duval space: 40,000 CR.</span></li>
-        <li><span class="d">12 Oct</span><span>Nine more missions for the Party of Yoru around Yoru: 242,353 CR, and an engineer invitation from them.</span></li>
-        <li><span class="d">12 Oct</span><span>Unlocked Zacariah Nemo in Yoru with 25 Xihe Biomorphic Companions bought at Xihe.</span></li>
-        <li><span class="d">13 Oct</span><span>Invictus out as the salvage vessel: four Meta-Alloys and a Titan Drive Component from HIP 20567 7, then 12 more Meta-Alloys bought from two fleet carriers for 28.2M CR.</span></li>
-        <li><span class="d">14 Oct</span><span>Sold the 16 Meta-Alloys to a fleet carrier in Luyten's Star for 311.3M CR and the Titan Drive Component for 36.2M: about 319M CR profit on the run.</span></li>
-        <li><span class="d">14 Oct</span><span>Aurora back out to HR 3230 3 a a, by way of a surface map and a wreck site at LHS 417, for SRV prospecting.</span></li>
-        <li><span class="d">15 Oct</span><span>Fifteen material trades at the three brokers, the full set planned for Reliant Seeker.</span></li>
-        <li><span class="d">15 Oct</span><span>Sourced 21 Palladium for EXO at Garrido's Locus in Diaguandri: 14,430,912 CR. Killed on foot by the settlement's security and recovered from a detainment centre before the delivery.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">16 to 26 Oct 2026</p>
-      <div class="what">
-      <h3>The exobiology expedition</h3>
-      <ul>
-        <li><span class="d">16 Oct</span><span>Outfitted the Caspian for exobiology at Ray Gateway: 6A power plant, Bi-Weave shield, Guardian booster, Mk II vessel hangar. 18.5M CR.</span></li>
-        <li><span class="d">16 Oct</span><span>Engineered the Caspian at Farseer (FSD Long Range G5, Mass Manager), Lei Cheung (sensors, shield and surface scanner G5) and Ram Tah: 83.5 ly.</span></li>
-        <li><span class="d">17 Oct</span><span>Engineering tour: thrusters at Palin, distributor at the Dweller, armour at Selene Jean, life support at Bill Turner, power plant at Hera Tani.</span></li>
-        <li><span class="d">17 Oct</span><span>Named the Caspian Hymn of the Long Night, RI-X05, and her Nomad Refrain, X05-N1.</span></li>
-        <li><span class="d">17 Oct</span><span>Shakedown cruise: a neutron boost at Jackson's Lighthouse, a 207.7 ly jump, and the expedition's first sample, Stratum Paleas, for 1.36M CR. Stripped Down added to the shield at Lei Cheung.</span></li>
-        <li><span class="d">18 Oct</span><span>First sampling day, around Synuefai and Mel 22 Sector, about 510 ly from Sol: 13 analyses on 12 bodies and nine new Codex entries, all from the Nomad Refrain.</span></li>
-        <li><span class="d">19 Oct</span><span>On through Synuefai to HIP 16403, where one moon gave three new species: Cactoida Vermis, Osseus Discus and Clypeus Lacrimam. 6 analyses; 19 unsold.</span></li>
-        <li><span class="d">20 Oct</span><span>Further south-west through Synuefai, about 970 ly from Sol: 4 analyses and four new Codex entries, three of them on one planet and left unsampled. 23 unsold. The drive's break-in is over: rated range up from 83.8 to 91.3 ly.</span></li>
-        <li><span class="d">21 Oct</span><span>Past 1,100 ly from Sol in Synuefai: two more Stratum Tectonicas. 25 unsold.</span></li>
-        <li><span class="d">22 Oct</span><span>Synuefai: 5 analyses, with Recepta Umbrux and Emerald Stratum Tectonicas new to the Codex. 30 unsold.</span></li>
-        <li><span class="d">23 Oct</span><span>Into Oochost, out to about 1,400 ly from Sol: a neutron boost for a 393.5 ly jump, the longest in the record, and 20 analyses, with Turquoise Stratum Tectonicas and Bacterium Tela new to the Codex. 50 unsold.</span></li>
-        <li><span class="d">24 Oct</span><span>North through Synuefai to the Taurus Dark Region, back to about 555 ly from Sol: 17 analyses, with Amethyst Stratum Tectonicas and Amethyst and Mauve Cactoida Vermis new to the Codex. 67 unsold.</span></li>
-        <li><span class="d">25 Oct</span><span>Last samples, through the Taurus Dark Region to the Pleiades: 15 analyses. The expedition ends with 79 jumps and 4,808 ly flown since 18 Oct, 82 analyses unsold and 23 new Codex variants. Course plotted for Diaguandri.</span></li>
-        <li><span class="d">26 Oct</span><span>Home to Diaguandri through a Thargoid hyperdiction. Sold the expedition's data for 1.59 billion CR: 82 analyses for 1,566.78M, with a first-logged bonus of 76.04M for Turquoise Stratum Tectonicas, and 82 systems for 27.70M. Exobiologist Compiler to Taxonomist; Powerplay rank 5 to 7.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">26 to 27 Oct 2026</p>
-      <div class="what">
-      <h3>Sol and the road to Colonia</h3>
-      <ul>
-        <li><span class="d">26 Oct</span><span>To Sol: the memorials and the Cradle of Humanity at Earth, the Nonhuman Relic at Mars, and an ancient probe far out from the Sun.</span></li>
-        <li><span class="d">26 Oct</span><span>Sol to Skaudai, about 11,780 ly from Sol, in 59 jumps, 31 of them neutron-boosted: Rhapsody in Blue, IC 1287, the Red Spider, Omega, Lagoon, Trifid and Eagle nebulae, Viridian Dreams, the Collection of Wonders and Campana Aurora. Five notable stellar phenomena.</span></li>
-        <li><span class="d">27 Oct</span><span>Skaudai to Colonia, 35 jumps and 11,347 ly, 26 boosted: the Fields of Elysium, Arcane Allure, Matryoshka, Evelyn's Light and Monde de la Mort. At Jaques Station, 6 analyses for 353.83M, every one with a first-logged bonus, and cartographic data for 18.52M. Hephaestus and Artemis sent on from Diaguandri for 221.27M.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">28 to 29 Oct 2026</p>
-      <div class="what">
-      <h3>Colonia</h3>
-      <ul>
-        <li><span class="d">28 Oct</span><span>Settling in: five settlements on Colonia's moons, a missile rack for Hymn, Kinesi and Carcosa, and a courier job for the Colonia Council.</span></li>
-        <li><span class="d">29 Oct</span><span>Back to Diaguandri in one run: 84 jumps, 46 of them boosted, 23,111 ly, in 2 hours 10 minutes from Jaques Station to Ray Gateway.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">Oct 2026<small>from 29 Oct</small></p>
-      <div class="what">
-      <h3>Back in the bubble</h3>
-      <ul>
-        <li><span class="d">29 Oct</span><span>LFT 509, newly opened by the Pilots Federation, in Invictus: five uplinks at Perpetual Toil, ten abandoned data logs on B 3 b, salvage, and 1.0M CR in data-link vouchers.</span></li>
-        <li><span class="d">29 Oct</span><span>A Powerplay round for Li Yong-Rui in Invictus: five nav beacons, power wreckage and search and rescue. Powerplay rank 8.</span></li>
-        <li><span class="d">30 Oct</span><span>Power wreckage salvage in Invictus, 15 escape pods and 670,397 CR in three hand-ins; Altairian Skin in Void Runner, 1.17M CR profit and 3,026 merits. Hymn of the Long Night sets out for Colonia again.</span></li>
-      </ul>
-      </div>
-    </div>
-    <div class="era">
-      <p class="when">Oct to Nov 2026<small>from 30 Oct</small></p>
-      <div class="what">
-      <h3>Return to Colonia</h3>
-      <ul>
-        <li><span class="d">31 Oct</span><span>Pyraleau to Colonia, 61 jumps and 15,434 ly, 30 of them boosted. Cartographic data sold at Dove Enigma for 4.84M CR.</span></li>
-        <li><span class="d">31 Oct</span><span>An on-foot job at Konig Synthetics Enterprise for Holloway Bioscience Institute failed: a murder bounty, and a recovery at Odin's Crag.</span></li>
-        <li><span class="d">1 Nov</span><span>Hephaestus mines the Colonia 4 rings and unlocks Marsha Hicks at Tir, rank 5 in one visit with her refinery at Shielded grade 5, and Etienne Dorn at Los with 25 escape pods. Hymn takes an SRV bay and restores power at four settlements around Ogmar.</span></li>
-        <li><span class="d">2 Nov</span><span>Hymn tours Asura and Santos Dumont, then lands at Oliveira Genetics Exploration in Carcosa, a lawless settlement of The Nameless, for an on-foot raid: 100 items and six data sets. Back to Jaques Station.</span></li>
-        <li><span class="d">3 Nov</span><span>Artemis flies for the first time in Colonia: four bounties at Ogmar, then an invitation run to Ratraii, and 100,000 CR of the bounties unlock Mel Brandon at The Brig, Luchtaine.</span></li>
-        <li><span class="d">4 Nov</span><span>Artemis takes a Keelback's bounty at Tenjin; then Hymn lands at Yoon's Installation in Carcosa, another lawless settlement of The Nameless, for a second on-foot raid: 51 components, 21 goods and 11 data sets.</span></li>
-        <li><span class="d">5 Nov</span><span>Home to the bubble: 85 jumps from Carcosa to Diaguandri, 49 of them boosted, 23,428 ly, leaving Artemis and Hephaestus at Jaques Station. Sold 5.996M CR of data at Hunziker Terminal, LHS 1163.</span></li>
-        <li><span class="d">6 Nov</span><span>Raid on Makonda Leisure Complex, Fiden: 49 components and 40 goods brought out, then killed on a second pass, losing 38 components, 24 goods, 18 data sets and a Scarab.</span></li>
-      </ul>
-      </div>
-    </div>
-  </div>
-  <p class="sub"><span class="tag inf" style="margin-left:0">inference</span> Many entries share exact timestamps (24 Sep 2022 at 19:49 and 23 Dec 2024 at 09:15). Those look like Inara game-data imports, so the true dates for those entries may be earlier.</p>
-</section>
 
 <section id="path">
   <h2>Flight path</h2>
@@ -673,6 +542,157 @@ text { font-family: var(--f-mono); }
       <p>Thirty times the game's own balance at login disagreed with the logged transactions: 791 CR lower on 4 Oct, 28,621 CR higher on 6 Oct, 7,185 CR lower on 8 Oct, 48 CR lower on 9 Oct 260,310 CR higher between the two sessions on 10 Oct, 1 CR lower on 11 Oct, 507,999 CR higher at the first login on 12 Oct and 1 CR lower at the second, 15 CR lower on 14 Oct, 4,999,999 CR higher on 15 Oct 10 CR lower on 16 Oct, 11 CR lower on 17 Oct, 12 CR lower on 18 Oct, 500,000 CR higher on 22 Oct, 10 CR lower on 26 Oct, 600 CR higher on 28 Oct, 10,000,000 CR higher on the morning of 29 Oct, 1,415 CR lower at that afternoon's relaunch, 697 CR higher that evening, 1,010 CR lower on the morning of 30 Oct and 1 CR lower at each of that day's two later logins, 2 CR lower on 31 Oct, 11 CR lower on the morning of 1 Nov, 1 CR lower at each of that day's next three logins and 10 CR lower at the evening relaunch, 2,500,000 CR higher on 5 Nov and 10 CR lower at that evening's relaunch. No journal event accounts for any of them.</p>
     </div>
   </details>
+</section>
+
+<section id="career">
+  <h2>Career history</h2>
+  <div class="panel swim"><svg id="swim" viewBox="0 0 1000 250" role="img" aria-label="Achievements from July 2022 to October 2026 by category"></svg></div>
+  <div class="eras">
+    <div class="era">
+      <p class="when">Jul – Sep 2022<small>42 achievements</small></p>
+      <div class="what">
+      <details class="efold"><summary><h3>Learning to fly far</h3><span class="ec">7 entries</span></summary>
+      <ul>
+        <li><span class="d">24 Jul</span><span>First Inara record. Found Farseer, Martuuk, the Dweller, McQuinn and Ryder.</span></li>
+        <li><span class="d">28 Jul</span><span>Explorer: Mostly Aimless, then Surveyor the same day.</span></li>
+        <li><span class="d">29–31 Jul</span><span>Bought three Asp Explorers, sold one. Trailblazer, then Pathfinder.</span></li>
+        <li><span class="d">2 Aug</span><span>Bought the Diamondback Explorer, later named Dreaming Void.</span></li>
+        <li><span class="d">7–9 Aug</span><span>Explorer: Ranger. Bought the Dolphin and the Viper Mk III.</span></li>
+        <li><span class="d">24 Sep</span><span>Explorer: Pioneer. Trade: Broker. Federal Navy: Ensign. Farseer at grade 5.</span></li>
+        <li><span class="d">28 Sep</span><span>Bought a Federal Gunship. Then 23 months of silence.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">Aug – Dec 2024<small>54 achievements</small></p>
+      <div class="what">
+      <details class="efold"><summary><h3>The Imperial return</h3><span class="ec">7 entries</span></summary>
+      <ul>
+        <li><span class="d">17 Aug</span><span>Bought two Type-8 Transporters, sold one.</span></li>
+        <li><span class="d">23–24 Aug</span><span>Imperial Navy: Outsider to Baron across five ranks.</span></li>
+        <li><span class="d">28 Aug</span><span>Bought the Imperial Clipper. Exobiologist: Compiler.</span></li>
+        <li><span class="d">31 Aug</span><span>Martuuk to grade 3, Qwent to grade 3. Sold the Gunship and two Asps on 1 Sep.</span></li>
+        <li><span class="d">8–13 Sep</span><span>Bought the Krait Phantom and the Fer-de-Lance.</span></li>
+        <li><span class="d">15–18 Sep</span><span>Imperial Navy: Viscount. Pledged Li Yong-Rui. Last Thargoid encounter, in the Krait Phantom at Pleiades Sector XF-N b7-1.</span></li>
+        <li><span class="d">23 Dec</span><span>Combat: Novice. Eight engineers recorded at grade 5.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">3–15 Oct 2026</p>
+      <div class="what">
+      <details class="efold"><summary><h3>Back in the black</h3><span class="ec">27 entries</span></summary>
+      <ul>
+        <li><span class="d">3 Oct</span><span>Four short launches, all parked in the SRV in the Pleiades.</span></li>
+        <li><span class="d">4 Oct</span><span>Flew 10 jumps home to Diaguandri and sold 1.87M CR of data.</span></li>
+        <li><span class="d">4 Oct</span><span>Pledged Li Yong-Rui again, after 21 months away.</span></li>
+        <li><span class="d">4 Oct</span><span>Refitted the Mandalay and renamed it Aurora.</span></li>
+        <li><span class="d">4 Oct</span><span>Took Dreaming Void north past Sol to Orrere, mapped a moon and prospected it.</span></li>
+        <li><span class="d">4 Oct</span><span>Earned her first 10 Powerplay merits, then ran 449 ly east to HR 3230.</span></li>
+        <li><span class="d">5 Oct</span><span>Flew home, made 2,120 merits, ran the 15-trade materials plan for Aurora.</span></li>
+        <li><span class="d">5 Oct</span><span>Aurora: Heavy Duty G5 armour from Selene Jean, Overcharged G5 power plant from Hera Tani.</span></li>
+        <li><span class="d">6 Oct</span><span>Six engineers in one evening: 129 rolls on nine Aurora modules. Ram Tah reached rank 5.</span></li>
+        <li><span class="d">7 Oct</span><span>Aurora's refit declared finished as far as it can go for now.</span></li>
+        <li><span class="d">6 Oct</span><span>Passed 100,000 ly in hyperspace.</span></li>
+        <li><span class="d">8 Oct</span><span>Unlocked Tiana Fortune in Achenar and took her to rank 3 on Aurora's wake scanner.</span></li>
+        <li><span class="d">8 Oct</span><span>Swapped Aurora to her stored 3A power plant and took it to G5 at Hera Tani: 16.8 MW. Wake scanner Lightweight G3 at Bill Turner.</span></li>
+        <li><span class="d">9 Oct</span><span>Finished Aurora's point defence at Ram Tah: Lightweight G5. Her refit is complete as far as her engineers allow.</span></li>
+        <li><span class="d">9 Oct</span><span>First rare-goods run for Li Yong-Rui in Void Runner: 15 Damna Carapaces sold in an acquisition system for 3,665 merits.</span></li>
+        <li><span class="d">10 Oct</span><span>Artemis back in service: four bounties at the Diaguandri nav beacon for 817,557 CR, including a Master-ranked Krait Mk II worth 605,338 CR.</span></li>
+        <li><span class="d">10 Oct</span><span>Power wreckage salvage in Void Runner: 314,013 CR and 560 merits in two hand-ins. Destroyed on the third run by an Expert-ranked Diamondback Explorer; rebuy 2.67M CR.</span></li>
+        <li><span class="d">11 Oct</span><span>Powerplay rank 5 with Li Yong-Rui: salvage, Sirius franchise packages to an acquisition system and corporate contracts to a Pranav Antal station. 16,761 merits.</span></li>
+        <li><span class="d">11 Oct</span><span>Redeemed a Caspian Explorer from a shipyard bundle, registered by the shipyard as Reliant Seeker.</span></li>
+        <li><span class="d">11 Oct</span><span>Aurora flew two expansion courier jobs for the Party of Yoru into Aisling Duval space: 40,000 CR.</span></li>
+        <li><span class="d">12 Oct</span><span>Nine more missions for the Party of Yoru around Yoru: 242,353 CR, and an engineer invitation from them.</span></li>
+        <li><span class="d">12 Oct</span><span>Unlocked Zacariah Nemo in Yoru with 25 Xihe Biomorphic Companions bought at Xihe.</span></li>
+        <li><span class="d">13 Oct</span><span>Invictus out as the salvage vessel: four Meta-Alloys and a Titan Drive Component from HIP 20567 7, then 12 more Meta-Alloys bought from two fleet carriers for 28.2M CR.</span></li>
+        <li><span class="d">14 Oct</span><span>Sold the 16 Meta-Alloys to a fleet carrier in Luyten's Star for 311.3M CR and the Titan Drive Component for 36.2M: about 319M CR profit on the run.</span></li>
+        <li><span class="d">14 Oct</span><span>Aurora back out to HR 3230 3 a a, by way of a surface map and a wreck site at LHS 417, for SRV prospecting.</span></li>
+        <li><span class="d">15 Oct</span><span>Fifteen material trades at the three brokers, the full set planned for Reliant Seeker.</span></li>
+        <li><span class="d">15 Oct</span><span>Sourced 21 Palladium for EXO at Garrido's Locus in Diaguandri: 14,430,912 CR. Killed on foot by the settlement's security and recovered from a detainment centre before the delivery.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">16 to 26 Oct 2026</p>
+      <div class="what">
+      <details class="efold"><summary><h3>The exobiology expedition</h3><span class="ec">14 entries</span></summary>
+      <ul>
+        <li><span class="d">16 Oct</span><span>Outfitted the Caspian for exobiology at Ray Gateway: 6A power plant, Bi-Weave shield, Guardian booster, Mk II vessel hangar. 18.5M CR.</span></li>
+        <li><span class="d">16 Oct</span><span>Engineered the Caspian at Farseer (FSD Long Range G5, Mass Manager), Lei Cheung (sensors, shield and surface scanner G5) and Ram Tah: 83.5 ly.</span></li>
+        <li><span class="d">17 Oct</span><span>Engineering tour: thrusters at Palin, distributor at the Dweller, armour at Selene Jean, life support at Bill Turner, power plant at Hera Tani.</span></li>
+        <li><span class="d">17 Oct</span><span>Named the Caspian Hymn of the Long Night, RI-X05, and her Nomad Refrain, X05-N1.</span></li>
+        <li><span class="d">17 Oct</span><span>Shakedown cruise: a neutron boost at Jackson's Lighthouse, a 207.7 ly jump, and the expedition's first sample, Stratum Paleas, for 1.36M CR. Stripped Down added to the shield at Lei Cheung.</span></li>
+        <li><span class="d">18 Oct</span><span>First sampling day, around Synuefai and Mel 22 Sector, about 510 ly from Sol: 13 analyses on 12 bodies and nine new Codex entries, all from the Nomad Refrain.</span></li>
+        <li><span class="d">19 Oct</span><span>On through Synuefai to HIP 16403, where one moon gave three new species: Cactoida Vermis, Osseus Discus and Clypeus Lacrimam. 6 analyses; 19 unsold.</span></li>
+        <li><span class="d">20 Oct</span><span>Further south-west through Synuefai, about 970 ly from Sol: 4 analyses and four new Codex entries, three of them on one planet and left unsampled. 23 unsold. The drive's break-in is over: rated range up from 83.8 to 91.3 ly.</span></li>
+        <li><span class="d">21 Oct</span><span>Past 1,100 ly from Sol in Synuefai: two more Stratum Tectonicas. 25 unsold.</span></li>
+        <li><span class="d">22 Oct</span><span>Synuefai: 5 analyses, with Recepta Umbrux and Emerald Stratum Tectonicas new to the Codex. 30 unsold.</span></li>
+        <li><span class="d">23 Oct</span><span>Into Oochost, out to about 1,400 ly from Sol: a neutron boost for a 393.5 ly jump, the longest in the record, and 20 analyses, with Turquoise Stratum Tectonicas and Bacterium Tela new to the Codex. 50 unsold.</span></li>
+        <li><span class="d">24 Oct</span><span>North through Synuefai to the Taurus Dark Region, back to about 555 ly from Sol: 17 analyses, with Amethyst Stratum Tectonicas and Amethyst and Mauve Cactoida Vermis new to the Codex. 67 unsold.</span></li>
+        <li><span class="d">25 Oct</span><span>Last samples, through the Taurus Dark Region to the Pleiades: 15 analyses. The expedition ends with 79 jumps and 4,808 ly flown since 18 Oct, 82 analyses unsold and 23 new Codex variants. Course plotted for Diaguandri.</span></li>
+        <li><span class="d">26 Oct</span><span>Home to Diaguandri through a Thargoid hyperdiction. Sold the expedition's data for 1.59 billion CR: 82 analyses for 1,566.78M, with a first-logged bonus of 76.04M for Turquoise Stratum Tectonicas, and 82 systems for 27.70M. Exobiologist Compiler to Taxonomist; Powerplay rank 5 to 7.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">26 to 27 Oct 2026</p>
+      <div class="what">
+      <details class="efold"><summary><h3>Sol and the road to Colonia</h3><span class="ec">3 entries</span></summary>
+      <ul>
+        <li><span class="d">26 Oct</span><span>To Sol: the memorials and the Cradle of Humanity at Earth, the Nonhuman Relic at Mars, and an ancient probe far out from the Sun.</span></li>
+        <li><span class="d">26 Oct</span><span>Sol to Skaudai, about 11,780 ly from Sol, in 59 jumps, 31 of them neutron-boosted: Rhapsody in Blue, IC 1287, the Red Spider, Omega, Lagoon, Trifid and Eagle nebulae, Viridian Dreams, the Collection of Wonders and Campana Aurora. Five notable stellar phenomena.</span></li>
+        <li><span class="d">27 Oct</span><span>Skaudai to Colonia, 35 jumps and 11,347 ly, 26 boosted: the Fields of Elysium, Arcane Allure, Matryoshka, Evelyn's Light and Monde de la Mort. At Jaques Station, 6 analyses for 353.83M, every one with a first-logged bonus, and cartographic data for 18.52M. Hephaestus and Artemis sent on from Diaguandri for 221.27M.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">28 to 29 Oct 2026</p>
+      <div class="what">
+      <details class="efold"><summary><h3>Colonia</h3><span class="ec">2 entries</span></summary>
+      <ul>
+        <li><span class="d">28 Oct</span><span>Settling in: five settlements on Colonia's moons, a missile rack for Hymn, Kinesi and Carcosa, and a courier job for the Colonia Council.</span></li>
+        <li><span class="d">29 Oct</span><span>Back to Diaguandri in one run: 84 jumps, 46 of them boosted, 23,111 ly, in 2 hours 10 minutes from Jaques Station to Ray Gateway.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">Oct 2026<small>from 29 Oct</small></p>
+      <div class="what">
+      <details class="efold"><summary><h3>Back in the bubble</h3><span class="ec">3 entries</span></summary>
+      <ul>
+        <li><span class="d">29 Oct</span><span>LFT 509, newly opened by the Pilots Federation, in Invictus: five uplinks at Perpetual Toil, ten abandoned data logs on B 3 b, salvage, and 1.0M CR in data-link vouchers.</span></li>
+        <li><span class="d">29 Oct</span><span>A Powerplay round for Li Yong-Rui in Invictus: five nav beacons, power wreckage and search and rescue. Powerplay rank 8.</span></li>
+        <li><span class="d">30 Oct</span><span>Power wreckage salvage in Invictus, 15 escape pods and 670,397 CR in three hand-ins; Altairian Skin in Void Runner, 1.17M CR profit and 3,026 merits. Hymn of the Long Night sets out for Colonia again.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+    <div class="era">
+      <p class="when">Oct to Nov 2026<small>from 30 Oct</small></p>
+      <div class="what">
+      <details class="efold" open><summary><h3>Return to Colonia</h3><span class="ec">8 entries</span></summary>
+      <ul>
+        <li><span class="d">31 Oct</span><span>Pyraleau to Colonia, 61 jumps and 15,434 ly, 30 of them boosted. Cartographic data sold at Dove Enigma for 4.84M CR.</span></li>
+        <li><span class="d">31 Oct</span><span>An on-foot job at Konig Synthetics Enterprise for Holloway Bioscience Institute failed: a murder bounty, and a recovery at Odin's Crag.</span></li>
+        <li><span class="d">1 Nov</span><span>Hephaestus mines the Colonia 4 rings and unlocks Marsha Hicks at Tir, rank 5 in one visit with her refinery at Shielded grade 5, and Etienne Dorn at Los with 25 escape pods. Hymn takes an SRV bay and restores power at four settlements around Ogmar.</span></li>
+        <li><span class="d">2 Nov</span><span>Hymn tours Asura and Santos Dumont, then lands at Oliveira Genetics Exploration in Carcosa, a lawless settlement of The Nameless, for an on-foot raid: 100 items and six data sets. Back to Jaques Station.</span></li>
+        <li><span class="d">3 Nov</span><span>Artemis flies for the first time in Colonia: four bounties at Ogmar, then an invitation run to Ratraii, and 100,000 CR of the bounties unlock Mel Brandon at The Brig, Luchtaine.</span></li>
+        <li><span class="d">4 Nov</span><span>Artemis takes a Keelback's bounty at Tenjin; then Hymn lands at Yoon's Installation in Carcosa, another lawless settlement of The Nameless, for a second on-foot raid: 51 components, 21 goods and 11 data sets.</span></li>
+        <li><span class="d">5 Nov</span><span>Home to the bubble: 85 jumps from Carcosa to Diaguandri, 49 of them boosted, 23,428 ly, leaving Artemis and Hephaestus at Jaques Station. Sold 5.996M CR of data at Hunziker Terminal, LHS 1163.</span></li>
+        <li><span class="d">6 Nov</span><span>Raid on Makonda Leisure Complex, Fiden: 49 components and 40 goods brought out, then killed on a second pass, losing 38 components, 24 goods, 18 data sets and a Scarab.</span></li>
+      </ul>
+      </details>
+      </div>
+    </div>
+  </div>
+  <p class="sub"><span class="tag inf" style="margin-left:0">inference</span> Many entries share exact timestamps (24 Sep 2022 at 19:49 and 23 Dec 2024 at 09:15). Those look like Inara game-data imports, so the true dates for those entries may be earlier.</p>
 </section>
 
 <section id="totals">
@@ -1850,12 +1870,14 @@ text { font-family: var(--f-mono); }
     d.list.push(Object.assign({ n: i + 1 }, x));
   });
   const dur = x => { let e = toM(x.e); if (e < toM(x.s)) e += 1440; return e - toM(x.s); };
-  document.getElementById("sessions-list").innerHTML = days.map((d, di) => {
+  const lastS = sessions[sessions.length - 1];
+  document.getElementById("latest-link").innerHTML = `<span class="label">Latest session</span><span>${lastS.day} · ${lastS.note}</span><span class="go">Open it ↓</span>`;
+  document.getElementById("sessions-list").innerHTML = days.slice().reverse().map((d, di) => {
     const mins = d.list.reduce((t, x) => t + dur(x), 0);
     const bars = d.list.map(x => { const a = pct(toM(x.s)); return `<i class="${x.hot ? "" : "idle"}" style="left:${a.toFixed(2)}%;width:${(pct(toM(x.s) + dur(x)) - a).toFixed(2)}%"></i>`; }).join("");
     const items = d.list.map(x => `<li class="${x.hot ? "" : "idle"}"><span class="tm">${x.s}–${x.e}</span>Session ${x.n}${x.mode ? " · " + x.mode : ""} · ${x.note}</li>`).join("");
     const n = d.list.length;
-    return `<details class="sday"${di === days.length - 1 ? " open" : ""}><summary><span class="sd">${d.day}</span><span class="strack" aria-hidden="true">${bars}</span><span class="sm">${n} session${n > 1 ? "s" : ""} · ${Math.floor(mins / 60)}h ${String(mins % 60).padStart(2, "0")}m</span></summary><ul class="slist">${items}</ul></details>`;
+    return `<details class="sday"${di === 0 ? " open id=\"latest-session\"" : ""}><summary><span class="sd">${d.day}</span><span class="strack" aria-hidden="true">${bars}</span><span class="sm">${n} session${n > 1 ? "s" : ""} · ${Math.floor(mins / 60)}h ${String(mins % 60).padStart(2, "0")}m</span></summary><ul class="slist">${items}</ul></details>`;
   }).join("");
 
   // Log
@@ -2425,7 +2447,7 @@ text { font-family: var(--f-mono); }
   const evHtml = r => `<div class="ev ${r[1] ? "k-" + r[1] : ""}"><span class="t">${r[0]}</span><span class="rail"></span><div class="body"><div class="what">${r[2]}</div>${r[3] ? `<div class="det">${r[3]}</div>` : ""}${r[4] ? `<div class="det"><span class="tag inf" style="margin-left:0">inference</span> ${r[4]}</div>` : ""}</div></div>`;
   const groups = [];
   log.forEach(r => { if (r[0] === "d") groups.push({ day: r[1], evs: [] }); else groups[groups.length - 1].evs.push(r); });
-  document.getElementById("log").innerHTML = groups.map((g, i) => `<details class="lday"${i === groups.length - 1 ? " open" : ""}><summary><span class="day">${g.day}</span><span class="lc">${g.evs.length} event${g.evs.length === 1 ? "" : "s"}</span></summary>${g.evs.map(evHtml).join("")}</details>`).join("");
+  document.getElementById("log").innerHTML = groups.slice().reverse().map((g, i) => `<details class="lday"${i === 0 ? " open id=\"latest-day\"" : ""}><summary><span class="day">${g.day}</span><span class="lc">${g.evs.length} event${g.evs.length === 1 ? "" : "s"}</span></summary>${g.evs.map(evHtml).join("")}</details>`).join("");
 
   // Waterfall
   const wf = document.getElementById("wf");

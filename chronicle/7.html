@@ -46,6 +46,7 @@ p { margin: 0; max-width: 66ch; }
 .stamp b { color: var(--fg); font-weight: 600; }
 .stamp .loc { color: var(--cyan); }
 .entry .body { display: grid; gap: 12px; min-width: 0; }
+article[id] { scroll-margin-top: 80px; }
 .entry h2 { font-size: 19px; }
 .aside { padding: 12px 16px; border: 1px solid var(--line); background: color-mix(in srgb, var(--accent-dim) 14%, transparent); color: var(--muted); font-size: 15.5px; font-style: italic; }
 .now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
@@ -169,7 +170,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
       <p>At Ray Gateway she refuelled and paid 52,247 credits in repairs, then went on through LHS 1442 to LHS 1163. At Hunziker Terminal, more than 83,000 light seconds from the star, she sold the data from the run for 5,995,863 credits, raising her standing with Azimuth Biotech to 89.9, and she shut down there at 01:56.</p>
     </div>
   </article>
-  <article class="entry">
+  <article class="entry" id="latest">
     <div class="stamp"><b>Nov 3312</b><span>01:45 to 02:43</span><span class="loc">Fiden</span></div>
     <div class="body">
       <h2>Makonda Leisure Complex</h2>
