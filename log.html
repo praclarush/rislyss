@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a cockpit side-panel read top to bottom: identity, then a sticky section index over career, flight path, sessions and the event log (both folded by day), ledger, lifetime totals, awards and engineers. Charts redraw at their real width so their text stays at reading size. Single dark HUD world by choice. */
+/* Layout: a cockpit side-panel read top to bottom: identity, then a sticky section index over career (a vertical timeline), flight path, sessions and the event log (both folded by day), ledger, lifetime totals, awards and engineers. Charts redraw at their real width so their text stays at reading size. Single dark HUD world by choice. */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -153,11 +153,17 @@ h1 span { color: var(--accent); }
 /* Career history */
 .swim { overflow-x: auto; }
 .swim svg { display: block; min-width: 860px; width: 100%; height: auto; }
-.eras { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
-.era { display: grid; gap: 10px; align-content: start; }
+.eras { display: grid; position: relative; margin-top: 8px; }
+.eras::before { content: ""; position: absolute; left: 164px; top: 10px; bottom: 10px; width: 1px; background: var(--line); }
+.era { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 0 48px; padding-bottom: 36px; position: relative; }
+.era:last-child { padding-bottom: 0; }
+.era::before { content: ""; position: absolute; left: 160px; top: 8px; width: 9px; height: 9px; background: var(--accent); transform: rotate(45deg); }
+.era .when { font-family: var(--f-mono); font-size: 13px; line-height: 1.5; color: var(--fg); text-align: right; margin: 0; padding-top: 2px; }
+.era .when small { display: block; font-size: 12px; color: var(--muted); }
+.era .what { display: grid; gap: 10px; max-width: 76ch; }
 .era h3 { font-size: 20px; }
 .era ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 13.5px; }
-.era li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; }
+.era li { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
 .era li .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
 
 /* Awards */
@@ -287,6 +293,11 @@ text { font-family: var(--f-mono); }
 @media (max-width: 860px) {
   .mapgrid, .two, .eras, .dossier, .bio { grid-template-columns: minmax(0, 1fr); }
   .toc { position: static; margin-block: 0; }
+  .eras::before { left: 4px; }
+  .era { grid-template-columns: minmax(0, 1fr); gap: 6px; padding-left: 26px; }
+  .era::before { left: 0; top: 7px; }
+  .era .when { text-align: left; }
+  .era .when small { display: inline; margin-left: 10px; }
   section[id] { scroll-margin-top: 84px; }
   .ranks, .stats { grid-template-columns: repeat(2, 1fr); }
 }
@@ -389,8 +400,9 @@ text { font-family: var(--f-mono); }
   <h2>Career history</h2>
   <div class="panel swim"><svg id="swim" viewBox="0 0 1000 250" role="img" aria-label="Achievements from July 2022 to October 2026 by category"></svg></div>
   <div class="eras">
-    <div class="panel era">
-      <span class="label">Jul – Sep 2022 · 42 achievements</span>
+    <div class="era">
+      <p class="when">Jul – Sep 2022<small>42 achievements</small></p>
+      <div class="what">
       <h3>Learning to fly far</h3>
       <ul>
         <li><span class="d">24 Jul</span><span>First Inara record. Found Farseer, Martuuk, the Dweller, McQuinn and Ryder.</span></li>
@@ -401,9 +413,11 @@ text { font-family: var(--f-mono); }
         <li><span class="d">24 Sep</span><span>Explorer: Pioneer. Trade: Broker. Federal Navy: Ensign. Farseer at grade 5.</span></li>
         <li><span class="d">28 Sep</span><span>Bought a Federal Gunship. Then 23 months of silence.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">Aug – Dec 2024 · 54 achievements</span>
+    <div class="era">
+      <p class="when">Aug – Dec 2024<small>54 achievements</small></p>
+      <div class="what">
       <h3>The Imperial return</h3>
       <ul>
         <li><span class="d">17 Aug</span><span>Bought two Type-8 Transporters, sold one.</span></li>
@@ -414,9 +428,11 @@ text { font-family: var(--f-mono); }
         <li><span class="d">15–18 Sep</span><span>Imperial Navy: Viscount. Pledged Li Yong-Rui. Last Thargoid encounter, in the Krait Phantom at Pleiades Sector XF-N b7-1.</span></li>
         <li><span class="d">23 Dec</span><span>Combat: Novice. Eight engineers recorded at grade 5.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">3–15 Oct 2026</span>
+    <div class="era">
+      <p class="when">3–15 Oct 2026</p>
+      <div class="what">
       <h3>Back in the black</h3>
       <ul>
         <li><span class="d">3 Oct</span><span>Four short launches, all parked in the SRV in the Pleiades.</span></li>
@@ -447,9 +463,11 @@ text { font-family: var(--f-mono); }
         <li><span class="d">15 Oct</span><span>Fifteen material trades at the three brokers, the full set planned for Reliant Seeker.</span></li>
         <li><span class="d">15 Oct</span><span>Sourced 21 Palladium for EXO at Garrido's Locus in Diaguandri: 14,430,912 CR. Killed on foot by the settlement's security and recovered from a detainment centre before the delivery.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">16 to 26 Oct 2026</span>
+    <div class="era">
+      <p class="when">16 to 26 Oct 2026</p>
+      <div class="what">
       <h3>The exobiology expedition</h3>
       <ul>
         <li><span class="d">16 Oct</span><span>Outfitted the Caspian for exobiology at Ray Gateway: 6A power plant, Bi-Weave shield, Guardian booster, Mk II vessel hangar. 18.5M CR.</span></li>
@@ -467,35 +485,43 @@ text { font-family: var(--f-mono); }
         <li><span class="d">25 Oct</span><span>Last samples, through the Taurus Dark Region to the Pleiades: 15 analyses. The expedition ends with 79 jumps and 4,808 ly flown since 18 Oct, 82 analyses unsold and 23 new Codex variants. Course plotted for Diaguandri.</span></li>
         <li><span class="d">26 Oct</span><span>Home to Diaguandri through a Thargoid hyperdiction. Sold the expedition's data for 1.59 billion CR: 82 analyses for 1,566.78M, with a first-logged bonus of 76.04M for Turquoise Stratum Tectonicas, and 82 systems for 27.70M. Exobiologist Compiler to Taxonomist; Powerplay rank 5 to 7.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">26 to 27 Oct 2026</span>
+    <div class="era">
+      <p class="when">26 to 27 Oct 2026</p>
+      <div class="what">
       <h3>Sol and the road to Colonia</h3>
       <ul>
         <li><span class="d">26 Oct</span><span>To Sol: the memorials and the Cradle of Humanity at Earth, the Nonhuman Relic at Mars, and an ancient probe far out from the Sun.</span></li>
         <li><span class="d">26 Oct</span><span>Sol to Skaudai, about 11,780 ly from Sol, in 59 jumps, 31 of them neutron-boosted: Rhapsody in Blue, IC 1287, the Red Spider, Omega, Lagoon, Trifid and Eagle nebulae, Viridian Dreams, the Collection of Wonders and Campana Aurora. Five notable stellar phenomena.</span></li>
         <li><span class="d">27 Oct</span><span>Skaudai to Colonia, 35 jumps and 11,347 ly, 26 boosted: the Fields of Elysium, Arcane Allure, Matryoshka, Evelyn's Light and Monde de la Mort. At Jaques Station, 6 analyses for 353.83M, every one with a first-logged bonus, and cartographic data for 18.52M. Hephaestus and Artemis sent on from Diaguandri for 221.27M.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">28 to 29 Oct 2026</span>
+    <div class="era">
+      <p class="when">28 to 29 Oct 2026</p>
+      <div class="what">
       <h3>Colonia</h3>
       <ul>
         <li><span class="d">28 Oct</span><span>Settling in: five settlements on Colonia's moons, a missile rack for Hymn, Kinesi and Carcosa, and a courier job for the Colonia Council.</span></li>
         <li><span class="d">29 Oct</span><span>Back to Diaguandri in one run: 84 jumps, 46 of them boosted, 23,111 ly, in 2 hours 10 minutes from Jaques Station to Ray Gateway.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">Oct 2026 · from 29 Oct</span>
+    <div class="era">
+      <p class="when">Oct 2026<small>from 29 Oct</small></p>
+      <div class="what">
       <h3>Back in the bubble</h3>
       <ul>
         <li><span class="d">29 Oct</span><span>LFT 509, newly opened by the Pilots Federation, in Invictus: five uplinks at Perpetual Toil, ten abandoned data logs on B 3 b, salvage, and 1.0M CR in data-link vouchers.</span></li>
         <li><span class="d">29 Oct</span><span>A Powerplay round for Li Yong-Rui in Invictus: five nav beacons, power wreckage and search and rescue. Powerplay rank 8.</span></li>
         <li><span class="d">30 Oct</span><span>Power wreckage salvage in Invictus, 15 escape pods and 670,397 CR in three hand-ins; Altairian Skin in Void Runner, 1.17M CR profit and 3,026 merits. Hymn of the Long Night sets out for Colonia again.</span></li>
       </ul>
+      </div>
     </div>
-    <div class="panel era">
-      <span class="label">Oct to Nov 2026 · from 30 Oct</span>
+    <div class="era">
+      <p class="when">Oct to Nov 2026<small>from 30 Oct</small></p>
+      <div class="what">
       <h3>Return to Colonia</h3>
       <ul>
         <li><span class="d">31 Oct</span><span>Pyraleau to Colonia, 61 jumps and 15,434 ly, 30 of them boosted. Cartographic data sold at Dove Enigma for 4.84M CR.</span></li>
@@ -507,6 +533,7 @@ text { font-family: var(--f-mono); }
         <li><span class="d">5 Nov</span><span>Home to the bubble: 85 jumps from Carcosa to Diaguandri, 49 of them boosted, 23,428 ly, leaving Artemis and Hephaestus at Jaques Station. Sold 5.996M CR of data at Hunziker Terminal, LHS 1163.</span></li>
         <li><span class="d">6 Nov</span><span>Raid on Makonda Leisure Complex, Fiden: 49 components and 40 goods brought out, then killed on a second pass, losing 38 components, 24 goods, 18 data sets and a Scarab.</span></li>
       </ul>
+      </div>
     </div>
   </div>
   <p class="sub"><span class="tag inf" style="margin-left:0">inference</span> Many entries share exact timestamps (24 Sep 2022 at 19:49 and 23 Dec 2024 at 09:15). Those look like Inara game-data imports, so the true dates for those entries may be earlier.</p>
