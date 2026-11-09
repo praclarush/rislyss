@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="record">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta charset="utf-8">
@@ -8,66 +8,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
 <style>
-/* Layout: a Pilots Federation psychological assessment, the companion to the medical record. Examination header and key findings up top, the summary, then the clinical sections in two columns, the trauma history and risk in full width, and the examiner's note, then handoffs to the medical record and chronicle. Same cockpit palette as the other pages; single dark world by choice. */
-:root {
-  --bg: #0c0a08;
-  --panel: #15110d;
-  --line: #2e251c;
-  --fg: #ece3d7;
-  --muted: #998b7b;
-  --accent: #ff7a1a;
-  --accent-dim: #6b3a14;
-  --cyan: #74d4e2;
-  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
-  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 56px; }
-h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
-p { margin: 0; }
+/* Layout: a Pilots Federation psychological assessment, the companion to the medical record. The header leads with the examiner's conclusion and the clearance stamp, the examination record full width beneath, then the summary with the findings and the tell beside it, then the clinical sections in two columns, the trauma history and risk in full width, and the examiner's note, then handoffs to the medical record and chronicle. Same cockpit palette as the other pages; single dark world by choice. */
 h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
-h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
 h3 { font-size: 17px; color: var(--fg); }
-section { display: grid; gap: 18px; align-content: start; min-width: 0; }
-.label { font-family: var(--f-body); font-size: 13px; letter-spacing: .02em; text-transform: none; color: var(--muted); font-weight: 600; }
-.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
-.sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
-.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
-
 /* Header */
-.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: start; }
-.hero-text { display: grid; gap: 16px; }
+.hero { display: grid; gap: 28px; }
+.verdict-row { display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: end; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 24px; }
+.verdict { display: grid; gap: 8px; }
+.verdict .label { color: var(--accent); }
+.verdict p { font-family: var(--f-display); font-size: clamp(24px, 3.4vw, 38px); line-height: 1.15; font-weight: 600; max-width: 24ch; text-wrap: balance; }
+.hero .exam { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.hero .exam div:nth-child(n+3) { grid-column: 1 / -1; }
+.hero .exam div:nth-child(2) { padding-top: 0; }
+.hero .exam dd { max-width: 80ch; }
 .eyebrow { font-family: var(--f-body); font-size: 14px; color: var(--muted); }
-h1 { font-size: clamp(40px, 6.5vw, 80px); line-height: .92; font-weight: 700; letter-spacing: .01em; }
-h1 span { color: inherit; display: block; }
-.subject { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em; }
-.subject b { color: var(--fg); font-weight: 600; }
-.exam { display: grid; gap: 0; }
-.exam div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
-.exam div:first-child { padding-top: 0; }
-.exam dt { font-family: var(--f-display); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
-.exam dd { margin: 0; }
-.stamp { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); border: 2px solid var(--cyan); padding: 10px 12px; transform: rotate(-3deg); justify-self: start; opacity: .9; line-height: 1.3; margin-top: 18px; }
-
-.facts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.fact { padding: 14px 14px 14px 0; display: grid; gap: 2px; min-width: 0; }
-.fact + .fact { padding-left: 14px; border-left: 1px solid var(--line); }
-.fact .v { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
-.fact .n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-
+.stamp { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); border: 2px solid var(--cyan); padding: 10px 12px; transform: rotate(-3deg); justify-self: start; opacity: .9; line-height: 1.3; margin: 0 0 6px; }
 /* Clinical sections */
-.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 40px; align-items: start; }
-table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.45; }
-th { font-family: var(--f-display); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; text-align: left; padding: 0 12px 8px 0; border-bottom: 1px solid var(--accent-dim); }
-td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-th:last-child, td:last-child { padding-right: 0; }
-td:first-child { color: var(--muted); }
-.wide td:first-child { width: 132px; }
-.note { font-size: 14px; color: var(--muted); line-height: 1.55; }
 .prose { display: grid; gap: 12px; font-size: 15px; line-height: 1.65; }
 .prose p { max-width: 68ch; }
 .prose i { color: var(--fg); }
@@ -87,26 +45,23 @@ ol.recs li::before { content: counter(rec, decimal-leading-zero); font-family: v
 .level .v { font-family: var(--f-display); font-size: 22px; font-weight: 600; line-height: 1.2; }
 .level .v.low { color: var(--fg); }
 .level .v.mod { color: var(--accent); }
-
 /* Assessment */
-.assess { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; align-items: start; }
-.assess p { font-size: 17px; line-height: 1.7; max-width: 64ch; }
-.sign { display: grid; gap: 6px; font-size: 14px; }
-.sign .mono { color: var(--muted); font-size: 12px; }
-
+.side { display: grid; gap: 16px; }
+.findings { display: grid; gap: 10px; }
+.findings dl { margin: 0; display: grid; }
+.findings dl div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
+.findings dt { color: var(--muted); }
+.findings dd { margin: 0; }
 footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
-
 @media (max-width: 900px) {
-  .hero, .cols, .assess, .risk { grid-template-columns: minmax(0, 1fr); }
-  .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .fact:nth-child(4) { padding-left: 0; border-left: 0; }
-  .fact:nth-child(n+4) { border-top: 1px solid var(--line); }
+  .cols, .assess, .risk { grid-template-columns: minmax(0, 1fr); }
+  .hero .exam { grid-template-columns: minmax(0, 1fr); }
+  .hero .exam div:nth-child(2) { padding-top: 8px; }
+}
+@media (max-width: 600px) {
+  .stamp { font-size: 12px; letter-spacing: .1em; }
 }
 @media (max-width: 560px) {
-  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .fact:nth-child(4) { padding-left: 14px; border-left: 1px solid var(--line); }
-  .fact:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
   .wide td:first-child { width: 104px; }
   table { font-size: 14px; }
   .trauma thead { display: none; }
@@ -116,28 +71,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
 }
 </style>
 <style>
-.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
-.next a { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; background: var(--panel); transition: border-color .2s; }
-.next a:hover, .next a:focus-visible { border-color: var(--accent); }
-.next a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
-.next .d { color: var(--muted); font-size: 14px; }
 @media (max-width: 600px) { .next { grid-template-columns: minmax(0, 1fr); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
-.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
-.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
-.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
-@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
-.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
-.site-nav .brand b { color: var(--accent); font-weight: 600; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
-.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 </head>
 <body>
@@ -152,6 +86,10 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
     <div class="subject">WATERS, Sarah · Commander <b>Rislyss</b> · Registry RI-X</div>
     <p class="sub">Pre-departure evaluation for extended solo operation beyond regular repair coverage.</p>
   </div>
+  <div class="verdict-row">
+    <div class="verdict"><span class="label">Conclusion</span><p>Fit for extended solo flight. Her principal risk is not instability but withdrawal.</p></div>
+    <div class="stamp">Cleared for solo long-range operation<br>with recommendations</div>
+  </div>
   <div class="panel">
     <dl class="exam">
       <div><dt>Born</dt><dd>3274, Achenar · age 38</dd></div>
@@ -160,27 +98,29 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
       <div><dt>Reason</dt><dd>Long-range solo clearance ahead of an open-ended exobiology expedition aboard the Caspian Explorer <i>Hymn of the Long Night</i> (RI-X05). Required by the station's long-term hangar lease after two prior unexplained absences of roughly two years each.</dd></div>
       <div><dt>Sources</dt><dd>Two interview sessions (52 and 38 minutes), Pilots Federation service record, October 3312 flight fitness examination, Navy and Powerplay standing reports</dd></div>
     </dl>
-    <div class="stamp">Cleared for solo long-range operation<br>with recommendations</div>
   </div>
 </header>
-
-<div class="facts">
-  <div class="fact"><span class="label">Diagnosis</span><span class="v">None</span><span class="n">no criteria met</span></div>
-  <div class="fact"><span class="label">Acute risk</span><span class="v">Low</span><span class="n">incident in flight</span></div>
-  <div class="fact"><span class="label">Absence risk</span><span class="v">Moderate</span><span class="n">unreported withdrawal</span></div>
-  <div class="fact"><span class="label">Interviews</span><span class="v num">2</span><span class="n">52 + 38 min</span></div>
-  <div class="fact"><span class="label">Check-in</span><span class="v num">3 wk</span><span class="n">by message, via relay</span></div>
-  <div class="fact"><span class="label">Sleep</span><span class="v">Irregular</span><span class="n">confirmed</span></div>
-</div>
 
 <section>
   <h2>Summary</h2>
   <div class="assess">
     <p>A composed, highly competent former software engineer who has built her adult life around systems she can understand and control. She is psychologically fit for extended solo flight and in several respects better suited to it than to life in the populated systems. Her principal risk is not instability but withdrawal: she has twice disappeared from service for long periods without explanation, she declines to discuss either absence, and the expedition she is about to undertake has no defined end point. No psychiatric diagnosis is made.</p>
+    <div class="side">
+    <div class="panel findings">
+      <span class="label">Findings</span>
+      <dl>
+        <div><dt>Diagnosis</dt><dd>None; no criteria met</dd></div>
+        <div><dt>Acute risk</dt><dd>Low; incident in flight</dd></div>
+        <div><dt>Absence risk</dt><dd>Moderate; unreported withdrawal</dd></div>
+        <div><dt>Sleep</dt><dd>Irregular, confirmed</dd></div>
+        <div><dt>Check-in</dt><dd>Every three weeks, by relay message</dd></div>
+      </dl>
+    </div>
     <div class="panel sign">
       <span class="label">Watch her hands</span>
       <span>Two-finger tapping, steady at rest. Faster when a question lands too close; slows almost to stillness when she is engaged, followed by one technical question in return.</span>
       <span class="mono">RELIABLE ENGAGEMENT INDICATOR</span>
+    </div>
     </div>
   </div>
 </section>

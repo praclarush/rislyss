@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="data">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta charset="utf-8">
@@ -8,152 +8,81 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
 <style>
-/* Layout: a cockpit side-panel read top to bottom: identity, then a link to the latest session and a sticky section index over flight path, sessions and the event log (both folded by day, newest first), ledger, career (a vertical timeline folded by era, latest open) and lifetime totals. Charts redraw at their real width so their text stays at reading size; the index stays sticky on phones as one scrolling row, and offsets follow the measured nav height. Ends with handoffs to the hangar and chronicle. Single dark HUD world by choice. */
+/* Layout: a cockpit side-panel read top to bottom: identity in one line pointing to the biography, then a link to the latest session and a sticky section index over flight path, sessions and the event log (both folded by day, newest first), ledger, career (a vertical timeline folded by era, latest open) and lifetime totals with ranks and reputation. Charts redraw at their real width so their text stays at reading size; the index stays sticky on phones as one scrolling row, and offsets follow the measured nav height. Ends with handoffs to the hangar and chronicle. Single dark HUD world by choice. */
 :root {
-  --bg: #0c0a08;
-  --panel: #15110d;
-  --line: #2e251c;
-  --fg: #ece3d7;
-  --muted: #998b7b;
-  --accent: #ff7a1a;
-  --accent-dim: #6b3a14;
-  --cyan: #74d4e2;
-  --good: #8bd17f;
-  --bad: #ff6150;
-  --violet: #b9a2ff;
-  --gold: #e8c26a;
-  --rose: #ff8fa3;
-  --sky: #8fb6ff;
-  --mint: #7fe0c4;
-  --lime: #c8e07f;
-  --peach: #ffb38a;
-  --sand: #d9c7a0;
-  --plum: #d79be0;
-  --olive: #a9c46a;
-  --rust: #e0866b;
-  --teal: #6fd0b5;
   --amber: #f0b35a;
-  --ice: #9fd3f0;
-  --berry: #e07fb0;
-  --moss: #8fbf8f;
-  --sun: #ffd166;
-  --slate: #9aa7c7;
-  --lagoon: #5fc9d6;
-  --clay: #d98b5a;
-  --lavender: #c3b1e1;
-  --dusk: #8f9cf0;
-  --ember: #f08a6b;
   --aqua: #7fe3e0;
-  --rosewood: #d98fa0;
-  --fern: #9fc46a;
-  --coral: #ff9f80;
-  --orchid: #c792ea;
-  --tangerine: #ff9d5c;
-  --jade: #5fd39a;
-  --sapphire: #6f8cff;
+  --arcane: #b8ff5a;
+  --aurora: #7affd4;
+  --bad: #ff6150;
+  --berry: #e07fb0;
   --blush: #f2a7c3;
   --citrine: #e4d35a;
+  --clay: #d98b5a;
   --cobalt: #4f7cff;
-  --ivory: #efe6c8;
-  --sunrise: #ffc46b;
-  --nebula: #c86bff;
-  --crimson: #ff5a6e;
-  --viridian: #3fd18f;
-  --aurora: #7affd4;
-  --elysium: #9ad0ff;
-  --arcane: #b8ff5a;
   --colonia: #ffd36b;
-  --jaques: #ffb3f0;
-  --homeward: #b4c6ff;
-  --toil: #ff8f6b;
-  --salvage: #c9b37a;
-  --merit: #e0c25a;
-  --wreck: #d9a066;
-  --skin: #8fd3c7;
-  --outbound: #6bd6ff;
+  --coral: #ff9f80;
+  --crimson: #ff5a6e;
   --crossing: #a58bff;
+  --dusk: #8f9cf0;
+  --elysium: #9ad0ff;
+  --ember: #f08a6b;
+  --fern: #9fc46a;
+  --gold: #e8c26a;
+  --good: #8bd17f;
+  --homeward: #b4c6ff;
+  --hunt: #ff9ad5;
+  --ice: #9fd3f0;
+  --ivory: #efe6c8;
+  --jade: #5fd39a;
+  --jaques: #ffb3f0;
+  --lagoon: #5fc9d6;
   --landfall: #7fe0a0;
+  --lavender: #c3b1e1;
+  --lime: #c8e07f;
+  --merit: #e0c25a;
+  --mint: #7fe0c4;
+  --moss: #8fbf8f;
+  --nebula: #c86bff;
+  --olive: #a9c46a;
+  --orchid: #c792ea;
   --ore: #ff8fc8;
+  --outbound: #6bd6ff;
+  --peach: #ffb38a;
+  --plum: #d79be0;
   --power: #f0e68a;
   --raid: #8fd0ff;
-  --hunt: #ff9ad5;
+  --rose: #ff8fa3;
+  --rosewood: #d98fa0;
+  --rust: #e0866b;
+  --salvage: #c9b37a;
+  --sand: #d9c7a0;
+  --sapphire: #6f8cff;
+  --skin: #8fd3c7;
+  --sky: #8fb6ff;
+  --slate: #9aa7c7;
   --strike: #ffb36b;
-  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
-  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-  color-scheme: dark;
+  --sun: #ffd166;
+  --sunrise: #ffc46b;
+  --tangerine: #ff9d5c;
+  --teal: #6fd0b5;
+  --toil: #ff8f6b;
+  --violet: #b9a2ff;
+  --viridian: #3fd18f;
+  --wreck: #d9a066;
 }
-* { box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 15px/1.55 var(--f-body);
-  margin: 0;
-}
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 56px; }
-h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; font-weight: 600; }
-h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
-h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
-.sub { color: var(--muted); max-width: 68ch; margin: 8px 0 0; }
-.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
-section { display: grid; gap: 20px; }
-.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
-.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); }
-.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
-.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
-.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.label.long { text-transform: none; letter-spacing: .02em; font-size: 13px; }
-
 /* Header */
-header { display: grid; gap: 28px; }
-.eyebrow { font-family: var(--f-mono); font-size: 12px; color: var(--muted); letter-spacing: .08em; }
-h1 { font-size: clamp(40px, 8vw, 88px); line-height: .9; letter-spacing: .02em; font-weight: 700; }
 h1 span { color: var(--accent); }
-.idline { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--muted); font-size: 14px; }
-.idline b { color: var(--fg); font-weight: 500; }
-.kpis { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.kpi { padding: 16px 16px 16px 0; display: grid; gap: 2px; }
-.kpi + .kpi { padding-left: 16px; border-left: 1px solid var(--line); }
-.kpi .v { font-family: var(--f-display); font-size: clamp(22px, 3.4vw, 34px); font-weight: 600; line-height: 1.1; }
-.kpi .v small { font-size: .5em; color: var(--muted); margin-left: 2px; }
-.ranks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 20px; }
-.rank { display: grid; gap: 6px; }
-.rank .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.rank .name { font-family: var(--f-display); font-weight: 600; font-size: 17px; }
-.bar { height: 4px; background: var(--line); position: relative; }
-.bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
-.bar.cy i { background: var(--cyan); }
-
-.rank .since { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-
 /* Dossier */
-.dossier { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
-.dos-main { display: grid; gap: 6px; }
-.dos-name { font-family: var(--f-display); font-size: 28px; font-weight: 600; line-height: 1.1; }
-.dos-bio { margin: 0; font-size: 16px; color: var(--accent); font-style: italic; }
-.dos-facts { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
-.dos-facts dt { font-family: var(--f-display); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.dos-facts dd { margin: 0; font-size: 14px; }
-.rep { display: grid; gap: 10px; }
-.rep-row { display: grid; grid-template-columns: 78px minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 13.5px; }
-.rep-row .mono { font-size: 12px; color: var(--muted); }
-
+.dos-line { font-size: 14.5px; color: var(--muted); }
+.dos-line b { color: var(--fg); font-weight: 500; }
+.dos-line a { color: var(--accent); }
+.tot-h { font-size: 19px; }
+.rep.panel { max-width: 560px; }
 /* Biography */
-.bio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
-.portrait { margin: 0; padding: 8px; display: grid; gap: 8px; }
-.portrait img { display: block; width: 100%; height: auto; }
-.portrait figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding: 0 4px 2px; }
-.portrait .ref { display: flex; align-items: center; gap: 10px; padding: 8px 4px 2px; border-top: 1px dashed var(--line); }
-.portrait .ref img { width: 88px; flex: none; }
-.portrait .ref span { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-.bio-text { display: grid; gap: 14px; max-width: 64ch; }
-.bio-text p { margin: 0; }
-.bio-text .lede { font-size: 17px; line-height: 1.6; }
-.bio-text .lede::first-letter { font-family: var(--f-display); font-size: 3.2em; float: left; line-height: .85; padding: 4px 8px 0 0; color: var(--accent); font-weight: 700; }
-
 /* Career history */
-.swim { overflow-x: auto; }
 .swim svg { display: block; min-width: 860px; width: 100%; height: auto; }
 .eras { display: grid; position: relative; margin-top: 8px; }
 .eras::before { content: ""; position: absolute; left: 164px; top: 10px; bottom: 10px; width: 1px; background: var(--line); }
@@ -170,36 +99,15 @@ h1 span { color: var(--accent); }
 .efold[open] > summary h3::before { transform: rotate(90deg); }
 .efold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .efold .ec { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-.efold ul { margin-top: 10px; }
 .latest { display: grid; gap: 2px; justify-items: start; max-width: 62ch; padding: 12px 16px; border: 1px solid var(--accent-dim); background: var(--panel); color: var(--fg); text-decoration: none; }
 .latest:hover { border-color: var(--accent); }
 .latest:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .latest .go { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-.era ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 13.5px; }
 .era li { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
-.era li .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
-
 /* Awards */
-
 /* Map */
-.mapgrid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
-.mapbox svg { width: 100%; height: auto; display: block; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); margin-top: 10px; }
-.legend i { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; }
-.jumps { display: grid; gap: 0; font-size: 13px; }
-.jumps { max-height: 38rem; overflow-y: auto; padding-right: 4px; }
-.jleg { font-family: var(--f-display); font-size: 12px; letter-spacing: .02em; padding: 10px 0 4px; display: flex; align-items: center; gap: 8px; }
-.jleg i { width: 14px; height: 2px; display: inline-block; }
 .jump { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px; padding: 7px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
-.jump:last-child { border-bottom: 0; }
-.jump .n { color: var(--muted); font-family: var(--f-mono); font-size: 11px; }
-.jump .sys { overflow-wrap: anywhere; }
-.jump .sys em { font-style: normal; color: var(--muted); font-size: 12px; margin-left: 4px; font-family: var(--f-mono); }
-.jump .d { font-family: var(--f-mono); color: var(--cyan); font-size: 12px; }
-.jtot { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); margin-top: 6px; }
-.jtot b { color: var(--fg); font-weight: 600; }
 .jkey { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
-
 /* Sessions */
 .sessions { display: grid; padding: 14px 20px; }
 .shead, .sday > summary { display: grid; grid-template-columns: 104px minmax(0, 1fr) 132px; gap: 14px; align-items: center; }
@@ -210,7 +118,7 @@ h1 span { color: var(--accent); }
 .strack i { position: absolute; top: 0; bottom: 0; min-width: 3px; background: var(--accent); }
 .strack i.idle { background: var(--accent-dim); }
 .sday > summary { min-height: 44px; padding: 9px 0; border-bottom: 1px dashed var(--line); cursor: pointer; list-style: none; }
-.slist { max-width: 84ch; }
+.slist { max-width: 75ch; }
 .sday > summary::-webkit-details-marker, .lday > summary::-webkit-details-marker, .notes > summary::-webkit-details-marker { display: none; }
 .sd { font-family: var(--f-mono); font-size: 12.5px; color: var(--fg); white-space: nowrap; }
 .sd::before, .lday .day::before, .notes > summary::before { content: "▸"; display: inline-block; width: 1.1em; color: var(--accent); transition: transform .2s cubic-bezier(.22, 1, .36, 1); }
@@ -226,39 +134,19 @@ h1 span { color: var(--accent); }
 .tools button { font: 600 12px var(--f-display); letter-spacing: .1em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line); padding: 8px 12px; min-height: 44px; cursor: pointer; }
 .tools button:hover { color: var(--fg); border-color: var(--accent-dim); }
 .tools button:focus-visible, .toc a:focus-visible, .totop:focus-visible, details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
 /* Log */
-.log { display: grid; gap: 0; }
-.day { font-family: var(--f-display); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 14px 0 8px; }
 .lday > summary { min-height: 44px; display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; list-style: none; border-bottom: 1px dashed var(--line); }
 .lday[open] > summary { margin-bottom: 10px; }
 .lday > summary .day { color: var(--fg); font-size: 13px; }
 .lc { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
-.ev { display: grid; grid-template-columns: 56px 16px minmax(0, 1fr); gap: 12px; align-items: start; }
-.ev .t { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 3px; text-align: right; }
-.ev .rail { position: relative; align-self: stretch; }
-.ev .rail::before { content: ""; position: absolute; left: 7px; top: 0; bottom: 0; width: 1px; background: var(--line); }
-.ev .rail::after { content: ""; position: absolute; left: 3px; top: 8px; width: 9px; height: 9px; transform: rotate(45deg); background: var(--bg); border: 1.5px solid var(--muted); }
-.ev.k-jump .rail::after { border-color: var(--cyan); }
-.ev.k-dock .rail::after { border-color: var(--accent); background: var(--accent); }
-.ev.k-cash .rail::after { border-color: var(--good); }
-.ev.k-warn .rail::after { border-color: var(--bad); }
-.ev .body { padding-bottom: 14px; }
-.ev .what { font-weight: 600; }
-.ev .det { color: var(--muted); font-size: 13.5px; }
-.tag { font-family: var(--f-mono); font-size: 10.5px; padding: 1px 6px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; white-space: nowrap; }
-.tag.inf { border-color: var(--accent-dim); color: var(--accent); }
-
 /* Ledger */
-.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
-.wf svg, .hbars svg { width: 100%; height: auto; display: block; }
 .wf { overflow-x: auto; }
+.wf::after, .swim::after { right: 0; bottom: 0; }
 #map text { paint-order: stroke; stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
 .notes > summary { font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); cursor: pointer; list-style: none; padding: 6px 0; display: flex; align-items: center; min-height: 44px; }
 .notes > summary:hover { color: var(--fg); }
 .notes .sub { display: grid; gap: 12px; margin: 6px 0 0; }
 .notes .sub p { margin: 0; }
-
 /* On this page */
 .toc { position: sticky; top: var(--nav-h, 53px); z-index: 5; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); border-block: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0 22px; padding: 4px 0; margin-block: -24px; }
 body:has(.site-nav.away) .toc { top: 0; }
@@ -269,29 +157,15 @@ section[id], #latest-session { scroll-margin-top: calc(var(--nav-h, 53px) + var(
 .totop { position: fixed; right: 16px; bottom: 16px; z-index: 6; display: grid; place-items: center; width: 44px; height: 44px; background: var(--panel); border: 1px solid var(--line); color: var(--fg); text-decoration: none; font: 600 18px var(--f-display); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .25s cubic-bezier(.22, 1, .36, 1), transform .25s cubic-bezier(.22, 1, .36, 1); }
 .totop.show { opacity: 1; transform: none; pointer-events: auto; }
 .totop:hover { border-color: var(--accent); }
-
 /* Hangar */
-.ship-active { display: grid; gap: 14px; }
-.ship-active .nm { font-family: var(--f-display); font-size: 30px; font-weight: 700; line-height: 1; }
-.ship-active .nm span { color: var(--accent); }
-.specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.specs .v { font-family: var(--f-mono); font-size: 18px; }
 .mods { font-size: 13px; display: grid; gap: 6px; }
 .mods div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; border-bottom: 1px dashed var(--line); padding-bottom: 6px; }
 .mods .eng { color: var(--accent); font-family: var(--f-mono); font-size: 12.5px; text-align: right; }
-
 /* Career */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.stat { background: var(--bg); padding: 14px 16px; display: grid; gap: 2px; }
-.stat .v { font-family: var(--f-display); font-size: 24px; font-weight: 600; }
-
 /* Engineers */
-
-footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; max-width: 80ch; }
-
-text { font-family: var(--f-mono); }
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
 @media (max-width: 860px) {
-  .mapgrid, .two, .eras, .dossier, .bio { grid-template-columns: minmax(0, 1fr); }
+  .mapgrid, .two, .eras, .bio { grid-template-columns: minmax(0, 1fr); }
   .toc { margin-block: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-right: 36px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
   .toc a { white-space: nowrap; }
   .eras::before { left: 4px; }
@@ -315,34 +189,6 @@ text { font-family: var(--f-mono); }
 @media (prefers-reduced-motion: reduce) {
   .totop, .sd::before, .lday .day::before, .notes > summary::before, .efold > summary h3::before { transition: none; }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .route-line { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.4s .3s ease-out forwards; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-}
-</style>
-<style>
-.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
-.next a { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; background: var(--panel); transition: border-color .2s; }
-.next a:hover, .next a:focus-visible { border-color: var(--accent); }
-.next a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
-.next .d { color: var(--muted); font-size: 14px; }
-@media (max-width: 600px) { .next { grid-template-columns: minmax(0, 1fr); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
-.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
-.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
-.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
-@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
-.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
-.site-nav .brand b { color: var(--accent); font-weight: 600; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
-.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 </head>
 <body>
@@ -362,39 +208,13 @@ text { font-family: var(--f-mono); }
     <div>Farthest from Sol <b>22,000 ly</b> · Colonia, 30 Oct to 5 Nov</div>
     <div>Inara ranking <b>#152,229</b> · 4 Oct</div>
   </div>
-  <div class="dossier panel">
-    <div class="dos-main">
-      <span class="label">Pilot dossier</span>
-      <div class="dos-name">Sarah Waters</div>
-      <p class="dos-bio">“Ex-Programmer of Gutamaya Covas systems; now Explorer”</p>
-      <p class="sub" style="margin:0;font-size:13.5px">Gutamaya builds the Imperial Clipper, so Void Runner is a ship whose cockpit software she would have known.</p>
-    </div>
-    <dl class="dos-facts">
-      <div><dt>Born</dt><dd>3274 · age 38</dd></div>
-      <div><dt>Birthplace</dt><dd>Achenar</dd></div>
-      <div><dt>Gender</dt><dd>Female</dd></div>
-      <div><dt>Accent</dt><dd>Imperial English</dd></div>
-      <div><dt>Height</dt><dd>162 cm · 5′4″</dd></div>
-      <div><dt>Weight</dt><dd>56.6 kg · 125 lb</dd></div>
-      <div><dt>Build</dt><dd>Lithe</dd></div>
-      <div><dt>Hair · eyes</dt><dd>Chestnut · blue</dd></div>
-      <div><dt>Allegiance</dt><dd>Independent, per Inara; Imperial by service</dd></div>
-      <div><dt>Registered ship</dt><dd>Dreaming Void RI-X02</dd></div>
-    </dl>
-    <div class="rep">
-      <span class="label">Superpower reputation</span>
-      <div class="rep-row"><span>Empire</span><div class="bar cy"><i style="width:75%"></i></div><span class="mono">Friendly 75</span></div>
-      <div class="rep-row"><span>Federation</span><div class="bar cy"><i style="width:75%"></i></div><span class="mono">Friendly 75</span></div>
-      <div class="rep-row"><span>Alliance</span><div class="bar cy"><i style="width:48%"></i></div><span class="mono">Friendly 48</span></div>
-    </div>
-  </div>
+  <p class="dos-line">Sarah Waters · born 3274 in Achenar · registered ship <b>Dreaming Void RI-X02</b> · <a href="index.html">Full personnel file</a></p>
   <div class="kpis">
     <div class="kpi"><span class="label">Credit balance</span><span class="v num">2,242.92<small>M CR</small></span></div>
     <div class="kpi"><span class="label">Total assets</span><span class="v num">2,743.0<small>M CR</small></span></div>
     <div class="kpi"><span class="label">Ships owned</span><span class="v num">13</span></div>
-    <div class="kpi"><span class="label">Lifetime play</span><span class="v num">336<small>HRS</small></span></div>
+    <div class="kpi"><span class="label">Lifetime play</span><span class="v num">336 <small>hours</small></span></div>
   </div>
-  <div class="ranks" id="ranks"></div>
 </header>
 
 <nav class="toc" aria-label="On this page">
@@ -718,6 +538,14 @@ text { font-family: var(--f-mono); }
       <svg id="spend" viewBox="0 0 520 250" role="img" aria-label="Lifetime spending, outfitting largest at 524M CR"></svg>
     </div>
   </div>
+  <h3 class="tot-h">Ranks</h3>
+  <div class="ranks" id="ranks"></div>
+<div class="rep panel">
+    <span class="label">Superpower reputation</span>
+    <div class="rep-row"><span>Empire</span><div class="bar cy"><i style="width:75%"></i></div><span class="mono">Friendly 75</span></div>
+    <div class="rep-row"><span>Federation</span><div class="bar cy"><i style="width:75%"></i></div><span class="mono">Friendly 75</span></div>
+    <div class="rep-row"><span>Alliance</span><div class="bar cy"><i style="width:48%"></i></div><span class="mono">Friendly 48</span></div>
+  </div>
   <div class="stats" id="stats"></div>
   <p class="sub">Figures are the game's lifetime statistics as of the last login (7 Nov, 16:32 local, aboard Hymn of the Long Night over Fiden AB 1 d), which holds Friday's raid at Makonda Leisure Complex; Saturday's second raid there, its two jumps and the death at Lymar's Obligation appear at the next login, and the ranks gained on 7 Nov show their progress from zero until then. The game's crime figures now stand at 95 people killed, 57 of them guards, 417 goods, 42 data and a sample taken, a turret destroyed and two settlements shut down; Friday's raid added 18 killed, 8 of them guards, 176 goods and 10 data. The game files the settlement raids under crime, but no crime or bounty was recorded, since The Nameless and the Brotherhood of Fiden are lawless. On 4 Oct Inara's statistics matched every figure, and its balance of 145,171,209 CR matched the journal to the credit.</p>
 </section>
@@ -729,7 +557,7 @@ text { font-family: var(--f-mono); }
 
 <footer>
   <div>Sources: eighty Elite Dangerous journal files from 3 October to 7 November 2026 local time (game year 3312), plus the Statistics, StoredShips, Loadout and EngineerProgress snapshots the game writes at each login. The Inara profile for CMDR rislyss (statistics, achievements, biography, ranks, awards and reputation) was read on 4 October 2026 and supplies the 2022 to 2024 history.</div>
-  <div>The biography and Achenar birthplace expand the Inara profile. Ships, ranks, dates and figures in it come from the data; the motives and personal details are character writing. Game years are real years plus 1286.</div>
+  <div>The identity line and Achenar birthplace expand the Inara profile; the full character record is on the biography. Game years are real years plus 1286.</div>
   <div>Items tagged <span class="tag inf">inference</span> are readings of the log, not recorded facts.</div>
 </footer>
 
@@ -810,7 +638,7 @@ text { font-family: var(--f-mono); }
     el("circle", { cx: sxOf(a[0]), cy: laneY(li), r, fill: lanes[li][2], "fill-opacity": .28, stroke: lanes[li][2], "stroke-width": 1.2 }, sw);
     if (a[2] > 2) el("text", { x: sxOf(a[0]), y: laneY(li) + 3.5, "font-size": 11.5, fill: C.fg, "text-anchor": "middle" }, sw, a[2]);
   });
-  el("text", { x: sEnd, y: 248, "font-size": 11.5, fill: C.muted, "text-anchor": "end" }, sw, "Circle size and number = achievements logged that day");
+  el("text", { x: sEnd, y: 248, "font-size": 12, fill: C.muted, "text-anchor": "end" }, sw, "Circle size and number = achievements logged that day");
 
   // Map
   const sys = [
@@ -2518,7 +2346,7 @@ text { font-family: var(--f-mono); }
     else el("text", { x: x + w / 2, y: yTop - 5, "font-size": 11, fill: C.fg, "text-anchor": "middle" }, wf, lbl);
     const tx = el("text", { x: x + w / 2, y: wb + 14, "font-size": 11, fill: C.muted, "text-anchor": "end", transform: `rotate(-35 ${x + w / 2} ${wb + 14})` }, wf, s[0]);
   });
-  el("text", { x: wl, y: 304, "font-size": 11, fill: C.muted }, wf, "Axis starts at 100M to show the change. Net +2,094.81M.");
+  el("text", { x: wl, y: 304, "font-size": 12, fill: C.muted }, wf, "Axis starts at 100M to show the change. Net +2,094.81M.");
   }
   drawWf();
 

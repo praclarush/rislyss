@@ -8,36 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
 <style>
-/* Layout: a Pilots Federation personnel file. Identity, a latest-news strip and the cockpit feed up top, then background, physical record with concept sheets, marks, character, private life, a one-line fleet note pointing to the hangar, and service record. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
-:root {
-  --bg: #0c0a08;
-  --panel: #15110d;
-  --line: #2e251c;
-  --fg: #ece3d7;
-  --muted: #998b7b;
-  --accent: #ff7a1a;
-  --accent-dim: #6b3a14;
-  --cyan: #74d4e2;
-  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
-  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
+/* Layout: a Pilots Federation personnel file. Identity, a latest-news strip and the cockpit feed up top (on phones the feed moves up under the name so the first screen shows her), then background, physical record with concept sheets, marks, character, private life, a one-line fleet note pointing to the hangar, and service record as a lead line, a dotted ledger and the darker figures set apart on file. Same cockpit palette as the chronicle and flight log; single dark world by choice. */
 body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
 .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 64px; }
-h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
 p { margin: 0; }
 h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
-h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
 h3 { font-size: 19px; }
 section { display: grid; gap: 22px; }
 .label { font-family: var(--f-body); font-size: 13px; letter-spacing: .02em; text-transform: none; color: var(--muted); font-weight: 600; }
-.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 .sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
-.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
-
 /* Identity */
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 32px; align-items: center; }
 .hero-text { display: grid; gap: 18px; align-content: center; }
@@ -51,13 +32,6 @@ h1 span { color: inherit; display: block; }
 .fleet-line a { color: var(--accent); }
 .intro { color: var(--muted); font-size: 15px; max-width: 58ch; }
 .latest { display: grid; min-width: 0; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1px; border: 1px solid var(--accent-dim); background: var(--line); max-width: 640px; }
-.latest a { display: grid; gap: 3px; padding: 12px 16px; min-height: 44px; background: var(--panel); color: var(--fg); text-decoration: none; }
-.latest a:hover { background: var(--bg); }
-.latest a:hover .t { color: var(--accent); }
-.latest a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.latest .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-.latest .t { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
-.latest .x { font-size: 14px; color: var(--muted); }
 abbr[data-tip] { position: relative; text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
 abbr[data-tip]:hover::after, abbr[data-tip]:focus-visible::after, abbr[data-tip]:focus::after { content: attr(data-tip); position: absolute; left: 0; top: calc(100% + 6px); z-index: 20; width: max-content; max-width: min(240px, 60vw); padding: 6px 10px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font-family: var(--f-body); font-size: 13px; font-weight: 400; letter-spacing: 0; line-height: 1.35; }
 abbr[data-tip]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -66,16 +40,17 @@ abbr[data-tip]:focus-visible { outline: 2px solid var(--accent); outline-offset:
 .feed video { display: block; width: 100%; height: auto; aspect-ratio: 832 / 544; background: #000; object-fit: cover; }
 .feed figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; padding: 0 4px 2px; flex-wrap: wrap; }
 .feed .rec { color: var(--accent); }
+.feed figcaption { align-items: center; }
+.feedctl { min-height: 44px; padding: 0 14px; border: 1px solid var(--line); background: transparent; color: var(--fg); font: 12px var(--f-mono); cursor: pointer; }
+.feedctl:hover { border-color: var(--accent); }
+.feedctl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.feed.paused .rec::before { animation: none; background: var(--muted); }
+.tl-h { margin-bottom: 8px; }
 .feed .rec::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: 1px; animation: blink 1.6s steps(2, start) infinite; }
 @keyframes blink { to { visibility: hidden; } }
-.facts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.fact { padding: 14px 14px 14px 0; display: grid; gap: 2px; min-width: 0; }
-.fact + .fact { padding-left: 14px; border-left: 1px solid var(--line); }
-.fact .v { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
 .ranks { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { font-family: var(--f-mono); font-size: 12px; border: 1px solid var(--line); padding: 4px 10px; color: var(--muted); }
 .chip b { color: var(--fg); font-weight: 600; }
-
 /* Background */
 .background { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; align-items: start; }
 .prose { display: grid; gap: 16px; font-size: 17px; line-height: 1.7; }
@@ -86,7 +61,6 @@ abbr[data-tip]:focus-visible { outline: 2px solid var(--accent); outline-offset:
 .timeline li:first-child { border-top: 0; padding-top: 4px; }
 .timeline .y { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
 .timeline .gap .y, .timeline .gap span:last-child { color: var(--muted); font-style: italic; }
-
 /* Physical record */
 .physical { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px; align-items: start; }
 .spec { margin: 0; display: grid; gap: 0; }
@@ -96,15 +70,11 @@ abbr[data-tip]:focus-visible { outline: 2px solid var(--accent); outline-offset:
 .sheet { margin: 0; padding: 8px; display: grid; gap: 8px; }
 .sheet img { display: block; width: 100%; height: auto; cursor: zoom-in; background: #c9c9c9; }
 .sheet figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding: 0 4px 2px; max-width: 65ch; }
-button.zoom { all: unset; display: block; cursor: zoom-in; }
-button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
 /* Marks */
 .marks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .mark { display: grid; gap: 8px; align-content: start; }
 .mark .where { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
 .mark p { font-size: 14.5px; line-height: 1.5; }
-
 /* Character */
 .character { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 .traits { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 15px; }
@@ -119,46 +89,41 @@ button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2p
 @keyframes tap { from { height: 30%; } to { height: 100%; } }
 .tell p { font-size: 14px; line-height: 1.5; }
 .tell b { font-family: var(--f-display); font-weight: 600; font-size: 15px; display: block; color: var(--fg); }
-
 /* Private life */
 .private { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; align-items: start; }
 .stamp { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); border: 2px solid var(--accent); padding: 10px 12px; transform: rotate(-4deg); justify-self: start; opacity: .85; line-height: 1.3; }
 .private .prose { font-size: 16px; }
 .private .prose p:first-child::first-letter { all: unset; }
-
-
 /* Service record */
-.record { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
-.stat { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
-.stat:not(:nth-child(4n+1)) { padding-left: 16px; border-left: 1px solid var(--line); }
-.stat .v { font-family: var(--f-display); font-size: clamp(24px, 3.4vw, 34px); font-weight: 600; line-height: 1.1; }
-.stat .n { font-size: 12.5px; color: var(--muted); }
-
-.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
-.next a { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; background: var(--panel); transition: border-color .2s; }
-.next a:hover, .next a:focus-visible { border-color: var(--accent); }
-.next a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
-.next .d { color: var(--muted); font-size: 14px; }
-
+.service { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.svc-lead { font-family: var(--f-display); font-size: clamp(19px, 2.2vw, 24px); line-height: 1.35; max-width: 36ch; margin: 0 0 18px; }
+.svc-lead .big { font-size: 1.5em; font-weight: 600; color: var(--accent); }
+.ledger { margin: 0; display: grid; max-width: 520px; }
+.ledger div { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; }
+.ledger div::before { content: ""; order: 1; flex: 1; border-bottom: 1px dotted var(--line); }
+.ledger dt { order: 0; color: var(--muted); font-size: 15px; }
+.ledger dd { order: 2; margin: 0; font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-size: 15px; }
+.onfile { border: 1px solid var(--accent-dim); background: color-mix(in srgb, var(--accent-dim) 12%, transparent); padding: 20px; display: grid; gap: 12px; }
+.onfile .label { color: var(--accent); }
+.onfile p { margin: 0; font-size: 15px; line-height: 1.5; }
+.onfile b { font-family: var(--f-display); font-size: 24px; font-weight: 600; margin-right: 4px; }
 footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
-
-dialog.lightbox { border: 1px solid var(--line); background: var(--bg); padding: 10px; max-width: min(96vw, 1300px); color: var(--fg); }
-dialog.lightbox::backdrop { background: rgba(0, 0, 0, .8); }
-dialog.lightbox img { display: block; max-width: 100%; max-height: 82vh; width: auto; height: auto; margin: 0 auto; }
-dialog.lightbox .bar { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 8px 2px 0; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-dialog.lightbox button { font: 600 12px var(--f-display); letter-spacing: .14em; text-transform: uppercase; background: none; color: var(--fg); border: 1px solid var(--line); padding: 6px 12px; cursor: pointer; }
-dialog.lightbox button:hover, dialog.lightbox button:focus-visible { border-color: var(--accent); }
-dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (max-width: 900px) {
+  .service { grid-template-columns: minmax(0, 1fr); }
   .hero, .background, .physical, .character, .private { grid-template-columns: minmax(0, 1fr); }
   .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .fact:nth-child(4) { padding-left: 0; border-left: 0; }
   .fact:nth-child(n+4) { border-top: 1px solid var(--line); }
   .marks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .record { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stat:not(:nth-child(4n+1)) { padding-left: 0; border-left: 0; }
-  .stat:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line); }
+}
+@media (max-width: 600px) {
+  .hero { gap: 18px; }
+  .hero-text { display: contents; }
+  .hero .eyebrow { order: 1; }
+  .hero h1 { order: 2; }
+  .hero .callsign { order: 3; }
+  .hero .feed { order: 4; }
+  .hero .intro, .hero .latest, .hero .quote, .hero .ranks { order: 5; }
 }
 @media (max-width: 560px) {
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -173,23 +138,6 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
   .feed .rec::before, .tap i { animation: none; }
 }
 </style>
-<style>
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
-.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
-.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
-.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
-@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
-.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
-.site-nav .brand b { color: var(--accent); font-weight: 600; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
-.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
-</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -201,7 +149,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
     <div class="eyebrow">Pilots Federation personnel file · Registry RI-X · Updated Nov 3312</div>
     <h1>Sarah <span>Waters</span></h1>
     <div class="callsign">Commander <b>Rislyss</b> · <abbr tabindex="0" data-tip="Exploration rank, eighth of nine before Elite">Pioneer<span class="vh">, exploration rank, eighth of nine before elite</span></abbr> · <abbr tabindex="0" data-tip="Imperial Navy rank">Viscount<span class="vh">, imperial navy rank</span></abbr> · Imperial pilot</div>
-    <p class="intro">A character site for CMDR Rislyss, a pilot in the space game Elite Dangerous, set in the 34th century. The biography, chronicle and records are written in character; the flight log, hangar and engineers pages are built from the game's own journals. The written pages count years in the game's calendar, so 3312 is 2026; the data pages keep real dates.</p>
+    <p class="intro">A character site for CMDR Rislyss of Elite Dangerous. The written pages are in character and dated in the game's calendar, where 3312 is 2026; the flight log, hangar and engineers pages come from the game's journals.</p>
     <nav class="latest" aria-label="Latest news">
       <a href="chronicle/7.html#latest"><span class="d">Latest chronicle entry · Nov 3312</span><span class="t">Return to Makonda</span></a>
       <a href="log.html#latest-session"><span class="d">Flight log</span><span class="t">Latest session</span></a>
@@ -218,7 +166,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
   </div>
   <figure class="feed panel">
     <video src="gallery/profile/cockpit-feed.mp4" poster="gallery/profile/rislyss-profile.jpg" width="832" height="544" autoplay muted loop playsinline aria-label="Sarah Waters in the pilot seat, turning to look out of the canopy at a blue nebula and back"></video>
-    <figcaption><span class="rec">COCKPIT FEED</span><span>Archive · Dreaming Void · RI-X02</span></figcaption>
+    <figcaption><span class="rec">COCKPIT FEED</span><span>Archive · Dreaming Void · RI-X02</span><button class="feedctl" type="button">Pause feed</button></figcaption>
   </figure>
 </header>
 
@@ -241,7 +189,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
       <p>In October 3312 she resumed from the same Scarab, survived a systems shutdown on the surface, and flew ten jumps home to Diaguandri, where her fleet is kept at Ray Gateway. She sold two years of cartographic data and renewed her Li Yong-Rui pledge. She then refitted the Mandalay Aurora for long-range work, with two field maintenance units and grade 5 engineering from ten engineers, as far as her current access allows, and began delivering rare goods for Li Yong-Rui in Void Runner.</p>
     </div>
     <div class="panel">
-      <div class="label" style="margin-bottom:8px">Career timeline</div>
+      <h3 class="label tl-h">Career timeline</h3>
       <ol class="timeline">
         <li><span class="y">3274</span><span>Born in Achenar.</span></li>
         <li><span class="y">c. 3298–3308</span><span>Software engineer on Gutamaya's COVAS voice team.</span></li>
@@ -354,15 +302,22 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 
 <section>
   <h2>Service record</h2>
-  <div class="record">
-    <div class="stat"><span class="label">Systems visited</span><span class="v num">2,735</span></div>
-    <div class="stat"><span class="label">Lifetime hyperspace distance</span><span class="v num">214,389</span><span class="n">Light years, at last network update.</span></div>
-    <div class="stat"><span class="label">Hyperspace jumps</span><span class="v num">3,515</span></div>
-    <div class="stat"><span class="label">Bodies scanned</span><span class="v num">6,841</span></div>
-    <div class="stat"><span class="label">Passengers delivered</span><span class="v num">1,006</span><span class="n">69 ejected. No statement on file.</span></div>
-    <div class="stat"><span class="label">First footfalls</span><span class="v num">16</span></div>
-    <div class="stat"><span class="label">First-discovery organics</span><span class="v num">12</span></div>
-    <div class="stat"><span class="label">Murders</span><span class="v num">95</span><span class="n">57 of them guards, nearly all during raids on settlements of lawless factions.</span></div>
+  <div class="service">
+    <div>
+      <p class="svc-lead"><span class="big num">214,389</span> light years in hyperspace, across <span class="big num">2,735</span> systems, at her last network update.</p>
+      <dl class="ledger">
+        <div><dt>Hyperspace jumps</dt><dd>3,515</dd></div>
+        <div><dt>Bodies scanned</dt><dd>6,841</dd></div>
+        <div><dt>First footfalls</dt><dd>16</dd></div>
+        <div><dt>First-discovery organics</dt><dd>12</dd></div>
+        <div><dt>Passengers delivered</dt><dd>1,006</dd></div>
+      </dl>
+    </div>
+    <div class="onfile">
+      <span class="label">Also on file</span>
+      <p><b class="num">95</b> murders recorded, 57 of them guards, nearly all during raids on settlements of lawless factions.</p>
+      <p><b class="num">69</b> passengers ejected in transit. No statement on file.</p>
+    </div>
   </div>
 </section>
 
@@ -397,7 +352,13 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
   document.getElementById("lightbox-close").addEventListener("click", () => dlg.close());
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
   const v = document.querySelector(".feed video");
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.pause(); v.controls = true; }
+  const ctl = document.querySelector(".feedctl"), feed = v.closest(".feed");
+  const show = () => { const paused = v.paused; ctl.textContent = paused ? "Play feed" : "Pause feed"; feed.classList.toggle("paused", paused); };
+  ctl.addEventListener("click", () => { if (v.paused) { v.play(); } else { v.pause(); } });
+  v.addEventListener("play", show);
+  v.addEventListener("pause", show);
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.pause(); }
+  show();
 })();
 </script>
 

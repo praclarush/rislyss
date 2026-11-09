@@ -8,47 +8,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
 <style>
-/* Layout: the chronicle's index, like the contents of a ship's log bound as a book. The header carries the latest entry and a jump to her status, then the prologue in a single reading column, then where she stands now beside the chapter list with a blurb per chapter, stacked on narrow screens. Same cockpit palette as the flight log; single dark world by choice. */
-:root {
-  --bg: #0c0a08;
-  --panel: #15110d;
-  --line: #2e251c;
-  --fg: #ece3d7;
-  --muted: #998b7b;
-  --accent: #ff7a1a;
-  --accent-dim: #6b3a14;
-  --cyan: #74d4e2;
-  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
-  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
+/* Layout: the chronicle's index, like the contents of a ship's log bound as a book. The header carries the latest entry and a jump to her status, then the prologue in a single reading column, then where she stands now (four lines, pointing to the hangar and engineers pages for detail) beside the chapter list with a blurb per chapter, stacked on narrow screens with the chapters first. Same cockpit palette as the flight log; single dark world by choice. */
 body { background: var(--bg); color: var(--fg); font: 17px/1.7 var(--f-body); margin: 0; }
 .wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 72px; display: grid; gap: 56px; }
-h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
 header { display: grid; gap: 18px; }
 .eyebrow { font-family: var(--f-body); font-size: 14px; color: var(--muted); }
 h1 { font-size: clamp(38px, 7vw, 64px); line-height: .95; font-weight: 700; }
 h1 span { color: inherit; }
-.dek { color: var(--muted); font-size: 16px; margin: 0; max-width: 62ch; }
-.chapter { display: grid; gap: 22px; }
 .chapter > .label, .contents > .label { font-family: var(--f-body); font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 12px; }
 .chapter > .label::after, .contents > .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), transparent); }
 h2 { font-size: clamp(26px, 4.4vw, 34px); line-height: 1.1; }
 p { margin: 0; max-width: 66ch; }
-.chapter > p:first-of-type::first-letter { font-family: var(--f-display); font-size: 3.4em; float: left; line-height: .82; padding: 6px 10px 0 0; color: var(--accent); font-weight: 700; }
 .contents { display: grid; gap: 6px; }
 #now { scroll-margin-top: 110px; }
 .latest { display: grid; min-width: 0; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1px; border: 1px solid var(--accent-dim); background: var(--line); max-width: 640px; }
-.latest a { display: grid; gap: 3px; padding: 12px 16px; min-height: 44px; background: var(--panel); color: var(--fg); text-decoration: none; }
-.latest a:hover { background: var(--bg); }
-.latest a:hover .t { color: var(--accent); }
-.latest a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.latest .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-.latest .t { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.2; }
-.latest .x { font-size: 14px; color: var(--muted); }
 .toc { list-style: none; margin: 0; padding: 0; display: grid; }
 .toc a { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 1px dashed var(--line); color: var(--fg); text-decoration: none; }
 .toc li:first-child a { border-top: 0; }
@@ -59,34 +34,18 @@ p { margin: 0; max-width: 66ch; }
 .toc p { color: var(--muted); font-size: 15.5px; line-height: 1.6; }
 .toc a:hover h3, .toc a:focus-visible h3 { color: var(--accent); }
 .toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.now { background: var(--panel); border: 1px solid var(--line); padding: 22px; display: grid; gap: 12px; }
-.now ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; max-width: 64ch; }
 .split { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 40px; align-items: start; width: min(1120px, calc(100vw - 56px)); margin-inline: calc((100% - min(1120px, calc(100vw - 56px))) / 2); }
 .split .now { font-size: 15px; line-height: 1.6; }
-@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); width: auto; margin-inline: 0; } }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); width: auto; margin-inline: 0; } .split .now { order: 2; } }
+.now .more { margin: 0; font-size: 14px; color: var(--muted); }
+.now .more a { color: var(--accent); }
 footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .toc a { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .toc .n { grid-auto-flow: column; justify-content: start; gap: 12px; }
 }
-</style>
-<style>
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
-.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
-.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
-.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
-@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
-.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
-.site-nav .brand b { color: var(--accent); font-weight: 600; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
-.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
+h2::after { content: none; }
 </style>
 </head>
 <body>
@@ -99,7 +58,7 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <h1>The <span>Rislyss</span> Chronicle</h1>
   <p class="dek">The life of Sarah Waters, former Gutamaya cockpit programmer turned explorer, told from her ship's journals and her Pilots Federation service record.</p>
   <nav class="latest" aria-label="Latest entry">
-    <a href="chronicle/7.html#latest"><span class="d">Latest entry · Chapter seven · Nov 3312</span><span class="t">Return to Makonda</span><span class="x">A second raid on Makonda brings out its haul; a raid on Lymar's Obligation in Aurora ends with her death and another Scarab lost.</span></a>
+    <a href="chronicle/7.html#latest"><span class="d">Latest entry · Chapter seven · Nov 3312</span><span class="t">Return to Makonda</span><span class="x">A second raid on Makonda brings out its haul; a raid on Lymar's Obligation ends with her shot down and revived in orbit, and another Scarab lost.</span></a>
     <a href="#now"><span class="d">Status</span><span class="t">Where she stands now</span></a>
   </nav>
 </header>
@@ -115,16 +74,12 @@ footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px
   <section class="now" id="now">
     <h3>Where she stands now</h3>
     <ul>
-      <li>Aboard Aurora over Fiden AB 1 c, back in the bubble until she has the components Colonia could not supply; Aurora's Scarab was lost at Lymar's Obligation. Hymn of the Long Night, with a replacement Scarab, Invictus and Void Runner are stored at Ray Gateway. Balance 2,243 million credits; 336 hours logged.</li>
-      <li>Artemis and Hephaestus remain stored at Jaques Station in Colonia. Hephaestus is fitted for escape-pod recovery, with her refinery shielded at grade 5.</li>
-      <li>Pilots Federation exobiology rank Taxonomist, combat rank Competent.</li>
-      <li>All thirteen of Aurora's engineered modules are finished. Her 3A power plant delivers 16.8 megawatts, the point defence is at Lightweight grade 5, and her maximum jump range is 87.8 light years.</li>
-      <li>Aurora's life support remains at Lightweight grade 3. Grade 5 requires Etienne Dorn in Colonia, unlocked in November but still at rank 1.</li>
-      <li>Ram Tah is at rank 5. Tiana Fortune, unlocked in Achenar, is at rank 3. Zacariah Nemo, unlocked in Yoru, is at rank 1. In Colonia, Marsha Hicks is at rank 5, and Etienne Dorn and Mel Brandon at rank 1.</li>
-      <li>Pledged to Li Yong-Rui at rank 8, with 43,853 merits from rare goods, bounties, salvage, power commodity deliveries and exploration data.</li>
-      <li>Lifetime hyperspace distance is over 214,000 light years.</li>
-      <li>Hymn of the Long Night, the Caspian Explorer the shipyard registered as Reliant Seeker, is fitted for exobiology and engineered at eight workshops. She now also carries two SRV Scarabs and can land, at a range of 90.0 light years.</li>
+      <li>Aboard Aurora over Fiden AB 1 c, back in the bubble for the components Colonia could not supply. Aurora's Scarab was lost at Lymar's Obligation.</li>
+      <li>Hymn of the Long Night, now able to land with two Scarabs, is stored at Ray Gateway with Invictus and Void Runner. Artemis and Hephaestus wait at Jaques Station in Colonia.</li>
+      <li>Taxonomist in exobiology, Competent in combat, pledged to Li Yong-Rui at rank 8. Balance 2,243 million credits.</li>
+      <li>Aurora's refit is complete but for her life support, which waits on Etienne Dorn in Colonia. More than 214,000 light years flown.</li>
     </ul>
+    <p class="more">Each ship's fit is in the <a href="hangar.html">hangar</a>; engineer progress is on the <a href="engineers.html">engineers</a> page.</p>
   </section>
 
   <section class="contents">

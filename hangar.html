@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="data">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta charset="utf-8">
@@ -8,72 +8,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
 <style>
-/* Layout: the fleet's hangar. A header, a fleet-value chart drawn at its real width, then the registry and role-code key, an index of ships, the active ship full width and one panel per ship in two balanced columns, each led by its screenshot, which opens in a lightbox, with engineered modules listed name over blueprint and stock modules folded into one line, the whole list folded behind a count (closed on phones except for the active ship). Ends with handoffs to the flight log and gallery. Single dark HUD world by choice. */
+/* Layout: the fleet's hangar. A header naming the active ship, then the registry and role-code key, an index of ships, the active ship full width and one panel per ship in two balanced columns, each led by its screenshot, which opens in a lightbox, with engineered modules listed name over blueprint and stock modules folded into one line, the whole list folded behind a count (closed on phones except for the active ship). The fleet-value chart, drawn at its real width, follows the ships. Ends with handoffs to the flight log and gallery. Single dark HUD world by choice. */
 :root {
-  --bg: #0c0a08;
-  --panel: #15110d;
-  --line: #2e251c;
-  --fg: #ece3d7;
-  --muted: #998b7b;
-  --accent: #ff7a1a;
-  --accent-dim: #6b3a14;
-  --cyan: #74d4e2;
-  --good: #8bd17f;
   --bad: #ff6150;
-  --violet: #b9a2ff;
   --gold: #e8c26a;
+  --good: #8bd17f;
+  --mint: #7fe0c4;
   --rose: #ff8fa3;
   --sky: #8fb6ff;
-  --mint: #7fe0c4;
-  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
-  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-  color-scheme: dark;
+  --violet: #b9a2ff;
 }
-* { box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 15px/1.55 var(--f-body);
-  margin: 0;
-}
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 56px; }
-h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; font-weight: 600; }
-h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
-h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
-.sub { color: var(--muted); max-width: 68ch; margin: 8px 0 0; }
-.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
-section { display: grid; gap: 20px; }
-.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
-.panel::before, .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 0 solid var(--accent); }
-.panel::before { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
-.panel::after { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
-.label { font-family: var(--f-display); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.label.long { text-transform: none; letter-spacing: .02em; font-size: 13px; }
-
 /* Header */
-header { display: grid; gap: 28px; }
-.eyebrow { font-family: var(--f-mono); font-size: 12px; color: var(--muted); letter-spacing: .08em; }
-h1 { font-size: clamp(40px, 8vw, 88px); line-height: .9; letter-spacing: .02em; font-weight: 700; }
-h1 span { color: var(--accent); }
-.idline { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--muted); font-size: 14px; }
-.idline b { color: var(--fg); font-weight: 500; }
-.kpis { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.kpi { padding: 16px 16px 16px 0; display: grid; gap: 2px; }
-.kpi + .kpi { padding-left: 16px; border-left: 1px solid var(--line); }
-.kpi .v { font-family: var(--f-display); font-size: clamp(22px, 3.4vw, 34px); font-weight: 600; line-height: 1.1; }
-.kpi .v small { font-size: .5em; color: var(--muted); margin-left: 2px; }
-.ranks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 20px; }
-.rank { display: grid; gap: 6px; }
-.rank .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.rank .name { font-family: var(--f-display); font-weight: 600; font-size: 17px; }
-.bar { height: 4px; background: var(--line); position: relative; }
-.bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
-.bar.cy i { background: var(--cyan); }
-
-.rank .since { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-
+h1 span { color: inherit; }
 /* Dossier */
 .dossier { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 .dos-main { display: grid; gap: 6px; }
@@ -82,103 +30,25 @@ h1 span { color: var(--accent); }
 .dos-facts { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
 .dos-facts dt { font-family: var(--f-display); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .dos-facts dd { margin: 0; font-size: 14px; }
-.rep { display: grid; gap: 10px; }
-.rep-row { display: grid; grid-template-columns: 78px minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 13.5px; }
-.rep-row .mono { font-size: 12px; color: var(--muted); }
-
 /* Biography */
-.bio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
-.portrait { margin: 0; padding: 8px; display: grid; gap: 8px; }
-.portrait img { display: block; width: 100%; height: auto; }
-.portrait figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding: 0 4px 2px; }
-.portrait .ref { display: flex; align-items: center; gap: 10px; padding: 8px 4px 2px; border-top: 1px dashed var(--line); }
-.portrait .ref img { width: 88px; flex: none; }
-.portrait .ref span { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-.bio-text { display: grid; gap: 14px; max-width: 64ch; }
-.bio-text p { margin: 0; }
-.bio-text .lede { font-size: 17px; line-height: 1.6; }
-.bio-text .lede::first-letter { font-family: var(--f-display); font-size: 3.2em; float: left; line-height: .85; padding: 4px 8px 0 0; color: var(--accent); font-weight: 700; }
-
 /* Career history */
-.swim { overflow-x: auto; }
 .swim svg { display: block; min-width: 680px; width: 100%; height: auto; }
 .eras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .era { display: grid; gap: 10px; align-content: start; }
 .era h3 { font-size: 20px; }
-.era ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 13.5px; }
 .era li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; }
-.era li .d { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
-
 /* Awards */
-.awards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
-.award { border: 1px solid var(--line); padding: 12px 14px; display: grid; gap: 6px; }
-.award .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.award .nm { font-family: var(--f-display); font-weight: 600; font-size: 15px; }
 .award .tier { font-family: var(--f-mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
-.award .det { font-size: 12.5px; color: var(--muted); }
-.award.near { border-color: var(--accent-dim); }
-
 /* Map */
-.mapgrid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
-.mapbox svg { width: 100%; height: auto; display: block; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); margin-top: 10px; }
-.legend i { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; }
-.jumps { display: grid; gap: 0; font-size: 13px; }
-.jumps { max-height: 38rem; overflow-y: auto; padding-right: 4px; }
-.jleg { font-family: var(--f-display); font-size: 12px; letter-spacing: .02em; padding: 10px 0 4px; display: flex; align-items: center; gap: 8px; }
-.jleg i { width: 14px; height: 2px; display: inline-block; }
 .jump { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 8px; padding: 7px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
-.jump:last-child { border-bottom: 0; }
-.jump .n { color: var(--muted); font-family: var(--f-mono); font-size: 11px; }
-.jump .sys { overflow-wrap: anywhere; }
-.jump .sys em { font-style: normal; color: var(--muted); font-size: 12px; margin-left: 4px; font-family: var(--f-mono); }
-.jump .d { font-family: var(--f-mono); color: var(--cyan); font-size: 12px; }
-.jtot { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); margin-top: 6px; }
-.jtot b { color: var(--fg); font-weight: 600; }
-
 /* Sessions */
 .gantt { overflow-x: auto; }
 .gantt svg { display: block; min-width: 640px; width: 100%; height: auto; }
-
 /* Log */
-.log { display: grid; gap: 0; }
-.day { font-family: var(--f-display); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 14px 0 8px; }
-.ev { display: grid; grid-template-columns: 56px 16px minmax(0, 1fr); gap: 12px; align-items: start; }
-.ev .t { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 3px; text-align: right; }
-.ev .rail { position: relative; align-self: stretch; }
-.ev .rail::before { content: ""; position: absolute; left: 7px; top: 0; bottom: 0; width: 1px; background: var(--line); }
-.ev .rail::after { content: ""; position: absolute; left: 3px; top: 8px; width: 9px; height: 9px; transform: rotate(45deg); background: var(--bg); border: 1.5px solid var(--muted); }
-.ev.k-jump .rail::after { border-color: var(--cyan); }
-.ev.k-dock .rail::after { border-color: var(--accent); background: var(--accent); }
-.ev.k-cash .rail::after { border-color: var(--good); }
-.ev.k-warn .rail::after { border-color: var(--bad); }
-.ev .body { padding-bottom: 14px; }
-.ev .what { font-weight: 600; }
-.ev .det { color: var(--muted); font-size: 13.5px; }
-.tag { font-family: var(--f-mono); font-size: 10.5px; padding: 1px 6px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; white-space: nowrap; }
-.tag.inf { border-color: var(--accent-dim); color: var(--accent); }
-
 /* Ledger */
-.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
-.wf svg, .hbars svg { width: 100%; height: auto; display: block; }
-
 /* Hangar */
-.ship-active { display: grid; gap: 14px; }
-.ship-active .nm { font-family: var(--f-display); font-size: 30px; font-weight: 700; line-height: 1; }
-.ship-active .nm span { color: var(--accent); }
 .ship-active .shot { width: calc(100% + 40px); margin: -20px -20px 0; border-bottom: 1px solid var(--line); }
 .ship-active .shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
-button.zoom { all: unset; display: block; cursor: zoom-in; }
-button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-dialog.lightbox { border: 1px solid var(--line); background: var(--bg); padding: 10px; max-width: min(96vw, 1300px); color: var(--fg); }
-dialog.lightbox::backdrop { background: rgba(0, 0, 0, .8); }
-dialog.lightbox img { display: block; max-width: 100%; max-height: 82vh; width: auto; height: auto; margin: 0 auto; }
-dialog.lightbox .bar { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 8px 2px 0; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-dialog.lightbox button { font: 600 12px var(--f-display); letter-spacing: .14em; text-transform: uppercase; background: none; color: var(--fg); border: 1px solid var(--line); padding: 6px 12px; cursor: pointer; }
-dialog.lightbox button:hover, dialog.lightbox button:focus-visible { border-color: var(--accent); }
-dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.specs .v { font-family: var(--f-mono); font-size: 18px; }
 .mods { list-style: none; margin: 0; padding: 0; display: grid; font-size: 14px; }
 .mods li { display: grid; gap: 2px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
 .mods li:last-child { border-bottom: 0; }
@@ -187,26 +57,13 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 .mods .me .g { font-family: var(--f-mono); font-weight: 600; color: var(--accent); }
 .mods li.stock .mn { color: var(--muted); }
 .mods li.stock .me { font-size: 12.5px; }
-
 /* Career */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.stat { background: var(--bg); padding: 14px 16px; display: grid; gap: 2px; }
-.stat .v { font-family: var(--f-display); font-size: 24px; font-weight: 600; }
-
 /* Engineers */
 .engs { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
-.eng-c { border: 1px solid var(--line); padding: 10px 12px; display: grid; gap: 6px; font-size: 13.5px; }
-.eng-c .r { display: flex; gap: 3px; }
-.eng-c .r i { width: 100%; height: 4px; background: var(--line); }
-.eng-c .r i.on { background: var(--accent); }
 .eng-c.invited { border-style: dashed; color: var(--muted); }
 .eng-c.known { color: var(--muted); opacity: .7; }
 .eng-c.undiscovered { color: var(--muted); opacity: .4; border-style: dotted; }
-.eng-c .st { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-
-footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; max-width: 80ch; }
-
-text { font-family: var(--f-mono); }
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
 @media (max-width: 860px) {
   .mapgrid, .two, .eras, .dossier, .bio { grid-template-columns: minmax(0, 1fr); }
   .ranks, .stats { grid-template-columns: repeat(2, 1fr); }
@@ -218,34 +75,6 @@ text { font-family: var(--f-mono); }
   .specs { grid-template-columns: repeat(2, 1fr); }
   .wrap { padding-inline: 16px; }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .route-line { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 2.4s .3s ease-out forwards; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-}
-</style>
-<style>
-.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
-.next a { display: grid; gap: 4px; padding: 18px 20px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; background: var(--panel); transition: border-color .2s; }
-.next a:hover, .next a:focus-visible { border-color: var(--accent); }
-.next a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.next .t { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
-.next .d { color: var(--muted); font-size: 14px; }
-@media (max-width: 600px) { .next { grid-template-columns: minmax(0, 1fr); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
-.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
-.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
-.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
-@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
-.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
-.site-nav .brand b { color: var(--accent); font-weight: 600; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
-.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 <style>
 /* Hangar page */
@@ -281,21 +110,13 @@ text { font-family: var(--f-mono); }
 <main class="wrap" id="main">
 
 <header>
-  <div class="eyebrow">HANGAR · RAY GATEWAY, DIAGUANDRI · 13 SHIPS</div>
+  <div class="eyebrow">HANGAR · 13 SHIPS · HOME PORT RAY GATEWAY, DIAGUANDRI</div>
   <h1>The <span>Hangar</span></h1>
   <div class="idline">
-    <div>Active <b>Caspian Explorer "Hymn of the Long Night" RI-X05</b> · Nomad "Refrain" X05-N1</div>
+    <div>Active <b>Mandalay "Aurora" RI-X04</b> · in flight over Fiden AB 1 c</div>
     <div>Registered <b>Diamondback Explorer "Dreaming Void" RI-X02</b></div>
   </div>
 </header>
-
-<section>
-  <h2>Fleet value</h2>
-  <div class="panel hbars">
-    <div class="label long" style="margin-bottom:10px">Value and purchase date per Inara · Aurora and Hymn show modules only, Helios is not yet valued</div>
-    <svg id="fleet" viewBox="0 0 520 420" role="img" aria-label="Fleet value by ship: Hephaestus highest at 78.3M CR; Hymn of the Long Night 18.4M CR in modules; Helios not yet valued"></svg>
-  </div>
-</section>
 
 <section>
   <h2>Ships</h2>
@@ -305,7 +126,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active active" id="ri-x04">
       <button class="zoom shot" type="button" data-src="gallery/ships/aurora.jpg" data-cap="Mandalay AURORA · RI-X04"><img src="gallery/ships/aurora.jpg" width="1600" height="900" alt="Mandalay Aurora in the hangar"></button>
       <div class="label long">Explorer · RI-X04 · Active ship · in flight over Fiden AB 1 c · 8 t cargo · SRV Scarab lost at Fiden</div>
-      <div class="nm">Mandalay <span>AURORA</span></div>
+      <h3 class="nm">Mandalay <span>AURORA</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">87.8 ly</div></div><div><div class="label">Modules</div><div class="v">11.79M</div></div><div><div class="label">Rebuy</div><div class="v">589,533</div></div></div>
       <details class="modfold" open><summary>Modules · 13 engineered · 9 stock</summary><ul class="mods"><li><span class="mn">1I Lightweight Alloy</span><span class="me">Selene Jean · <b class="g">G5</b> Heavy Duty · Deep Plating</span></li><li><span class="mn">3A Power Plant</span><span class="me">Hera Tani · <b class="g">G5</b> Overcharged · Stripped Down</span></li><li><span class="mn">4D Thrusters</span><span class="me">Palin · <b class="g">G5</b> Clean · Stripped Down</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range · Mass Manager</span></li><li><span class="mn">4D Life Support</span><span class="me">Bill Turner · <b class="g">G3</b> Lightweight</span></li><li><span class="mn">3D Support Focused Power Distributor</span><span class="me">Dweller · <b class="g">G5</b> Engine Focused · Stripped Down</span></li><li><span class="mn">5D Sensors</span><span class="me">Lei Cheung · <b class="g">G5</b> Lightweight</span></li><li><span class="mn">4D Shield Generator</span><span class="me">Lei Cheung · <b class="g">G5</b> Low Power · Stripped Down</span></li><li><span class="mn">1I Long Range Detailed Surface Scanner</span><span class="me">Lei Cheung · <b class="g">G5</b> Expanded Radius</span></li><li><span class="mn">0I Heat Sink Launcher</span><span class="me">Ram Tah · <b class="g">G5</b> Lightweight</span></li><li><span class="mn">0E Shield Booster</span><span class="me">Vatermann · <b class="g">G5</b> Thermal · Super Capacitors</span></li><li><span class="mn">0C Frame Shift Wake Scanner</span><span class="me">Bill Turner · <b class="g">G3</b> Lightweight</span></li><li><span class="mn">0I Point Defence</span><span class="me">Ram Tah · <b class="g">G5</b> Lightweight</span></li><li class="stock"><span class="mn">+9 stock</span><span class="me">4C Fuel Tank, 6A Fuel Scoop, 5H Guardian FSD Booster, 4A Auto Field-Maintenance Unit, 1D Repair Limpet Controller, 3E Cargo Rack, 2G Planetary Vehicle Hangar, 1A Auto Field-Maintenance Unit, 1E Advanced Docking Computer</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought as the miner &quot;Athena&quot; and refitted at Caillie Town in October 2026: mining lasers out, two field maintenance units in for long-range self-repair. Engineered at ten engineers. In October she went back to her original 3A power plant, now Overcharged G5 at 16.8 MW. Ram Tah finished the point defence at G5, which completes her refit; the life support stays at G3 until Etienne Dorn in Colonia is unlocked.</p>
@@ -313,7 +134,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-x05">
       <button class="zoom shot" type="button" data-src="gallery/ships/hymn-of-the-long-night.jpg" data-cap="Caspian Explorer HYMN OF THE LONG NIGHT · RI-X05"><img src="gallery/ships/hymn-of-the-long-night.jpg" width="1600" height="900" alt="Caspian Explorer Hymn Of The Long Night in the hangar" loading="lazy"></button>
       <div class="label long">Explorer · RI-X05 · Stored · Ray Gateway · 2 t cargo · Nomad Refrain · two SRV Scarabs</div>
-      <div class="nm">Caspian Explorer <span>HYMN OF THE LONG NIGHT</span></div>
+      <h3 class="nm">Caspian Explorer <span>HYMN OF THE LONG NIGHT</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">90.0 ly</div></div><div><div class="label">Modules</div><div class="v">18.41M</div></div><div><div class="label">Rebuy</div><div class="v">920,395</div></div></div>
       <details class="modfold" open><summary>Modules · 10 engineered · 11 stock</summary><ul class="mods"><li><span class="mn">1C Mk II Ablative Lightweight Alloys</span><span class="me">Selene Jean · <b class="g">G5</b> Heavy Duty · Deep Plating</span></li><li><span class="mn">6A Power Plant</span><span class="me">Hera Tani · <b class="g">G5</b> Low Emissions · Thermal Spread</span></li><li><span class="mn">7A Mk II Gravity Optimised Thrusters</span><span class="me">Palin · <b class="g">G5</b> Dirty · Stripped Down</span></li><li><span class="mn">8A Mk II Supercharge Optimised Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range · Mass Manager</span></li><li><span class="mn">5D Life Support</span><span class="me">Bill Turner · <b class="g">G3</b> Lightweight</span></li><li><span class="mn">5A Balanced Power Distributor</span><span class="me">Dweller · <b class="g">G5</b> Engine Focused · Stripped Down</span></li><li><span class="mn">8D Sensors</span><span class="me">Lei Cheung · <b class="g">G5</b> Lightweight</span></li><li><span class="mn">5C Bi-Weave Shield Generator</span><span class="me">Lei Cheung · <b class="g">G5</b> Low Power · Stripped Down</span></li><li><span class="mn">1I Long Range Detailed Surface Scanner</span><span class="me">Lei Cheung · <b class="g">G5</b> Expanded Radius</span></li><li><span class="mn">0I Heat Sink Launcher ×2</span><span class="me">Ram Tah · <b class="g">G1</b> Ammo Capacity</span></li><li class="stock"><span class="mn">+11 stock</span><span class="me">7C Fuel Tank, 7A Fuel Scoop, 6A Auto Field-Maintenance Unit, 5H Guardian FSD Booster, 5D Mk II Vessel Hangar, 4H Planetary Vehicle Hangar, 1E Cargo Rack, 1E Auto Field-Maintenance Unit, 1D Repair Limpet Controller, 1E Supercruise Assist, 1E Advanced Docking Computer</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Exobiology build: fuel scoop, Guardian booster, surface scanner, field maintenance unit and a Mk II large vehicle hangar for a Nomad. The Caspian hull was redeemed from a shipyard bundle in October 2026, fitted at Ray Gateway and engineered at eight workshops. Registered by the shipyard as Reliant Seeker; named Hymn of the Long Night on 17 October 2026, with her Nomad, Refrain. A 4H planetary vehicle hangar with two SRV Scarabs went into her size 4 slot at Jaques Station on 1 November 2026, so she can now land and send an SRV out; her range fell from 91.3 to 90.0 ly.</p>
@@ -321,7 +142,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-g03">
       <button class="zoom shot" type="button" data-src="gallery/ships/void-runner.jpg" data-cap="Imperial Clipper VOID RUNNER · RI-G03"><img src="gallery/ships/void-runner.jpg" width="1600" height="900" alt="Imperial Clipper Void Runner in the hangar" loading="lazy"></button>
       <div class="label long">General · RI-G03 · Stored · Ray Gateway · 128 t cargo</div>
-      <div class="nm">Imperial Clipper <span>VOID RUNNER</span></div>
+      <h3 class="nm">Imperial Clipper <span>VOID RUNNER</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">47.4 ly</div></div><div><div class="label">Modules</div><div class="v">35.56M</div></div><div><div class="label">Rebuy</div><div class="v">2,674,868</div></div></div>
       <details class="modfold" open><summary>Modules · 2 engineered · 16 stock</summary><ul class="mods"><li><span class="mn">4A Power Plant</span><span class="me">Hera Tani · <b class="g">G5</b> Overcharged at 40%</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range</span></li><li class="stock"><span class="mn">+16 stock</span><span class="me">1I Lightweight Alloy, 6A Thrusters, 5D Life Support, 6A Support Focused Power Distributor, 5D Sensors, 4C Fuel Tank, 7E Cargo Rack, 5H Guardian FSD Booster, 4A Fuel Scoop, 4A Shield Generator, 3C Collector Limpet Controller ×2, 2G Planetary Vehicle Hangar, 1E Advanced Docking Computer, 1I Long Range Detailed Surface Scanner, 2B Remote Release Flak Launcher ×2, 0I Heat Sink Launcher ×2</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2024. A Gutamaya hull running the cockpit voice software her old team wrote. Carried the Scarab home from the Pleiades in October 2026, and flew the first Powerplay rare-goods run for Li Yong-Rui: Damna Carapaces for 3,665 merits. Then salvage at Power Wreckage Signatures in Diaguandri; destroyed on the third run and rebought for 2.67M CR. Carried the power commodity deliveries that took her to Powerplay rank 5, and the Xihe companions that unlocked Zacariah Nemo.</p>
@@ -329,7 +150,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-v01">
       <button class="zoom shot" type="button" data-src="gallery/ships/invictus.jpg" data-cap="Krait Phantom INVICTUS · RI-V01"><img src="gallery/ships/invictus.jpg" width="1600" height="900" alt="Krait Phantom Invictus in the hangar" loading="lazy"></button>
       <div class="label long">Salvage · RI-V01 · Stored · Ray Gateway · 34 t cargo</div>
-      <div class="nm">Krait Phantom <span>INVICTUS</span></div>
+      <h3 class="nm">Krait Phantom <span>INVICTUS</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">64.9 ly</div></div><div><div class="label">Modules</div><div class="v">47.07M</div></div><div><div class="label">Rebuy</div><div class="v">4,226,984</div></div></div>
       <details class="modfold" open><summary>Modules · 5 engineered · 16 stock</summary><ul class="mods"><li><span class="mn">6D Thrusters</span><span class="me">Palin · <b class="g">G2</b> Clean · Stripped Down</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range · Mass Manager</span></li><li><span class="mn">4D Support Focused Power Distributor</span><span class="me">Dweller · <b class="g">G2</b> Engine Focused · Stripped Down</span></li><li><span class="mn">6D Sensors</span><span class="me">Farseer · <b class="g">G3</b> Long Range</span></li><li><span class="mn">3D Shield Generator</span><span class="me">Vatermann · <b class="g">G3</b> Low Power · Hi-Cap</span></li><li class="stock"><span class="mn">+16 stock</span><span class="me">1I Lightweight Alloy, 5A Power Plant, 4D Life Support, 5C Fuel Tank, 6A Fuel Scoop, 5H Guardian FSD Booster, 5E Extended Cargo Rack, 1E Advanced Docking Computer, 3A Collector Limpet Controller, 3B Operations Multi-Limpet Controller, 2G Planetary Vehicle Hangar, 1I Long Range Detailed Surface Scanner, 2B Remote Release Flak Launcher ×2, 0I Heat Sink Launcher, 0C Frame Shift Wake Scanner, 0I Point Defence ×2</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought September 2024. Flown into the Pleiades that month, where her encounter log records the last Thargoid contact on file. Fitted for long-range collection with a Guardian booster, flak launchers and collector limpets. In October 2026 her vehicle hangar gave way to an anti-corrosion cargo rack from Professor Palin, and she brought sixteen Meta-Alloys and a Titan Drive Component to Altair. They sold at Luyten's Star for 347.5M CR, about 319M profit on the run. Then 21 Palladium for EXO at Garrido's Locus: 14.43M CR.</p>
@@ -337,7 +158,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-x02">
       <button class="zoom shot" type="button" data-src="gallery/ships/dreaming-void.jpg" data-cap="Diamondback Explorer DREAMING VOID · RI-X02"><img src="gallery/ships/dreaming-void.jpg" width="1600" height="900" alt="Diamondback Explorer Dreaming Void in the hangar" loading="lazy"></button>
       <div class="label long">Explorer · RI-X02 · Registered ship · Ray Gateway · 4 t cargo</div>
-      <div class="nm">Diamondback Explorer <span>DREAMING VOID</span></div>
+      <h3 class="nm">Diamondback Explorer <span>DREAMING VOID</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">73.8 ly</div></div><div><div class="label">Modules</div><div class="v">15.50M</div></div><div><div class="label">Rebuy</div><div class="v">855,732</div></div></div>
       <details class="modfold" open><summary>Modules · 5 engineered · 13 stock</summary><ul class="mods"><li><span class="mn">4A Power Plant</span><span class="me">Qwent · <b class="g">G2</b> Overcharged</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range · Stripped Down</span></li><li><span class="mn">3A Support Focused Power Distributor</span><span class="me">Hera Tani · <b class="g">G3</b> High Charge Capacity</span></li><li><span class="mn">3D Sensors</span><span class="me">Hera Tani · <b class="g">G1</b> Long Range</span></li><li><span class="mn">1I Long Range Detailed Surface Scanner</span><span class="me">Hera Tani · <b class="g">G5</b> Expanded Radius</span></li><li class="stock"><span class="mn">+13 stock</span><span class="me">1I Lightweight Alloy, 4A Thrusters, 3D Life Support, 5C Fuel Tank, 4A Fuel Scoop, 4H Guardian FSD Booster, 1E Advanced Docking Computer, 2A Auto Field-Maintenance Unit, 2G Planetary Vehicle Hangar, 2E Cargo Rack, 1D Repair Limpet Controller, 2D Mining Laser, 0I Heat Sink Launcher ×2</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2022, the first ship she kept after three Asp Explorers. Flew the Orrere and HR 3230 runs in October 2026 and is still her registered ship.</p>
@@ -345,7 +166,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-c02">
       <button class="zoom shot" type="button" data-src="gallery/ships/artemis.jpg" data-cap="Fer-de-Lance ARTEMIS · RI-C02"><img src="gallery/ships/artemis.jpg" width="1600" height="900" alt="Fer-de-Lance Artemis in the hangar" loading="lazy"></button>
       <div class="label long">Combat · RI-C02 · Stored · Jaques Station, Colonia</div>
-      <div class="nm">Fer-de-Lance <span>ARTEMIS</span></div>
+      <h3 class="nm">Fer-de-Lance <span>ARTEMIS</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">28.0 ly</div></div><div><div class="label">Modules</div><div class="v">36.55M</div></div><div><div class="label">Rebuy</div><div class="v">4,000,324</div></div></div>
       <details class="modfold" open><summary>Modules · 14 engineered · 9 stock</summary><ul class="mods"><li><span class="mn">6A Power Plant</span><span class="me">Hera Tani · <b class="g">G5</b> Overcharged · Thermal Spread</span></li><li><span class="mn">5A Thrusters</span><span class="me">Palin · <b class="g">G5</b> Dirty · Drag Drives</span></li><li><span class="mn">4A Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range · Mass Manager</span></li><li><span class="mn">6A Support Focused Power Distributor</span><span class="me">Dweller · <b class="g">G5</b> Charge Enhanced · Super Conduits</span></li><li><span class="mn">4D Sensors</span><span class="me">Lei Cheung · <b class="g">G5</b> Lightweight</span></li><li><span class="mn">5C Bi-Weave Shield Generator</span><span class="me">Lei Cheung · <b class="g">G5</b> Thermal · Fast Charge</span></li><li><span class="mn">4A Shield Cell Bank</span><span class="me">Martuuk · <b class="g">G1</b> Specialised · Recycling Cell</span></li><li><span class="mn">2A Shield Cell Bank</span><span class="me">Martuuk · <b class="g">G1</b> Specialised · Recycling Cell</span></li><li><span class="mn">4A Beam Laser</span><span class="me">Dweller · <b class="g">G3</b> Efficient · Oversized</span></li><li><span class="mn">2F Multi-Cannon</span><span class="me">McQuinn · <b class="g">G5</b> Overcharged · Corrosive Shell</span></li><li><span class="mn">2F Multi-Cannon ×3</span><span class="me">McQuinn · <b class="g">G5</b> Overcharged · Incendiary Rounds</span></li><li><span class="mn">0A Shield Booster</span><span class="me">Vatermann · <b class="g">G5</b> Thermal · Force Block</span></li><li><span class="mn">0A Shield Booster</span><span class="me">Vatermann · <b class="g">G5</b> Kinetic · Force Block</span></li><li><span class="mn">0A Shield Booster</span><span class="me">Vatermann · <b class="g">G5</b> Resistance · Force Block</span></li><li class="stock"><span class="mn">+9 stock</span><span class="me">1I Lightweight Alloy, 4D Life Support, 3C Fuel Tank, 4A Fuel Scoop, 1H Guardian FSD Booster, 1E Advanced Docking Computer, 0D Kill Warrant Scanner, 0I Heat Sink Launcher, 0I Chaff Launcher</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought September 2024. The most heavily engineered ship in the fleet: overcharged multi-cannons with corrosive and incendiary rounds, an oversized beam laser and G5 resistance boosters. Back in service in October 2026 for a Li Yong-Rui bounty assignment: four kills at the Diaguandri nav beacon for 817,557 CR. Shipped to Colonia with Hephaestus in October 2026; on 3 November 2026 she took four bounties at Ogmar, 414,379 CR, part of which unlocked Mel Brandon at The Brig, and on 4 November a Keelback's 207,832 CR bounty at Tenjin.</p>
@@ -353,7 +174,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-t01">
       <button class="zoom shot" type="button" data-src="gallery/ships/compass-rose.jpg" data-cap="Type-8 Transporter COMPASS ROSE · RI-T01"><img src="gallery/ships/compass-rose.jpg" width="1600" height="900" alt="Type-8 Transporter Compass Rose in the hangar" loading="lazy"></button>
       <div class="label long">Trader · RI-T01 · Stored · Ray Gateway · 208 t cargo</div>
-      <div class="nm">Type-8 Transporter <span>COMPASS ROSE</span></div>
+      <h3 class="nm">Type-8 Transporter <span>COMPASS ROSE</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">29.8 ly</div></div><div><div class="label">Modules</div><div class="v">6.67M</div></div><div><div class="label">Rebuy</div><div class="v">333,359</div></div></div>
       <details class="modfold" open><summary>Modules · 6 engineered · 13 stock</summary><ul class="mods"><li><span class="mn">1I Lightweight Alloy</span><span class="me">Ryder · <b class="g">G1</b> Lightweight</span></li><li><span class="mn">5A Power Plant</span><span class="me">Qwent · <b class="g">G2</b> Overcharged</span></li><li><span class="mn">5A Thrusters</span><span class="me">Martuuk · <b class="g">G2</b> Clean at 75%</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">Martuuk · <b class="g">G2</b> Faster Boot Sequence at 85% · Mass Manager</span></li><li><span class="mn">4A Support Focused Power Distributor</span><span class="me">Dweller · <b class="g">G3</b> Engine Focused · Stripped Down</span></li><li><span class="mn">3D Sensors</span><span class="me">Lei Cheung · <b class="g">G3</b> Lightweight</span></li><li class="stock"><span class="mn">+13 stock</span><span class="me">3D Life Support, 5C Fuel Tank, 7A Collector Limpet Controller, 6E Extended Cargo Rack ×3, 5A Shield Generator, 5A Fuel Scoop, 4E Cargo Rack, 2H Guardian FSD Booster, 1E Advanced Docking Computer, 0I Heat Sink Launcher, 0A Shield Booster, 0I Point Defence, 0A Shield Booster</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2024, the better of a pair. Built for bulk cargo with collector limpets and a Guardian booster; engineering is partly done.</p>
@@ -361,7 +182,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-g02">
       <button class="zoom shot" type="button" data-src="gallery/ships/horizon.jpg" data-cap="Hauler HORIZON · RI-G02"><img src="gallery/ships/horizon.jpg" width="1600" height="900" alt="Hauler Horizon in the hangar" loading="lazy"></button>
       <div class="label long">General · RI-G02 · First ship · Ray Gateway</div>
-      <div class="nm">Hauler <span>HORIZON</span></div>
+      <h3 class="nm">Hauler <span>HORIZON</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">29.2 ly</div></div><div><div class="label">Modules</div><div class="v">0.74M</div></div><div><div class="label">Rebuy</div><div class="v">37,629</div></div></div>
       <details class="modfold" open><summary>Modules · 0 engineered · 15 stock</summary><ul class="mods"><li class="stock"><span class="mn">+15 stock</span><span class="me">1I Lightweight Alloy, 2D Power Plant, 2D Thrusters, 2A Frame Shift Drive, 1D Life Support, 1D Power Distributor, 1D Sensors, 2C Fuel Tank, 2A Fuel Scoop, 1I Long Range Detailed Surface Scanner, 2E Shield Generator, 1E Supercruise Assist, 1E Advanced Docking Computer, 1F Pulse Laser, 0I Heat Sink Launcher</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought July 2022, the day she left Gutamaya. Never sold.</p>
@@ -369,7 +190,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-g01">
       <button class="zoom shot" type="button" data-src="gallery/ships/intrepid.jpg" data-cap="Sidewinder INTREPID · RI-G01"><img src="gallery/ships/intrepid.jpg" width="1600" height="900" alt="Sidewinder Intrepid in the hangar" loading="lazy"></button>
       <div class="label long">General · RI-G01 · Stored · Ray Gateway</div>
-      <div class="nm">Sidewinder <span>INTREPID</span></div>
+      <h3 class="nm">Sidewinder <span>INTREPID</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">31.2 ly</div></div><div><div class="label">Modules</div><div class="v">3.69M</div></div><div><div class="label">Rebuy</div><div class="v">184,563</div></div></div>
       <details class="modfold" open><summary>Modules · 2 engineered · 13 stock</summary><ul class="mods"><li><span class="mn">2A Enhanced Performance Thrusters</span><span class="me">Martuuk · <b class="g">G1</b> Clean · Stripped Down</span></li><li><span class="mn">2A Frame Shift Drive (SCO)</span><span class="me">Martuuk · <b class="g">G3</b> Long Range at 20% · Stripped Down</span></li><li class="stock"><span class="mn">+13 stock</span><span class="me">1I Lightweight Alloy, 2A Power Plant, 1D Life Support, 1A Power Distributor, 1D Sensors, 1C Fuel Tank, 2C Bi-Weave Shield Generator, 2A Fuel Scoop, 1H Guardian FSD Booster, 1E Advanced Docking Computer, 1I Long Range Detailed Surface Scanner, 0I Heat Sink Launcher, 0A Frame Shift Wake Scanner</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought September 2024. A light runabout with a Guardian booster and a surface scanner.</p>
@@ -377,7 +198,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-c01">
       <button class="zoom shot" type="button" data-src="gallery/ships/seraphim-rising.jpg" data-cap="Viper Mk III SERAPHIM RISING · RI-C01"><img src="gallery/ships/seraphim-rising.jpg" width="1600" height="900" alt="Viper Mk III Seraphim Rising in the hangar" loading="lazy"></button>
       <div class="label long">Combat · RI-C01 · Stored · Ray Gateway</div>
-      <div class="nm">Viper Mk III <span>SERAPHIM RISING</span></div>
+      <h3 class="nm">Viper Mk III <span>SERAPHIM RISING</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">13.3 ly</div></div><div><div class="label">Modules</div><div class="v">3.19M</div></div><div><div class="label">Rebuy</div><div class="v">162,850</div></div></div>
       <details class="modfold" open><summary>Modules · 0 engineered · 18 stock</summary><ul class="mods"><li class="stock"><span class="mn">+18 stock</span><span class="me">1I Military Grade Composite, 3A Power Plant, 3A Thrusters, 3A Frame Shift Drive, 2D Life Support, 3A Support Focused Power Distributor, 3D Sensors, 2C Fuel Tank, 3C Bi-Weave Shield Generator, 3D Hull Reinforcement Package, 2D Hull Reinforcement Package, 1D Module Reinforcement Package ×2, 1A Frame Shift Drive Interdictor, 3D Hull Reinforcement Package, 2F Multi-Cannon ×2, 1E Beam Laser ×2, 0A Shield Booster, 0C Kill Warrant Scanner</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2022. Unengineered; a light fighter with multi-cannons, beam lasers and reinforcement packages.</p>
@@ -385,7 +206,7 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-m01">
       <button class="zoom shot" type="button" data-src="gallery/ships/hephaestus.jpg" data-cap="Python HEPHAESTUS · RI-M01"><img src="gallery/ships/hephaestus.jpg" width="1600" height="900" alt="Python Hephaestus in the hangar" loading="lazy"></button>
       <div class="label long">Miner · RI-M01 · Stored · Jaques Station, Colonia · 192 t cargo</div>
-      <div class="nm">Python <span>HEPHAESTUS</span></div>
+      <h3 class="nm">Python <span>HEPHAESTUS</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">36.0 ly</div></div><div><div class="label">Modules</div><div class="v">30.20M</div></div><div><div class="label">Rebuy</div><div class="v">4,358,882</div></div></div>
       <details class="modfold" open><summary>Modules · 8 engineered · 10 stock</summary><ul class="mods"><li><span class="mn">1I Lightweight Alloy</span><span class="me">Selene Jean · <b class="g">G4</b> Lightweight · Angled Plating</span></li><li><span class="mn">6D Thrusters</span><span class="me">Palin · <b class="g">G1</b> Dirty</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">Farseer · <b class="g">G5</b> Long Range</span></li><li><span class="mn">7A Power Distributor</span><span class="me">Qwent · <b class="g">G3</b> Charge Enhanced</span></li><li><span class="mn">5A Collector Limpet Controller ×2</span><span class="me">Ram Tah · <b class="g">G1</b> Lightweight</span></li><li><span class="mn">2A Refinery</span><span class="me">Marsha Hicks · <b class="g">G5</b> Shielded</span></li><li><span class="mn">1I Long Range Detailed Surface Scanner</span><span class="me">Bill Turner · <b class="g">G5</b> Expanded Radius</span></li><li><span class="mn">0I Point Defence</span><span class="me">Ram Tah · <b class="g">G1</b> Ammo Capacity</span></li><li class="stock"><span class="mn">+10 stock</span><span class="me">6A Power Plant, 4D Life Support, 6D Sensors, 5C Fuel Tank, 6E Extended Cargo Rack ×3, 4D Shield Generator, 3C Rescue Multi Limpet Controller, 3A Fuel Scoop, 2D Mining Laser ×4, 0B Shield Booster ×3</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Laser-mining build with four mining lasers, a refinery, collector limpets and three extended cargo racks. Refitted at Jaques Station on 1 November 2026 for escape-pod recovery: the prospector, the 3A collector and the 4B fuel scoop came out for a rescue multi-limpet controller, a 3A fuel scoop and a 4D shield generator. Marsha Hicks shielded the refinery at grade 5 the same morning.</p>
@@ -393,18 +214,26 @@ text { font-family: var(--f-mono); }
     <article class="panel ship-active" id="ri-p01">
       <button class="zoom shot" type="button" data-src="gallery/ships/avalon.jpg" data-cap="Dolphin AVALON · RI-P01"><img src="gallery/ships/avalon.jpg" width="1600" height="900" alt="Dolphin Avalon in the hangar" loading="lazy"></button>
       <div class="label long">Passenger · RI-P01 · Stored · Ray Gateway · 20 t cargo</div>
-      <div class="nm">Dolphin <span>AVALON</span></div>
+      <h3 class="nm">Dolphin <span>AVALON</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">13.1 ly</div></div><div><div class="label">Modules</div><div class="v">5.54M</div></div><div><div class="label">Rebuy</div><div class="v">331,995</div></div></div>
       <details class="modfold" open><summary>Modules · 0 engineered · 19 stock</summary><ul class="mods"><li class="stock"><span class="mn">+19 stock</span><span class="me">1I Lightweight Alloy, 3A Power Plant, 4A Thrusters, 4E Frame Shift Drive, 4D Life Support, 3D Support Focused Power Distributor, 3D Sensors, 4C Fuel Tank, 5C First Class Passenger Cabin, 4E Cargo Rack, 4A Fuel Scoop, 3A Shield Generator, 2E Economy Class Passenger Cabin ×2, 2E Cargo Rack, 1E Supercruise Assist, 1E Advanced Docking Computer, 0I Heat Sink Launcher, 0E Shield Booster, 0I Point Defence</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Bought August 2022. A passenger liner with first-class and economy cabins. Unengineered.</p>
     </article>
     <article class="panel ship-active" id="ri-r01">
       <div class="label long">Rescue · RI-R01 · Delivered October 2026 · awaiting outfit · Ray Gateway</div>
-      <div class="nm">Lynx Highliner <span>HELIOS</span></div>
+      <h3 class="nm">Lynx Highliner <span>HELIOS</span></h3>
       <div class="specs"><div><div class="label">Jump range</div><div class="v">–</div></div><div><div class="label">Modules</div><div class="v">–</div></div><div><div class="label">Rebuy</div><div class="v">–</div></div></div>
       <details class="modfold" open><summary>Modules · 10 engineered · 11 stock</summary><ul class="mods"><li><span class="mn">1B Reinforced Alloy</span><span class="me">planned · Heavy Duty <b class="g">G5</b>, Deep Plating</span></li><li><span class="mn">5A Power Plant</span><span class="me">planned · Armoured <b class="g">G5</b>, Stripped Down</span></li><li><span class="mn">6A Thrusters</span><span class="me">planned · Dirty <b class="g">G5</b>, Drag Drives</span></li><li><span class="mn">5A Frame Shift Drive (SCO)</span><span class="me">planned · Increased Range <b class="g">G5</b>, Mass Manager</span></li><li><span class="mn">6D Life Support</span><span class="me">planned · Lightweight <b class="g">G5</b></span></li><li><span class="mn">5A Power Distributor</span><span class="me">planned · Charge Enhanced <b class="g">G5</b>, Super Conduits</span></li><li><span class="mn">3D Sensors</span><span class="me">planned · Lightweight <b class="g">G5</b></span></li><li><span class="mn">6A Shield Generator</span><span class="me">planned · Reinforced <b class="g">G5</b>, Hi-Cap</span></li><li><span class="mn">0A Shield Booster</span><span class="me">planned · Thermal Resistant <b class="g">G5</b>, Super Capacitors</span></li><li><span class="mn">0A Shield Booster</span><span class="me">planned · Heavy Duty <b class="g">G5</b>, Super Capacitors</span></li><li class="stock"><span class="mn">+11 stock</span><span class="me">5C Fuel Tank, 5E Cargo Rack, 4A Fuel Scoop, 4A Auto Field-Maintenance Unit, 3A Collector Limpet Controller, 1A Fuel Transfer Limpet Controller, 1E Advanced Docking Computer, 5D MkII Economy Class Passenger Cabin ×3, 0I Heat Sink Launcher, 0I Chaff Launcher, 2F Pulse Laser (Gimballed) ×2</span></li></ul></details>
       <p class="sub" style="margin:0;font-size:13.5px">Taken from a shipyard order on her return in October 2026 and not yet flown. The planned build is a search-and-rescue ship for evacuations, escape pods, black-box salvage and stranded commanders.</p>
     </article>
+  </div>
+</section>
+
+<section>
+  <h2>Fleet value</h2>
+  <div class="panel hbars">
+    <div class="label long" style="margin-bottom:10px">Value and purchase date per Inara · Aurora and Hymn show modules only, Helios is not yet valued</div>
+    <svg id="fleet" viewBox="0 0 520 420" role="img" aria-label="Fleet value by ship: Hephaestus highest at 78.3M CR; Hymn of the Long Night 18.4M CR in modules; Helios not yet valued"></svg>
   </div>
 </section>
 
@@ -452,7 +281,7 @@ text { font-family: var(--f-mono); }
   }
   const drawFleet = () => hbars("fleet", [
     ["Python · Hephaestus", 78336357, ""], ["Krait Phantom · Invictus", 76102259, "Sep 2024"], ["Fer-de-Lance · Artemis", 72005800, "Sep 2024"],
-    ["Imperial Clipper · Void Runner", 48147587, "Aug 2024"], ["Caspian Explorer · Hymn of the Long Night", 18407872, "modules only"], ["Diamondback Explorer · Dreaming Void", 15403141, "Aug 2022"],
+    ["Imperial Clipper · Void Runner", 48147587, "Aug 2024"], ["Caspian · Hymn of the Long Night", 18407872, "modules only"], ["Diamondback Explorer · Dreaming Void", 15403141, "Aug 2022"],
     ["Mandalay · Aurora", 11542437, "modules only"], ["Type-8 · Compass Rose", 6000467, "Aug 2024"],
     ["Dolphin · Avalon", 5975922, "Aug 2022"], ["Sidewinder · Intrepid", 3322134, "Sep 2024"], ["Viper Mk III · Seraphim Rising", 2931232, "Aug 2022"],
     ["Hauler · Horizon", 677293, "Jul 2022"], ["Lynx Highliner · Helios", 0, "Oct 2026"]

@@ -8,36 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
 <style>
 /* Layout: concept sheets of Sarah Waters as a zoomable grid. Same cockpit palette as the rest of the site. */
-:root {
-  --bg: #0c0a08;
-  --panel: #15110d;
-  --line: #2e251c;
-  --fg: #ece3d7;
-  --muted: #998b7b;
-  --accent: #ff7a1a;
-  --accent-dim: #6b3a14;
-  --cyan: #74d4e2;
-  --f-display: "Chakra Petch", "Bahnschrift", "Arial Narrow", sans-serif;
-  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font: 16px/1.65 var(--f-body); margin: 0; }
 .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 64px; }
-h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; font-weight: 600; }
 p { margin: 0; }
 h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.15; letter-spacing: .01em; color: var(--fg); display: flex; align-items: center; gap: 16px; }
-h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-dim), var(--line) 60%); }
 h3 { font-size: 19px; }
 section { display: grid; gap: 22px; }
 .label { font-family: var(--f-body); font-size: 13px; letter-spacing: .02em; text-transform: none; color: var(--muted); font-weight: 600; }
-.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 .sub { color: var(--muted); font-size: 14px; max-width: 70ch; }
-.panel { background: var(--panel); border: 1px solid var(--line); padding: 20px; position: relative; min-width: 0; }
-
 /* Gallery */
 header { display: grid; gap: 14px; }
 .eyebrow { font-family: var(--f-body); font-size: 14px; color: var(--muted); }
@@ -47,35 +28,8 @@ h1 span { color: inherit; }
 .thumbs figure { margin: 0; padding: 8px; display: grid; gap: 8px; align-content: start; }
 .thumbs img { display: block; width: 100%; height: auto; cursor: zoom-in; background: var(--line); }
 .thumbs figcaption { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding: 0 4px 2px; }
-button.zoom { all: unset; display: block; cursor: zoom-in; }
-button.zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; }
-
-dialog.lightbox { border: 1px solid var(--line); background: var(--bg); padding: 10px; max-width: min(96vw, 1300px); color: var(--fg); }
-dialog.lightbox::backdrop { background: rgba(0, 0, 0, .8); }
-dialog.lightbox img { display: block; max-width: 100%; max-height: 82vh; width: auto; height: auto; margin: 0 auto; }
-dialog.lightbox .bar { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 8px 2px 0; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-dialog.lightbox button { font: 600 12px var(--f-display); letter-spacing: .14em; text-transform: uppercase; background: none; color: var(--fg); border: 1px solid var(--line); padding: 6px 12px; cursor: pointer; }
-dialog.lightbox button:hover, dialog.lightbox button:focus-visible { border-color: var(--accent); }
-dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+footer { color: var(--muted); font-size: 13px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
 @media (max-width: 640px) { .thumbs { grid-template-columns: minmax(0, 1fr); } }
-</style>
-<style>
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important; } }
-.skip { position: absolute; left: 12px; top: -64px; z-index: 20; padding: 12px 16px; background: var(--accent); color: var(--bg); font-family: var(--f-display); font-size: 14px; font-weight: 600; text-decoration: none; }
-.skip:focus { top: 8px; outline: 2px solid var(--fg); outline-offset: 2px; }
-.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
-@media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-.site-nav .in { max-width: 1120px; margin: 0 auto; padding-inline: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; flex-wrap: wrap; }
-.site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
-.site-nav .brand b { color: var(--accent); font-weight: 600; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
-.site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
-.site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
 </style>
 </head>
 <body>
