@@ -1,7 +1,7 @@
 /* Shared styles for every page of the Rislyss site: the palette and fonts, the base type, the site nav and the
    components every page uses, then rules shared by a family of pages, scoped with :where(html.<family>) so they
    keep the specificity of the selector alone. Each page's own <style> loads after this file and overrides it.
-   Families: chapter (chronicle/1-7), data (log, hangar), record (medical, psychological). */
+   Families: chapter (chronicle/1-7, journal), data (log, hangar), record (medical, psychological). */
 :root {
   --bg: #0c0a08;
   --panel: #15110d;
@@ -55,7 +55,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 .site-nav .brand { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); text-decoration: none; }
 .site-nav .brand b { color: var(--accent); font-weight: 600; }
 .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
-.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 10px 13px; border-bottom: 2px solid transparent; }
+.site-nav a.pg { display: block; font-family: var(--f-display); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 15px 8px 13px; border-bottom: 2px solid transparent; }
 .site-nav a.pg:hover, .site-nav a.pg:focus-visible { color: var(--fg); }
 .site-nav a.pg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .site-nav a.pg[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
@@ -63,7 +63,7 @@ dialog.lightbox button:focus-visible { outline: 2px solid var(--accent); outline
 .site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-nav { transition: transform .25s cubic-bezier(.22, 1, .36, 1); }
 @media (max-width: 600px) { .site-nav.away { transform: translateY(-100%); } }
-@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 10px; } .site-nav a.pg { font-size: 11px; letter-spacing: .02em; padding: 14px 3px 13px; white-space: nowrap; } }
+@media (max-width: 900px) { .site-nav .brand { display: none; } .site-nav ul { width: 100%; flex-wrap: wrap; justify-content: center; gap: 0 6px; } .site-nav a.pg { font-size: 11px; letter-spacing: 0; padding: 14px 2px 13px; white-space: nowrap; } }
 .label.long { text-transform: none; letter-spacing: .02em; font-size: 13px; }
 .idline { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--muted); font-size: 14px; }
 .idline b { color: var(--fg); font-weight: 500; }

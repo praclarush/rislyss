@@ -2,7 +2,7 @@
 
 Static character site for CMDR Rislyss (Sarah Waters), Elite Dangerous. Public repo `praclarush/rislyss`; GitHub Pages serves `main` at https://praclarush.github.io/rislyss/. No build step: edit the HTML directly. `README.md` maps the files; read it first.
 
-The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the game journal, `Elite Dangerous\Flight Log\Docs\` (character, medical and psychological source documents, Log Notes, Inara logbook) and `Elite Dangerous\Fleet\`. Its `Elite Dangerous\CLAUDE.md` (Flight Log section) holds the writing rules, and its `update-logs` skill runs the "update logs" workflow that edits this site. Follow both when changing content here.
+The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the game journal, `Elite Dangerous\Docs\` (character, medical and psychological source documents, Log Notes, Inara logbook) and `Elite Dangerous\Fleet\`. Its `Elite Dangerous\CLAUDE.md` (Flight Log section) holds the writing rules, and its `update-logs` skill runs the "update logs" workflow that edits this site. Follow both when changing content here.
 
 ## Publishing
 
@@ -13,9 +13,9 @@ The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the 
 ## Page conventions
 
 - Shared styles live in `site.css`: the tokens, base type, the site nav (opening with the reduced-motion rule) and every component two or more pages use. Each page links it before its own inline `<style>`, which holds only that page's rules and overrides the shared ones. Scripts stay inline; fonts come from Google Fonts only. Each page has a `<meta name="description">`.
-- Rules shared by one family of pages sit in `site.css` scoped with `:where(html.<family>)`, which adds no specificity; the page carries the class on `<html>`. Families: `chapter` (`chronicle/1-7`), `data` (`log.html`, `hangar.html`), `record` (`medical.html`, `psychological.html`). A rule used by one page stays in that page; a rule a second page needs moves to `site.css`, never a copy.
+- Rules shared by one family of pages sit in `site.css` scoped with `:where(html.<family>)`, which adds no specificity; the page carries the class on `<html>`. Families: `chapter` (`chronicle/1-7`, `journal.html`), `data` (`log.html`, `hangar.html`), `record` (`medical.html`, `psychological.html`). A rule used by one page stays in that page; a rule a second page needs moves to `site.css`, never a copy.
 - Palette, defined once in `site.css` `:root` (`log.html` and `hangar.html` add their chart colours in a local `:root`): `--bg #0c0a08`, `--panel #15110d`, `--line #2e251c`, `--fg #ece3d7`, `--muted #998b7b`, `--accent #ff7a1a`, `--accent-dim #6b3a14`, `--cyan #74d4e2`; fonts Chakra Petch (display), Barlow (body), JetBrains Mono (mono). Single dark theme by design.
-- The site nav markup is copied into every page, chapter pages included, with `aria-current="page"` on the current section. Adding a page means adding its link to the nav in every page. At 900px and below the nav hides the brand and wraps to two centred rows (in `site.css`). At 600px and below a small script at the end of each page slides the nav away while scrolling down (`.site-nav.away`); copy it to new pages.
+- The site nav markup is copied into every page, chapter pages included, with `aria-current="page"` on the current section. Adding a page means adding its link to the nav in every page. At 900px and below the nav hides the brand and wraps to two centred rows down to a 360px screen (in `site.css`); its nine links have little room to spare, so a tenth page means tightening the link spacing again and rechecking 360px and 920px. At 600px and below a small script at the end of each page slides the nav away while scrolling down (`.site-nav.away`); copy it to new pages.
 - Each page's first CSS comment (`/* Layout: ... */`) states its design intent. Keep it accurate when the layout changes.
 - Lightbox: `button.zoom` with `data-src` and `data-cap` around an `<img>`, one `dialog.lightbox` per page and a small script, as in `gallery.html`, `index.html` and `hangar.html`. Copy that pattern for new zoomable images.
 - Paths are relative. Pages in `chronicle/` prefix site links with `../` (`../site.css` too). The exception is `404.html`, which GitHub Pages serves at any depth, so its links and stylesheet start with `/rislyss/`; it carries the nav with no `aria-current`.
@@ -29,6 +29,7 @@ Each page has its own voice; match it when writing:
 |---|---|
 | `index.html` | Formal Pilots Federation personnel file |
 | `chronicle.html`, `chronicle/` | Precise third-person technical record |
+| `journal.html` | Sarah's own first-person journal (the Inara logbook), written for herself |
 | `log.html` | Factual journal data, real times |
 | `engineers.html` | Factual record of engineer grades and Inara awards |
 | `medical.html` | Clinical Pilots Federation medical record |
@@ -43,6 +44,17 @@ In the chronicle keep time frames ambiguous (no day dates or short durations, bu
 - New entries go at the end of the highest-numbered chapter, which carries the `a.tolatest` jump under its title (remove it from the previous chapter when a new one starts). Entry stamp: `<b>Mon 3312</b>`, GST start and shutdown times, location (`class="loc"`). The newest entry carries `id="latest"`: move it to each new entry, and keep the latest cards pointing at it: `nav.latest` in the `chronicle.html` header (chapter, month, title, one-line summary) and in the biography hero (month, title).
 - When an entry changes the latest chapter's date range or story, update its label on the chapter page and its date range and blurb in the index list. Also update the index's "Where she stands now" and the header's last-entry month.
 - Start a new chapter only when the user asks: copy the latest chapter page to `chronicle/<n+1>.html`, add it to the index list with a blurb, and repoint the previous page's next link and the new page's pager.
+
+## Journal
+
+- `journal.html` carries the Inara logbook from GameDocs (`Elite Dangerous\Docs\rislyss-inara-logbook.md`) word for word.
+  - **Markup.** Each entry is `<article class="jentry" id="entry-N">` holding a list row and the hidden text:
+    - The row is `<a class="row" href="#entry-N">` with `<span class="no">Entry N</span><span class="dt">Mon 3312</span><span class="t">Title</span>`.
+    - The text is `<div class="full" hidden>`: a `div.meta` with the logbook header's GST time and place as `<span>`s (the place gets `class="loc"`, and the real-year bracket is dropped), then one `<p>` per paragraph.
+  - **Modal.** Clicking a row, or any `#entry-N` link such as the latest card, opens the entry in `dialog.reader`, which has previous/next buttons and arrow keys. The script copies the row and the `.full` content into the dialog and keeps the URL hash in step, so `journal.html#entry-N` opens that entry on load.
+  - **Order.** Entries run oldest first inside one `section.chapter.month` per month (`id="m-nov-3312"`). Entries 1 and 2 sit in `#looking-back`.
+- A new entry goes at the end of the latest month's section, or in a new month section with a link added to `nav.months`. Point the header's `nav.latest` card at it (entry number, month, title) and update the eyebrow's last-entry month and the footer's last month.
+- When a logbook entry is edited in GameDocs, carry the change onto the page.
 
 ## Hangar and gallery
 

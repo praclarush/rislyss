@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en" class="chapter">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<meta name="description" content="The personal journal of Sarah Waters, CMDR Rislyss: her own first-person entries, from her first Hauler in 3308 to the present.">
+<title>Rislyss Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Layout: Sarah's own journal as one long reading column, in her voice where the chronicle is the record: a compact index of numbered entries (number, month, title) grouped by month, oldest first; each opens in a reading modal with previous and next. Latest-entry card and month links in the header. Shares the chronicle chapters' reading type; single dark world by choice. */
+article[id], section[id] { scroll-margin-top: 110px; }
+.months { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--f-mono); font-size: 13px; }
+.months a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); text-decoration: none; }
+.months a:hover, .months a:focus-visible { color: var(--accent); }
+.months a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.month { gap: 0; }
+.month > .label { margin-bottom: 10px; }
+.jentry { border-top: 1px dashed var(--line); }
+.jentry:last-child { border-bottom: 1px dashed var(--line); }
+.row { display: grid; grid-template-columns: 84px 76px minmax(0, 1fr); align-items: baseline; gap: 14px; padding: 12px 6px; min-height: 44px; color: var(--fg); text-decoration: none; transition: background-color .15s; }
+.row:hover { background: var(--panel); }
+.row:hover .t { color: var(--accent); }
+.row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.row .no { font-family: var(--f-mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+.row .dt { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.row .t { font-family: var(--f-display); font-size: 18px; font-weight: 600; line-height: 1.25; }
+@media (max-width: 600px) { .row { grid-template-columns: auto 1fr; gap: 2px 12px; } .row .t { grid-column: 1 / -1; font-size: 17px; } }
+dialog.reader { width: min(720px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 1px solid var(--line); background: var(--bg); color: var(--fg); overflow: hidden; }
+dialog.reader[open] { display: flex; flex-direction: column; }
+dialog.reader::backdrop { background: rgba(0, 0, 0, .8); }
+.reader .hd { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 8px 8px 24px; border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.reader .hd .no { color: var(--accent); font-weight: 600; }
+.reader .txt { overflow-y: auto; overscroll-behavior: contain; padding: 22px 24px 28px; display: grid; gap: 14px; }
+.reader h2 { font-size: clamp(24px, 4vw, 30px); line-height: 1.1; }
+.reader .meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.reader .meta .loc { color: var(--cyan); }
+#reader-body { display: grid; gap: 14px; }
+.reader p { max-width: 64ch; }
+.reader .ft { display: flex; justify-content: space-between; gap: 12px; padding: 8px; border-top: 1px solid var(--line); }
+.reader button { font: 600 12px var(--f-display); letter-spacing: .1em; text-transform: uppercase; background: none; color: var(--fg); border: 1px solid var(--line); padding: 0 14px; min-height: 44px; cursor: pointer; }
+.reader button:hover, .reader button:focus-visible { border-color: var(--accent); }
+.reader button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.reader button:disabled { opacity: .35; cursor: default; border-color: var(--line); }
+@media (max-width: 600px) { .reader .txt { padding: 18px 16px 24px; } .reader .hd { padding-left: 16px; } }
+@media (prefers-reduced-motion: no-preference) { dialog.reader[open] { animation: rise .2s cubic-bezier(.22, 1, .36, 1); } @keyframes rise { from { opacity: 0; transform: translateY(8px); } } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="site-nav" aria-label="Site"><div class="in"><a class="brand" href="index.html">CMDR <b>RISLYSS</b> · RI-X</a><ul><li><a class="pg" href="index.html">Biography</a></li><li><a class="pg" href="chronicle.html">Chronicle</a></li><li><a class="pg" href="journal.html" aria-current="page">Journal</a></li><li><a class="pg" href="log.html">Flight Log</a></li><li><a class="pg" href="hangar.html">Hangar</a></li><li><a class="pg" href="engineers.html">Engineers</a></li><li><a class="pg" href="gallery.html">Gallery</a></li><li><a class="pg" href="medical.html">Medical</a></li><li><a class="pg" href="psychological.html">Psychological</a></li></ul></div></nav>
+<main class="wrap" id="main">
+
+<header>
+  <div class="eyebrow">Personal journal · Sarah Waters · Last entry Nov 3312</div>
+  <h1>The <span>Rislyss</span> Journal</h1>
+  <p class="dek">Sarah's own entries, written for herself between jumps. The chronicle keeps the record and the flight log keeps the numbers; this is what she made of it.</p>
+  <nav class="latest" aria-label="Latest entry">
+    <a href="#entry-53"><span class="d">Latest entry · Entry 53 · Nov 3312</span><span class="t">Stored in Stone</span></a>
+  </nav>
+  <nav class="months" aria-label="Months">
+    <a href="#looking-back">Looking back</a>
+    <a href="#m-oct-3312">October 3312</a>
+    <a href="#m-nov-3312">November 3312</a>
+  </nav>
+</header>
+
+<section class="chapter month" id="looking-back">
+  <div class="label">Looking back · 3308 to 3310</div>
+  <article class="jentry" id="entry-1">
+    <a class="row" href="#entry-1"><span class="no">Entry 1</span><span class="dt">3308</span><span class="t">The voice in the cockpit</span></a>
+    <div class="full" hidden>
+      <p>For nine years my job was to make ships talk. I was on the cockpit voice team at Gutamaya, in Achenar, and if you've ever heard a Clipper tell you the frame shift drive is charging, there's a fair chance I argued with someone about how long the pause before "charging" should be.</p>
+      <p>I liked the work, I really did, right up until I worked out I'd spent most of a decade writing the calm voice that tells a pilot their hull is failing and I had never once been the pilot, and after that I couldn't stop thinking about it. So in the summer of 3308 (2022) I handed in my notice and bought the cheapest Hauler I could find. I named her Horizon. I've never decided whether that was hopeful or a joke, and I still own her, so I suppose it doesn't matter.</p>
+      <p>The engineers found me faster than I expected. Or I found them, depends who you ask. Farseer, Martuuk, the Dweller, McQuinn, Ryder, all on rumour and other pilots' bad directions. I went through three Asp Explorers in quick succession, which was mostly a way of learning what I didn't want, and then in August I sat in a Diamondback Explorer and stopped looking. Dreaming Void. She's still the ship my registration lists.</p>
+      <p>I flew Federation contracts for a while without thinking much about whose flag was on them, and they made me an Ensign for it. Farseer did my drive. In September I bought a Gunship.</p>
+      <p>I'll write about what came after that some other time.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-2">
+    <a class="row" href="#entry-2"><span class="no">Entry 2</span><span class="dt">3310</span><span class="t">Coming home in Imperial colours</span></a>
+    <div class="full" hidden>
+      <p>August 3310 (2024).</p>
+      <p>I came back wearing purple which surprised a few people who'd known me as the woman flying Federation contracts, it surprised me less. I bought a pair of Type-8s, kept the better one and named her Compass Rose, and the Navy moved me from Outsider to Baron so quickly that I can only assume somebody had been doing my paperwork while I was away.</p>
+      <p>Later that month I bought a Clipper. Void Runner. She's a Gutamaya hull, and the first thing I did after the docking clamps released was pull up her voice build to see whether any of my old code was still in there. Some of it is. I still check every time I take her out and yes, I know that's a bit sad.</p>
+      <p>September was expensive. A Krait Phantom I named Invictus, a Fer-de-Lance I named Artemis, and a Krait Mk II that I flew briefly and sold, because some ships just don't sit right. The Navy made me a Viscount. I pledged to Li Yong-Rui, mostly because his systems were where the work was.</p>
+      <p>That same month I took Invictus into the Pleiades and met the Thargoids. I'm not going to put any more about that in the log.</p>
+    </div>
+  </article>
+</section>
+
+<section class="chapter month" id="m-oct-3312">
+  <div class="label">October 3312</div>
+  <article class="jentry" id="entry-3">
+    <a class="row" href="#entry-3"><span class="no">Entry 3</span><span class="dt">Oct 3312</span><span class="t">Seventy-seven minutes on LY-Q b5-2 A 2</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 00:03 GST</span><span class="loc">Pleiades Sector LY-Q b5-2 A 2</span></div>
+      <p>The Scarab was exactly where I'd left her, parked on a grey moon with six Thargoid sites over the horizon and Diaguandri about 220 light years behind me. She didn't want to start. I killed the power on the first attempt because something sounded wrong, then had a panel open twice for two different faults, each time shutting down and bringing her back up to see if the fix had held. The fourth start was clean.</p>
+      <p>After that I just sat. Connected to the network, didn't touch the throttle, and caught up. It came to seventy-seven minutes, according to the log. I had two years of charts in the data banks that nobody had paid me for so I worked out the shortest way back to Diaguandri and what Ray Gateway was paying for data now, and then, because I've had an idea about the Mandalay for a while, I went looking for an outfitter near home that stocks field maintenance units. I read up on the powers, too, since a lot has changed, and on what Li Yong-Rui does for pledged pilots these days.</p>
+      <p>The tea was cold by the time I'd finished. Shut down at 01:47. Next time I power up, I'm going home.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-4">
+    <a class="row" href="#entry-4"><span class="no">Entry 4</span><span class="dt">Oct 3312</span><span class="t">Twenty-six jumps, cut to ten</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 14:50 GST</span></div>
+      <p>About a minute and a half after I brought the Scarab up, every system in her died at once. Six Thargoid signals on this moon, so I'm calling it a shutdown pulse, and I didn't hang around to find out whether there'd be a second. I drove her into Void Runner's hangar, lifted off and had the Clipper in supercruise before I'd properly finished being frightened. I did that later, in supercruise, with the tea.</p>
+      <p>The plotter offered me twenty-six jumps home. I don't know who writes those defaults (not me, for once) but I got it down to ten and scooped at every star through the Col 285 and Arietis sectors. At Bharani a Viper pilot locked me four times in about three seconds, thought it over, and let me go. I'd have done the same in their place. A Clipper is a lot of ship to argue with.</p>
+      <p>The honk at Diaguandri came back with 146 signals, and 115 of them were fleet carriers. I don't remember the neighbourhood being this crowded.</p>
+      <p>Ray Gateway paid a bit under 1.9 million for two years of charts. Not one first discovery in the whole lot. Which tells you how thoroughly the Pleiades have been walked over. A crate of Meta-Alloys I'd forgotten about went for 214,000. The Neofabric sold for slightly less than I'd paid. I decided I could live with that.</p>
+      <p>The Lynx Highliner I'd ordered before I left was still waiting at the yard. She's going to be Helios, the rescue ship I've been meaning to build for years.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-5">
+    <a class="row" href="#entry-5"><span class="no">Entry 5</span><span class="dt">Oct 3312</span><span class="t">Athena becomes Aurora</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 17:22 GST</span></div>
+      <p>I walked past Void Runner and the new Lynx without stopping and took the Mandalay out instead. One jump to Ebor, where a Stronghold Carrier was sitting above the fourth planet, and it turned me away at the door: restricted access.</p>
+      <p>So I renewed my pledge to Li Yong-Rui right there, sitting in front of it, two years after the first time, I don't think I even finished reading the terms. I'd like to say the carrier was impressed. It refused me twice more, once because I was too far away and once because it had no free pad, and then it scanned my cargo on the way out, presumably on principle. I didn't dock.</p>
+      <p>Caillie Town, then. 10th Hawk Squadron run it, and they're in the middle of an expansion, so the place was busy and the outfitters were cheerful. I spent close to six million credits. The mining lasers came out, and two field maintenance units went in, a big one and a small one, along with a wake scanner, point defence and a better docking computer. I also swapped the 3A power plant for a lighter 2A, which was a mistake, although I didn't know that yet.</p>
+      <p>She doesn't mine any more, so Athena didn't fit her. She's Aurora now, RI-X04, and she's an explorer.</p>
+      <p>The 2A can't carry everything I put in. The Guardian booster went dark after the refit and I didn't notice, which cost me ten and a half light years of range I didn't know I'd lost. Either Hera Tani overcharges the plant or the old 3A comes out of storage. Until one of those happens, she stays in the hangar.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-6">
+    <a class="row" href="#entry-6"><span class="no">Entry 6</span><span class="dt">Oct 3312</span><span class="t">Hangar walk, then north through Sol</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 21:59 GST</span></div>
+      <p>I walked the hangar before I flew anywhere. Horizon, Seraphim Rising, Intrepid, Avalon, Compass Rose, Dreaming Void, Artemis, Invictus, Hephaestus. I climbed into every one of them and sat for a moment, which I know is a ridiculous thing to do with ships that have been parked safe for two years, I did it anyway. They're all fine.</p>
+      <p>Then I took the oldest one out. Dreaming Void, my first summer's Diamondback, north from Ray Gateway past a T dwarf and the white dwarf LAWD 26, where the Codex insisted on logging a Wolf-Rayet star, then through Sol's neighbourhood and on to Orrere. That's Mahon's space, and the system took one look at my pledge and flagged me as hostile. I'll try not to take it personally.</p>
+      <p>The surface scanner refused to appear in any fire group and I spent far longer on it than I'd like to admit, considering fixing cockpit software is was what I did for a living. When it finally came up, I mapped Orrere 2 b with two probes, which is as clean as the scan gets, set down and took the Scarab out. Some gold, some beryllium.</p>
+      <p>Shut down in the buggy. Dreaming Void's landing lights were still on, up on the ridge where I'd left her, and I watched them for a while before I turned everything off.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-7">
+    <a class="row" href="#entry-7"><span class="no">Entry 7</span><span class="dt">Oct 3312</span><span class="t">First merits, then 449 light years east</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 00:41 GST</span><span class="loc">Orrere 2 b</span></div>
+      <p>I carried on prospecting where I'd stopped and came up with tellurium, antimony, ruthenium, zirconium and a bit of palladium. The bertrandite and beryllium weren't worth the hold space, so I left them on the surface for someone else, docked the Scarab and flew home through Gnowee and Rana.</p>
+      <p>Ray Gateway took the gold and palladium for about 174,000 and paid a little for five systems of data. Diaguandri is one of Li Yong-Rui's strongholds, and the sale earned me my first merits. Ten of them. Still rank zero but the number moved and I'll admit I sat there and watched it move.</p>
+      <p>Then I turned east and didn't stop for seven jumps, 449 light years through the Col 285 and Wregoe sectors, where nobody lives. HR 3230 has an A-class primary that nearly cooked me when I dropped in and I sat at the edge of the heat warning for longer than I should of while I worked out where I was going. I mapped HR 3230 3 a with two probes, landed on its moon, and took the Scarab out for manganese, selenium and zirconium.</p>
+      <p>I shut her down there, 446 light years from Diaguandri. It's the furthest I've been from home since I came back, and it was quiet in a way I'd forgotten I liked.</p>
+      <p>I'm somewhere under 1,700 light years short of my hundred-thousandth in hyperspace. I didn't think I'd care about a number like that, but apparently I do.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-8">
+    <a class="row" href="#entry-8"><span class="no">Entry 8</span><span class="dt">Oct 3312</span><span class="t">Brokers, a bad trade, and two engineers</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:28 GST</span><span class="loc">HR 3230 3 a a</span></div>
+      <p>Seven jumps home in Dreaming Void, the same empty stars in the opposite order. Coming into Ray Gateway I scanned whatever was in range out of habit, and Li Yong-Rui's people paid me eight merits a time for it. Then they paid me two thousand all at once and didn't say why. I went from ten merits to a bit over two thousand before I'd even touched the pad. I've decided not to ask.</p>
+      <p>The HR 3230 charts sold for about 270,000, most of that for one system in the Wregoe sector with twenty-one bodies in it.</p>
+      <p>Then I swapped to Aurora and got on with the real job. I'd made a list of everything her engineers would want, and there are three material brokers within a jump of home. The encoded broker at Ray Gateway was easy. At Thomas Orbital in Wolf 1241 I made a mess of it: I traded 144 iron for four tin, then traded six tin back for one selenium, and somehow left with less tin than I'd arrived with. I've written trading logic. I have no idea how I managed that, I genuinely don't. Tesla Terminal in Njulngan was nine trades without a single error, so I suppose it evened out. I went back to Wolf 1241 afterwards and sorted the tin out with mercury, molybdenum and niobium I'd had no use for anyway.</p>
+      <p>Then north, and for the first time Aurora jumped the way I'd built her to. Eighty light years, then sixty-nine, to Kuk, where Selene Jean reinforced the hull plating at Prospector's Rest over sixteen passes. Four more long jumps and a short hop took me to Kuwemaki. Hera Tani overcharged the power plant at The Jet's Hole and it came out at 13.44 megawatts, which is as high as that process will go. I was pleased about that for roughly a minute until I did the sums and worked out that with both maintenance units off she still draws five percent more than the plant gives her, so the wake scanner will have to go.</p>
+      <p>Docked at The Jet's Hole, shut down 01:13 GST, 259 light years from Diaguandri. She's about half done.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-9">
+    <a class="row" href="#entry-9"><span class="no">Entry 9</span><span class="dt">Oct 3312</span><span class="t">Finishing the Aurora's Refit</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 22:35 GST</span><span class="loc">The Jet's Hole, Kuwemaki</span></div>
+      <p>Six workshops between here and home and I meant to see every one of them.</p>
+      <p>Palin, at Arque, first. He rebuilt the thrusters so they run clean, and he let me try his thermal spread experiment, which I didn't like, so I asked for the stripped-down frame back. He didn't seem to mind. Bill Turner, at Alioth, made the life support as light as he knows how to. Etienne Dorn could have gone further, but Dorn is in Colonia and hasn't agreed to see me, so that's as far as it goes for now. Didi Vatermann, at Leesti, tuned the one shield booster I actually have fitted.</p>
+      <p>Lei Cheung, at Laksak, kept me on his pad the longest of anyone, working through the shield generator, the sensors and the surface scanner. The shield generator came back drawing so much less power that, if my sums are right, Aurora's budget finally balances. I'll believe it when the panel stops complaining.</p>
+      <p>Somewhere on the jump to LP 567-20 I passed a hundred thousand light years in hyperspace. I didn't notice at the time, and only saw it afterwards in the statistics. I'm not sure what I expected to feel about it, a little silly mostly. And pleased.</p>
+      <p>The Dweller, at Wyrd, sorted out the power distributor. Ram Tah, at Meene, was the last stop. I'd been one step short of his full trust for longer than I like to think about, and he gave it to me while he was halfway through the heat sink launcher, without making any fuss about it. He finished the launcher properly and had a go at the point defence turret while I waited.</p>
+      <p>Home to Ray Gateway after that. I sold a few charts and picked up four more merits, and shut down at 00:44 GST. My hands ached from tapping on the console the whole way round. Nine of her systems are done now, and two shield boosters I still haven't fitted are the only thing left.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-10">
+    <a class="row" href="#entry-10"><span class="no">Entry 10</span><span class="dt">Oct 3312</span><span class="t">As finished as she gets, for now</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>I've decided Aurora is done, or as done as I can make her from here.</p>
+      <p>Some of it is still loose. The wake scanner was never engineered. Ram Tah didn't quite finish the point defence turret, and I didn't go back to make him. The two extra shield boosters I'd planned never went in at all; she flies with the scanner and the turret in those slots instead, and having flown her like that, I think I prefer it.</p>
+      <p>The life support is the part that keeps bothering me. Bill Turner did a good job and it's the best anyone in the bubble can do. Etienne Dorn could do better, and Dorn is in Colonia, twenty-two thousand light years from this dock. So are Mel Brandon, Petra Olmanova and Marsha Hicks. I've been hearing about all four of them for years and I've never met any of them.</p>
+      <p>I've been flying since 3308 (2022), I've crossed a hundred thousand light years in hyperspace, and I have never made the run to Colonia. There's always been a reason. A contract, a refit, the two years I don't write about. I didn't expect it to bother me this much, it does though. I have a ship that can cross ninety light years in a jump, and none of the best workshops in that part of the galaxy have ever seen her.</p>
+      <p>I'll go one day. I keep saying that.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-11">
+    <a class="row" href="#entry-11"><span class="no">Entry 11</span><span class="dt">Oct 3312</span><span class="t">Plans for a seeker</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>I should have written about this sooner.</p>
+      <p>All the way round Aurora's engineers I had time on my hands, more than I'd expected. Hyperspace tunnels, long supercruise approaches, sitting on landing pads while someone else took my ship apart. I used most of it to design the next one.</p>
+      <p>She's a Caspian Explorer, built for exobiology. I've been calling her Reliant Seeker, though I'm not sure the name will survive the shipyard. Aurora is built to go a long way and keep herself in one piece out there. Reliant Seeker is meant to land and let me go outside and find out what's growing on the worlds Aurora flies past.</p>
+      <p>The build is done down to the last module. She has a fuel scoop, a Guardian booster, a surface scanner and a field maintenance unit for the long runs. There's a large vehicle hangar for a Nomad, so I can fly down between colonies instead of walking. On paper she'll jump close to eighty-eight light years. I've even planned out which engineer gets which module and the route between them, with Farseer first so that every jump after that one is on the finished drive. Some of that I worked out in Lei Cheung's waiting area with my tea going cold beside me.</p>
+      <p>What I don't have is the ship. Or the money for her, or the materials for that matter. Aurora's refit went through a lot of the stock, and the list of what I'm short of has grown since I first wrote it down. So it's back to selling charts and working the brokers for a while, and Reliant Seeker stays in the planning files until I can afford to build her.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-12">
+    <a class="row" href="#entry-12"><span class="no">Entry 12</span><span class="dt">Oct 3312</span><span class="t">Home, briefly</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:10 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Three jumps to Achenar. Eighty-two light years, then eighty-four, then a little hop of thirteen into the system I was born in, and I hadn't really planned on feeling anything about that but the capital came up on the scanner and there it was anyway, all of it, the Gutamaya yards and the traffic and the sky I grew up under. I didn't go planetside. I didn't call anyone. That isn't what I came for.</p>
+      <p>I came for Tiana Fortune. Her workshop is at Fortune's Loss and her price was fifty units of decoded emission data, which I had sitting in the hold doing nothing, so that was easy. She opened up to me at rank one and I put her straight to work on Aurora's wake scanner, the one module the refit never touched. Ten rolls of Lightweight, grade one and grade two, and somewhere in there she decided I was worth her time, rank three by the end of it.</p>
+      <p>Grade three next. She can do it now, so I'm still docked, sitting here with the tea going cold, looking at the tattoo on the back of my hand in the reflection, the little star behind my ear I mean, you can't see it from here and I know that. Achenar does that to me.</p>
+      <p>Not logging the shutdown yet.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-13">
+    <a class="row" href="#entry-13"><span class="no">Entry 13</span><span class="dt">Oct 3312</span><span class="t">The right plant</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>same run</span><span>shut down 01:20 GST</span><span class="loc">Turner Metallics, Alioth</span></div>
+      <p>Left Achenar without looking back too hard, which for me counts as a success. Home to Diaguandri and I had them send up the old 3A power plant from Caillie Town, the one I pulled out of her during the refit because I thought the lighter 2A would be clever. It wasn't clever. It was two percent short of everything I'd bolted onto her, even with the maintenance units off, and I'd been switching things off to make the numbers work like some kind of apprentice. The 3A went back in and the 2A went into storage, still engineered, in case I'm ever that clever again.</p>
+      <p>Picked up three courier jobs on the way round the brokers because if I'm flying to Wolf 1241 and Njulngan anyway somebody may as well pay me for it. Ten thousand each. At Thomas Orbital I traded manganese for the one cadmium I was short and I got it right first time, which after last time I'd like on the record. Tesla Terminal gave me fourteen conductive ceramics for a pile of precipitated alloys, and that was the bottleneck for everything, all of it, every remaining job on her.</p>
+      <p>Then Hera Tani. She took the plant from grade three to grade five and it came out at 16.8 megawatts. I watched the power panel go from red to something with room in it and I'll admit I sat back in the seat for a minute.</p>
+      <p>Bill Turner at Alioth finished the wake scanner. Lightweight, grade three, the whole thing weighs less than half a tonne now. Tiana could of done it but I was going that way.</p>
+      <p>Point defence is the last thing. Ram Tah, another day. Shut down at Turner Metallics.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-14">
+    <a class="row" href="#entry-14"><span class="no">Entry 14</span><span class="dt">Oct 3312</span><span class="t">The last module</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 00:12 GST</span><span class="loc">Turner Metallics, Alioth</span></div>
+      <p>Three jumps out to Meene. The last one was only forty-nine light years and after a week of eighty-fours it felt like stepping off a kerb. Phoenix Base hasn't changed, same dust on the pad, same feeling that Ram Tah is half listening to you and half listening to something else.</p>
+      <p>He was listening enough. Two rolls on the point defence and it went to the top of grade five, the second roll better than the first, which is not how it usually goes for me. And that was it. That was the refit. Everything on Aurora that the engineers who'll talk to me can touch has been touched, and what's left needs Etienne Dorn, who lives in Colonia and has never heard of me.</p>
+      <p>I thought I'd feel more about it than I did. I paid twenty-five credits for fuel and flew her home in two jumps and put her down at Ray Gateway like it was any other evening, and sat there a minute with my hand on the console. Which is probably the right amount of ceremony for a ship.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-15">
+    <a class="row" href="#entry-15"><span class="no">Entry 15</span><span class="dt">Oct 3312</span><span class="t">Fifteen beetles</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>same evening</span><span>shut down 01:14 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Took Void Runner out. I don't fly the Clipper nearly enough, and every time I do her COVAS says the frame shift drive is charging with the pause I argued for in a meeting room in Achenar, and I still can't decide if it's the right length.</p>
+      <p>Li Yong-Rui wants rare goods sold in the systems he's trying to bring in, so I went shopping. Four jumps out to Damna, Archer's territory, feudal, and Nemere Market sits three thousand light seconds from the star, which is a long time in supercruise to wonder if you've wasted an evening. They had fifteen Damna Carapaces. Beetle shells as far as I can tell, polished up for collectors. A bit over three hundred credits each, and I bought every one and the whole lot cost less than I've spent on repairs some nights.</p>
+      <p>Two jumps back to Starport Of Starlight, out in the Arietis sectors, and they paid nine times what I'd paid. Forty-three thousand. The power credited me a bit over three and a half thousand merits for it, more than everything I'd earned for him before tonight put together, I'm not sure the accounting is right but I'm not going to be the one who points that out.</p>
+      <p>One jump home and shut down at Ray Gateway. Damna will have more shells when the stock comes back.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-16">
+    <a class="row" href="#entry-16"><span class="no">Entry 16</span><span class="dt">Oct 3312</span><span class="t">Wrapping up loose ends</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>01:40 GST, systems down</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Right, so I've decided I'm going to Colonia. There are some engineers out there I need to make contact with, and Aurora needs a shakedown cruise anyway, so I think it'll fit just fine.</p>
+      <p>That being said there are still a couple of things I need to take care of here at home first. Li Yong-Rui has requests that need finishing, and that means knocking the mothballs off Artemis, unfortunately. There are bounties that need collecting, and while I'm not a fan of shooting down other ships, sometimes needs must.</p>
+      <p>And after that? It's been four years since I left Gutamaya and I think I'm going to rewrite the COVAS in my ships. I'm tired of the standard software, so I'm going to do what the company never let me do and push it as close to illegal as I can without crossing that line.</p>
+      <p>First, I'm redoing the visual HUD. I'm tired of that orange, it's hard on the eyes, especially when you're out in the black for as long as I'm going to be.</p>
+      <p>Then the voice. Smooth it out, make it less robotic, give it a flawless aristocratic Imperial accent. Something that works for me.</p>
+      <p>Then the dynamic prioritisation matrix. I'm going to link it to my biometric data so it suppresses the low-priority announcements during high-stress situations.</p>
+      <p>Then I'm piping the raw data stream from the passive emissive sensors straight into the voice engine. Instead of it just saying "warning, thermal attack," it'll tell me what type of attack it is and where it's coming from.</p>
+      <p>Then I'm making it context-aware: have it react to my commands. This isn't going to be an AI (I won't cross those legal boundaries), but it will act on combinations of words. Context-aware, voice-triggered macro execution. If I yell "get us out of here," the system is going to drop a heat sink, shift everything into engines and get me into supercruise as fast as possible.</p>
+      <p>Then I'm adding a scraper to bridge the ship's local frame buffer with the live galactic mapping tools, so it tells me which system I'm entering, the pirate activity and what the power struggle looks like there.</p>
+      <p>Finally, I'm setting up random phrases that play on distinct events. Give the ship a little attitude, shall we say. If the shields go offline it'll give me a line about it. I should be able to find some suitable phrases on GalNet.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-17">
+    <a class="row" href="#entry-17"><span class="no">Entry 17</span><span class="dt">Oct 3312</span><span class="t">Needs must</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 20:06 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Artemis hadn't left her cradle since I got back, and she let me know it, every panel on the board waking up like she was offended I'd taken this long. Out to the nav beacon. It's a strange place to work, everyone passing through and nobody stopping, and you sit there scanning one hull after another while the pirates decide which of you looks easiest.</p>
+      <p>The first was an Adder. Then a Diamondback Scout that had my shields down before I'd worked out where it was shooting from, which I'm not proud of. Then a Cobra. And then a Krait Mk II with a Master behind the stick and six hundred thousand on his head, and that one took a while, longer than I'd like and with more sweating than I'd like. He went. Li Yong-Rui sent a bit over three thousand merits down the line almost before the debris stopped spinning, so I suppose that's one of his requests done.</p>
+      <p>Eight hundred thousand in bounties at Ray Gateway. I didn't enjoy any of it. I don't think I'm meant to.</p>
+      <p>Then I put Artemis back to bed and took Void Runner out with the collectors, picking through signal sources here and one jump over for materials, and the limpets came back with six tonnes of military hardware marked stolen, which is exactly what you don't want in your hold when the system authority asks for a word. Out the hatch, all of it.</p>
+      <p>Shut down at 21:04.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-18">
+    <a class="row" href="#entry-18"><span class="no">Entry 18</span><span class="dt">Oct 3312</span><span class="t">Wreckage</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:03 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Thirty limpets this time. The next thing Li Yong-Rui wants is salvage, and Diaguandri keeps throwing up power wreckage signatures, the leftovers of whoever has been fighting over this system, the powers' little war done in other people's ships.</p>
+      <p>The first one was quiet. A black box, three escape pods, some wreckage, and the collectors brought it all in while I watched the scanner and let the tea go cold. Two of the pods still had someone in them. I try not to think too hard about that while they're in my hold. Search and Rescue at Ray Gateway took them off my hands for a hundred and fifty-odd thousand and Li Yong-Rui added a few hundred merits for my trouble.</p>
+      <p>The second was rated more dangerous and turned out not to be, which is how I like it. Same haul near enough, same hand-in, same price. That puts me a bit under ten thousand merits, and the salvage request is moving faster than I thought it would.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-19">
+    <a class="row" href="#entry-19"><span class="no">Entry 19</span><span class="dt">Oct 3312</span><span class="t">Rank five</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 22:51 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Back out to the wreckage first thing. The signature near AB 1 was supposed to be dangerous and the only thing that came near me was a pair of cargo scans, so I let the collectors work and counted pods. Four this time, three of them still occupied. Search and Rescue paid well again, and Li Yong-Rui paid better, two big awards on top of the usual, which I'm reading as the salvage and the bounty requests both being signed off.</p>
+      <p>Then the deliveries. The contact at Ray Gateway handed me fifteen crates of Sirius franchise packages, which as far as I can tell are a corporate brochure with a shipping manifest attached, and I carried them to Starport Of Starlight, where I sold the carapaces the other night. After that it was fifteen sets of Sirius corporate contracts for Gremlin's Grove, one jump into Pranav Antal's space. Walking Sirius paperwork into a rival power's station and leaving it there feels like a very Li Yong-Rui way to fight a war. It worked though. The second delivery took me to rank five.</p>
+      <p>Back home there was a Caspian waiting for me in the shipyard, a bundle I'd forgotten I was owed. It's Reliant Seeker's hull, or that's the name the shipyard put on the registration anyway, and I haven't decided if it's staying. No fit yet, just a very large empty explorer sitting in the bay and me standing on the walkway looking at it for longer than I'll admit to.</p>
+      <p>Then Aurora, because I wanted to fly something that goes a long way. Three jumps out to Yoru, Aisling's space, and the Party of Yoru had two courier jobs going my direction, expansion data for the systems next door. Forty thousand between them. Not much, but it's the kind of flying I like, short hops and quiet stations and nobody shooting at me.</p>
+      <p>Shut down at Otomo Orbital in Caledo, 00:47, a long way from home and in no hurry to go back.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-20">
+    <a class="row" href="#entry-20"><span class="no">Entry 20</span><span class="dt">Oct 3312</span><span class="t">Odd jobs for the Party</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 17:54 GST</span><span class="loc">Otomo Orbital, Caledo</span></div>
+      <p>The Party of Yoru have decided I'm useful, which is flattering right up until you see the mission board. They're trying to spread into every system around them and they want their paperwork carried there by someone who won't ask questions, so I spent the day doing short hops around Yoru with Aurora's hold full of their data. Karid, Orang, Murato, a place called Lepchaimyu that I'll never spell right twice. Most of the jumps were under twenty light years, which in Aurora barely counts as leaving.</p>
+      <p>One job was different. They wanted two crates of artwork back from a wreck site in T'u Tu, and I found them in a degraded signal source floating in what was left of somebody's hold. I don't know what the paintings were. I didn't open the crates. I thought about it.</p>
+      <p>Nine jobs by the end, a bit under a quarter of a million, and the faction's people at Caidin Reach have started greeting me by name, which I've decided not to read too much into. Shut down at Hannu Mines in CD-79 950 at 19:27.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-21">
+    <a class="row" href="#entry-21"><span class="no">Entry 21</span><span class="dt">Oct 3312</span><span class="t">Twenty-five companions</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 22:04 GST</span><span class="loc">Hannu Mines, CD-79 950</span></div>
+      <p>The Party had one more job for me, and it wasn't really a job. An invitation, for delivery to Hollos, with my name on it and Zacariah Nemo's at the bottom. Nemo works out of Yoru and he doesn't open his door to anyone who can't bring him twenty-five Xihe Biomorphic Companions, which are exactly what they sound like and cost a fortune.</p>
+      <p>So Aurora went home and Void Runner came out, because the companions need a hold and Aurora's is eight tonnes. North to Xihe through a string of dim little stars, twenty-five companions bought at a bit under five thousand each, then across to Hollos to hand in the invitation and down to Yoru to hand in the creatures. They were very quiet in the hold the whole way. I kept checking on them anyway.</p>
+      <p>Nemo took them and let me in. Rank one, which means he'll talk to me and not much else yet.</p>
+      <p>Home after that, five long jumps, and I sold what I'd charted on the way for a bit over three hundred and seventy thousand. Then I took Artemis out to the beacon for half an hour of scanning ships for Li Yong-Rui because the evening wasn't over and neither was I. Nothing wanted came near me. Back into Aurora's seat to shut down, 23:52, because that's the chair I feel at home in.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-22">
+    <a class="row" href="#entry-22"><span class="no">Entry 22</span><span class="dt">Oct 3312</span><span class="t">Expensive metal</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:40 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Invictus has a new job. She was my explorer once and then she sat in the hangar for two years, and now she's the salvage ship, which suits her better than I'd like to admit. Thargoid salvage eats ordinary cargo racks, so first I had to take Aurora out to Arque and buy a little anti-corrosion rack from Palin's people. Two tonnes. Ten thousand credits and three jumps each way for a box, which is the sort of errand I'd have laughed at a month ago.</p>
+      <p>The rack went into Invictus where the SRV bay used to be, and she went south to a dead-end anarchy system called HIP 20567. There's wreckage around the seventh planet, Thargoid wreckage, and the limpets came back with four meta-alloys and a drive component off something that used to be a Titan. I kept the hold cold and didn't look at it more than I had to. It hums. I'm almost certain it hums.</p>
+      <p>Four wasn't enough, it never is, so I went looking for carriers that sell the stuff. One in Epsilon Indi had eleven for sale at a price I'm not going to write down because I'll only feel it again, and another one in EZ Aquarii had one more at about a third of that. That's my balance down by close to thirty million in two docking cycles, and I did it on purpose, I'll remind myself of that when I'm looking at the number.</p>
+      <p>Sixteen meta-alloys in the hold now, plus the thing that hums. Shut down at Altair, 01:18.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-23">
+    <a class="row" href="#entry-23"><span class="no">Entry 23</span><span class="dt">Oct 3312</span><span class="t">Three hundred million reasons</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 01:15 GST</span><span class="loc">Solo Orbiter, Altair</span></div>
+      <p>I'd been told what meta-alloys fetch at the right carrier and I hadn't really believed it. The right carrier was in Luyten's Star, twenty-nine light years from Altair, and somebody tried to pull me out of supercruise on the way, which I took as a sign that word gets around. I slipped him. Then I docked, sold the sixteen alloys, and sat there looking at the number for a while. Three hundred and eleven million. For metal I'd paid about twenty-eight for, most of it the night before.</p>
+      <p>Someone was waiting for me when I undocked. I never got a good look at them. My shields were gone before I'd finished clearing the toast-rack and the hull was going down in big ugly steps, and I did the only sensible thing, which was point Invictus at the nearest star and leave. She came out the other side at forty percent and complaining about it, and I didn't stop shaking for a minute or two. Another carrier in the next system patched her up and bought the Titan component for thirty-six million, no questions, which I think says something about the people who run carriers out here.</p>
+      <p>So that's me rich, for now, by about three hundred million. I flew home and sold my charts like nothing had happened.</p>
+      <p>Then I took Aurora out because I needed to be somewhere quiet. Mapped a couple of moons at LHS 417, touched down by an old wrecked buggy and didn't stay, and kept going east to HR 3230, the same moon I prospected the week I came back. I took the Scarab out and picked up rocks for ten minutes and didn't think about money at all. Shut down on the surface at 02:29.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-24">
+    <a class="row" href="#entry-24"><span class="no">Entry 24</span><span class="dt">Oct 3312</span><span class="t">Brokers and palladium</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 00:28 GST</span><span class="loc">HR 3230 3 a a</span></div>
+      <p>Lifted off the moon and came home the long way round, six jumps of eighty-odd light years, and I'll admit I let Aurora drift in supercruise for a while on the approach to Ray Gateway because I didn't feel like docking yet.</p>
+      <p>Then a night of paperwork. Reliant Seeker has been sitting in the shipyard as a bare hull and I've had her shopping list on my console for a week, so I finally did it, all three brokers in one go. Strange wake data for hyperspace trajectories at Ray Gateway, a pile of manganese and tungsten and niobium for cadmium and tin at Thomas Orbital, and at Tesla Terminal I handed over two hundred heat exchangers and chemical distilleries for the conductive ceramics I've been short of since Aurora's refit. Fifteen trades. She's still a bare hull wearing whatever name the shipyard gave her, but she's a hull with materials waiting, which is progress.</p>
+      <p>Then Invictus, because EXO had asked me to source palladium for their people down on Diaguandri C 3. Three jumps up to LHS 501, twenty-one units bought at a little outpost, three jumps back. Something on the approach to the settlement hit Invictus hard, nearly half her hull and her shields with it, and I never did see what it was before I got her on the pad. EXO paid fourteen and a half million for the palladium. I'm not going to ask why, I'm just going to say thank you.</p>
+      <p>Shut down at Garrido's Locus, 02:35.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-25">
+    <a class="row" href="#entry-25"><span class="no">Entry 25</span><span class="dt">Oct 3312</span><span class="t">A bare hull and a long list</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 22:50 GST</span><span class="loc">Garrido's Locus, Diaguandri C 3</span></div>
+      <p>This is where the expedition starts, I've decided: tonight, with the Caspian on the pad at Ray Gateway and me walking round her with the outfitting screen open.</p>
+      <p>She came out of the bundle fitted for somebody else's life. Cargo racks, a fighter bay, hangars, limpets for jobs I'll never do. I sold the lot. The shipyard crew watched me strip her down to the frame and I think they enjoyed it. In went a bi-weave shield, a Guardian booster, a field maintenance unit for the long nights, a Mk II hangar for the buggy, and a power plant big enough that I won't ever have to switch the maintenance units off to make the numbers work. Eighteen and a half million. I didn't wince, much.</p>
+      <p>Then the engineers. Farseer in Deciat did the drive, sixteen rolls and a Mass Manager on top, and she was as charming about it as she always is, which is to say not at all. Lei Cheung at Laksak did the sensors and the shield and started on the surface scanner. When I brought her home she jumped eighty-three and a half light years, on a hull that two days ago was carrying cargo racks.</p>
+      <p>Took Aurora out after that, partly to say sorry. A crash site on a moon at Koli Discii, an hour of driving the Scarab between wreckage, picking up ruthenium and tellurium. Shut down at Thomas Orbital, 01:33.</p>
+      <p>The shipyard has her down as Reliant Seeker, the name off my planning files. I haven't decided yet if it's the one she keeps.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-26">
+    <a class="row" href="#entry-26"><span class="no">Entry 26</span><span class="dt">Oct 3312</span><span class="t">Finishing work</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 02:37 GST</span><span class="loc">Thomas Orbital, Wolf 1241</span></div>
+      <p>A short one. Sold my charts, did some raw trades for the last of the Caspian's materials, and flew the Caspian back out for the two jobs left on her list. Ram Tah gave the heat sinks a little more room, and Lei Cheung finished the surface scanner, so the probes cover more ground now, which is going to matter when I'm mapping worlds for things that grow on them.</p>
+      <p>That's as far as I'm taking her engineering for now. Shut down at Trader's Rest, 03:10, with Reliant Seeker on the pad outside, still wearing the name the shipyard gave her.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-27">
+    <a class="row" href="#entry-27"><span class="no">Entry 27</span><span class="dt">Oct 3312</span><span class="t">Hymn of the Long Night</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 19:16 GST</span><span class="loc">Trader's Rest, Laksak</span></div>
+      <p>The last of the engineers today, a whole loop of them. Palin at Arque for the thrusters, the Dweller at Wyrd for the distributor, Selene Jean at Kuk for the armour, and Bill Turner at Alioth for the life support, which is as far as he'll go and as far as I can take it this side of Colonia. I went to Hera Tani in the middle of it and turned round at her door without asking for anything, because I'd worked out on the way in that I wanted the cool-running plant, not the hot one, and I needed to think about it. Bought a smaller plant at Ray Gateway, looked at it, put it back in storage. Went back to Hera with the big one and she made it run cold. Fuel scooping in a ship that doesn't cook you is worth an extra trip.</p>
+      <p>The repair bill when I got home was a bit over two hundred thousand, which I'm choosing not to examine too closely.</p>
+      <p>And then I sat in the cockpit at Ray Gateway for a long time with the registry form open. The shipyard had her down as Reliant Seeker, the name I'd been using in my notes, and it's a good name, it's just a name for a plan. She isn't a plan any more. I've been flying her at night, in the long quiet between jumps, with the COVAS turned right down, and there's a sound the drive makes when it spools that I keep waiting for.</p>
+      <p>Hymn of the Long Night. RI-X05.</p>
+      <p>The Nomad in her hangar is Refrain, because that's what you call the bit that keeps coming back.</p>
+      <p>Shut down at 21:16.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-28">
+    <a class="row" href="#entry-28"><span class="no">Entry 28</span><span class="dt">Oct 3312</span><span class="t">Shakedown</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:21 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Shakedown cruise. She did everything I asked of her.</p>
+      <p>Out east to Jackson's Lighthouse first, because I wanted to know what the drive does in a jet cone before I need it to. Two boosts. The second one carried her two hundred and seven light years in one jump, back west to HIP 15609, and I sat there afterwards with my hands off the stick just looking at the number. The telemetry tracker earned its keep tonight. I'd plotted every jump on it before I left the dock and it was right every time.</p>
+      <p>The new HUD colours work. I wasn't sure they would in a real cockpit with a real star outside, but they're calm and I can read them, and the COVAS doesn't shout anymore. That's two things I rebuilt in my own head this month and both of them held.</p>
+      <p>A pirate pulled me out of supercruise at HIP 15609. I submitted and let it go. That's the bubble, and I won't miss it where I'm going.</p>
+      <p>Then the planet. Mapped it, launched Refrain, set her down, walked out, and the exobiology tracker took me straight to it: Stratum Paleas, the lime one, flat against the rock like someone spilled paint. Three samples. My first of the expedition. Vista Genomics paid 1.36 million for it, which is a lot of money for something I'd have walked past a year ago.</p>
+      <p>The only thing that didn't go right was me. Lei Cheung never put Stripped Down on the shield. I'd ticked it off in my notes as done and it wasn't, and I only found out because I went looking. So three jumps to Laksak and three back, and now it's done. Properly this time, I checked.</p>
+      <p>That's it for tonight. I have to pack. Pay the long-term rent on the hangar space and the apartment, both, because I don't know how long I'll be gone, and I'd rather pay for a room I don't sleep in than come home to find it's someone elses.</p>
+      <p>Shut down at 00:48.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-29">
+    <a class="row" href="#entry-29"><span class="no">Entry 29</span><span class="dt">Oct 3312</span><span class="t">Synuefai</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 17:53 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Rent's paid. Hangar and apartment both, for longer than I like to think about. I sold the shakedown data on the way out of the door, and then I clipped something leaving Ray Gateway and had to go straight back in and have the hull patched before I'd even left the system. Not the departure I'd pictured. Nobody saw. I'm choosing to believe nobody saw.</p>
+      <p>Five jumps south-west and the bubble just stops. Synuefai, about five hundred light years from Sol, a cluster of quiet little stars with nothing on the nav panel but rock and ice and the occasional bio signal.</p>
+      <p>This is the part I bought her for. Map the planet, launch Refrain out of the hangar and fly her down to where the tracker says the life is. The Nomad is better than I expected. She's small and quick and she gets me there, and Hymn never touches the ground. There's nobody else aboard to fly her, so I set her to follow me, and she does, hanging back at a polite distance with her lights on like she's waiting up.</p>
+      <p>Thirteen samples today, on twelve worlds. Mostly Stratum Tectonicas, which I'm starting to recognise from the cockpit before the scanner tells me, lime and green smears on dark rock. A Tussock that looked like grass on a world that has no business growing grass. Bacterium Cerbrus. A Clypeus under a hot blue-white star in HIP 17681, maroon, like little shields. Stratum Cucumisis, two colours of it. Nine of them new to my Codex, which is nine more than I had yesterday morning.</p>
+      <p>Once I stopped in the middle of a sample and just sat on the rock for a few minutes with my helmet lamp off, then got up and finished it. Somewhere in there the rhythm settled. Jump, scan, map, launch, fly, sample, sample, sample. I didn't think about anything else for hours, and I can't remember the last time that was true.</p>
+      <p>None of it sold yet. It stays in the bag until I'm ready to go back, and I'm not.</p>
+      <p>Shut down at 01:16, in Refrain at Mel 22 Sector DH-U c3-7 A 3, with Hymn keeping her distance overhead.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-30">
+    <a class="row" href="#entry-30"><span class="no">Entry 30</span><span class="dt">Oct 3312</span><span class="t">Three on One Moon</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:09 GST</span><span class="loc">Refrain, Mel 22 Sector DH-U c3-7 A 3</span></div>
+      <p>Woke up in Refrain, which is a strange thing to write. I'd slept out there last time, strapped into the Nomad's seat over a rock five hundred light years from home, with Hymn hanging off my shoulder waiting for me to come in. I brought her in and we went on.</p>
+      <p>More Stratum to start with. Two moons in Synuefai EE-J, both green Tectonicas, then Cucumisis on a moon in LN-Q, emerald this time. I'm getting quick at it. Map, launch, fly down, three samples, back aboard. The Tectonicas have stopped being exciting, if I'm honest, and I feel a bit guilty about that, because a year ago I didn't know any of them existed.</p>
+      <p>Then HIP 16403. A white A-class star, and one small moon round its seventh planet, small enough to map with a single probe. Three species on it. Three, all new to me. A Cactoida, green and lumpy and sitting up out of the dust like a fist. An Osseus, blue, flat discs stacked on the rock like plates somebody left out to dry. And a Clypeus, orange, the little shell ones, like the maroon ones yesterday but brighter. I flew Refrain from one to the next with Hymn following along above me, and by the end I'd stopped talking to the COVAS and was just talking to myself.</p>
+      <p>I didn't stay. One jump on to Wredguia EM-E b25-1, about six hundred light years out now, and I shut her down there.</p>
+      <p>Nineteen samples in the bag, none of them sold. I keep doing the sums and then stopping myself. That's not what this is for.</p>
+      <p>Shut down at 00:57.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-31">
+    <a class="row" href="#entry-31"><span class="no">Entry 31</span><span class="dt">Oct 3312</span><span class="t">Further Out</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 01:48 GST</span><span class="loc">Wredguia EM-E b25-1</span></div>
+      <p>Short one tonight. A green Cucumisis on the moon I'd stopped over last time, new to me, and halfway through sampling it I stopped and stood on the rock in my suit for a while with Refrain parked beside me, not doing anything at all. Then I finished it. I'm not leaving a sample half done.</p>
+      <p>Synuefai OO-K had a planet with four different things growing on it, and I only took one of them. The Tectonicas I know how to find quickly, so I took that, and then I stood there with the scanner showing me a Tussock, a Bacterium and an Osseus, all three new to me, and I logged them and flew on. I keep telling myself that's sensible. You can't sample everything on every world or you never get anywhere. It still felt like walking out of a room halfway through a conversation.</p>
+      <p>The break-in's over. A new drive wants running in, and I've been gentle with her since Deciat, keeping the jumps in the seventies and listening to her spool. Tonight she's rated for ninety-one light years, and I believed her. Five long jumps south-west, eighty-odd light years at a time, the drive pulling hard and clean, until Synuefai SL-Q. Nearly a thousand light years from Sol now. One more green Tectonicas there, and another Cerbrus I didn't stop for.</p>
+      <p>Twenty-three in the bag. Hymn's quiet. I like her quiet.</p>
+      <p>Shut down at 02:42.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-32">
+    <a class="row" href="#entry-32"><span class="no">Entry 32</span><span class="dt">Oct 3312</span><span class="t">Eleven Hundred</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 01:06 GST</span><span class="loc">Synuefai SL-Q b11-2</span></div>
+      <p>A quiet one. Two more green Tectonicas, on two worlds a couple of jumps apart, and nothing new to the Codex. I don't mind. There's a rhythm to the plain days that I'm starting to like: launch Refrain, find the patch, three samples, bring her home, and Hymn waiting above me the whole time like a held breath.</p>
+      <p>Most of the stars out here are red dwarfs, one after another, and the names have stopped meaning anything. Synuefai this, Synuefai that. I catch myself reading them out loud just to hear a voice.</p>
+      <p>I passed eleven hundred light years from Sol tonight. Nobody to tell, so I'm telling this.</p>
+      <p>Twenty-five in the bag. Shut down at 01:40.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-33">
+    <a class="row" href="#entry-33"><span class="no">Entry 33</span><span class="dt">Oct 3312</span><span class="t">Recepta</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 02:14 GST</span><span class="loc">Synuefai SE-C c2-4</span></div>
+      <p>I took six probes to map one planet tonight. The target was six as well, so the scanner can't complain, but I can. It's a big world and I had to keep coming back round to it, and by the end I was talking to the probes like they were dogs that wouldn't come when called. Lime Tectonicas at the bottom of it all, which I could have found with my eyes shut by now.</p>
+      <p>The next world made up for it. Recepta Umbrux. Maroon, low and lumpy, clinging to the rock in little round clumps. I've never seen a Recepta before. I knelt down beside the first one longer than the sampler needed me to.</p>
+      <p>Then two planets in JC-B with Tectonicas in a colour I hadn't met yet, emerald, deep green going almost black where the light didn't reach. Same organism, new coat. I don't know why that pleases me as much as it does.</p>
+      <p>Thirty samples in the bag now. Hymn's hold is the most valuable thing I've ever carried that weighs nothing at all.</p>
+      <p>Shut down at 03:11, eleven hundred and forty-five light years out.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-34">
+    <a class="row" href="#entry-34"><span class="no">Entry 34</span><span class="dt">Oct 3312</span><span class="t">Three Hundred and Ninety-Three</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 14:37 GST</span><span class="loc">Synuefai HT-E b4-1</span></div>
+      <p>A long day, with rests in it. I'm learning to take them. Out here nobody tells you to stop, so you have to tell yourself.</p>
+      <p>Into Oochost this morning. Another sector name to stop meaning anything, more Tectonicas in all three colours I know, and an orange Bacterium Tela on the first world that I logged and left. I'm getting better at leaving things. I'm not sure that's a compliment.</p>
+      <p>Then the neutron star. JE-E, a pinprick with a pair of jets coming off it like someone had drawn a line through it with a ruler. Last time I did this was the shakedown, close to home, with the whole bubble behind me if it went wrong. This time there was nothing behind me at all, and I knew it the whole way in.</p>
+      <p>I was frightened. My hands were wet inside my gloves. I flew into the cone with my shoulders up round my ears, Hymn bucking and shuddering, the canopy full of light, every warning she has telling me what I already knew, and the drive charging past anything it's meant to hold. I kept thinking one wrong correction and I'm a long way from anyone who could come and get me. Then the charge took and the shaking stopped, and it was the most alive I've felt in years. I was grinning so hard my face hurt.</p>
+      <p>Three hundred and ninety-three light years in one jump, nearly twice the shakedown and further than I've ever gone at once. I came out the other side and just sat there with my hands in my lap, staring at the number, then at the stars, then at the number again. There's light out there that left those stars before my great-grandmother was born, and I'd just crossed all of it in the time it takes to hold your breath. I laughed out loud, and then, for no reason I can name, I had to wipe my eyes.</p>
+      <p>The afternoon was steady work. One system gave me five planets of the same lime and green Stratum and I took every one, because when it's there you take it. A Cucumisis in the evening, emerald, and I stopped halfway through that one too and sat with my back to Refrain for a while before I finished.</p>
+      <p>Then TK-D, fourteen hundred light years from Sol, the furthest I've been on this trip, and three worlds of Tectonicas in a colour I hadn't seen: turquoise, like old copper roofs in the rain. I sampled all three.</p>
+      <p>After that I turned north. I don't know yet whether that's the start of the way home or just the start of the next loop. Hymn doesn't ask.</p>
+      <p>Fifty samples in the bag. Shut down at 02:13.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-35">
+    <a class="row" href="#entry-35"><span class="no">Entry 35</span><span class="dt">Oct 3312</span><span class="t">Northward</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 18:34 GST</span><span class="loc">Synuefai QL-L b1</span></div>
+      <p>North all day. I didn't decide it so much as notice it, somewhere in the morning: every jump I plotted had the bubble a little closer at the end of it. I let it.</p>
+      <p>The Tectonicas kept coming, world after world, and I took them, because that's the work and the work is good. One system gave me four, the next three. I stopped once in the middle of a sample and stood on the rock for a while with my hands on my knees, just breathing, then got on with it.</p>
+      <p>Then a T Tauri star. A young one, still settling, the light coming off it uneven and restless, and around it a planet with Tectonicas in a colour I've never seen: amethyst. Purple on grey rock, like a bruise healing. I stood over it longer than I needed to.</p>
+      <p>At the edge of the Taurus Dark Region there was something that wasn't Stratum for once. Cactoida, on two worlds, purple on one and mauve on the other, little lumpy towers leaning out of the dust. The dark nebula filled half the sky behind them. I took my samples and then sat in Refrain with the canopy toward it for a long time and didn't do anything at all.</p>
+      <p>Five hundred and fifty light years from Sol tonight. Half the distance I was a day ago. Sixty-seven samples in the bag, which is more than I ever thought I'd carry.</p>
+      <p>Shut down at 01:33.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-36">
+    <a class="row" href="#entry-36"><span class="no">Entry 36</span><span class="dt">Oct 3312</span><span class="t">Course Plotted</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 17:32 GST</span><span class="loc">Mel 22 Sector TU-V b3-3</span></div>
+      <p>That's the expedition done.</p>
+      <p>I didn't plan to end it here. I took the last samples through the dark region the way I've taken all of them, one world at a time, turquoise and emerald and lime, and then two little lime patches in the Pleiades, and when I climbed back into Hymn after the second one I just knew. Eighty-two samples, twenty-three things in the Codex that weren't there when I left, nearly five thousand light years and fourteen hundred from Sol at the furthest. That's a whole trip.</p>
+      <p>I plotted the course for Diaguandri. Four jumps. I'll fly it next, not now.</p>
+      <p>I'm not going home, though, not really. I'll stop at Ray Gateway long enough to get Hymn's hull patched and her systems serviced, she's earned it, and to hand all of this over to Vista Genomics and the cartographers. Then I'm leaving again. Rent's paid. There's nothing in the apartment that needs me.</p>
+      <p>Sol first. I've jumped through its neighbourhood more times than I can count and never once stopped to look at it properly. The cradle. Earth, and the Moon, and Mars, all of it, the place every one of us came from, and I've been treating it like a road sign. I want to see it before I go a very long way from it. A few stops after that, I haven't decided where. And then Colonia, twenty-two thousand light years out, which a year ago I'd have called a fantasy.</p>
+      <p>Shut down at 02:10.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-37">
+    <a class="row" href="#entry-37"><span class="no">Entry 37</span><span class="dt">Oct 3312</span><span class="t">Homecoming</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 14:06 GST</span><span class="loc">Pleiades Sector XZ-Y c11</span></div>
+      <p>The Thargoids said goodbye.</p>
+      <p>First jump of the run home, and halfway through witch space everything went wrong at once: the tunnel tore, the drive screamed, and I was thrown out into black with every system dead around me and that sound, that awful bone-deep sound they make, coming from nowhere and everywhere. I've heard it before. It doesn't get easier. I sat in the dark with my hands off the stick and my heart going like a hammer, and I didn't move, and after a while it went away. Nothing fired on me. I brought her systems back up one at a time and jumped again before I could think about it too hard. Hymn didn't take a scratch. I can't say the same for my nerves.</p>
+      <p>Four jumps later the Ray Gateway light was in the canopy and it was the best thing I've seen in a long while.</p>
+      <p>They patched Hymn up. Then I walked into Vista Genomics with everything I'd carried out of the dark and handed it over, and the number on the screen at the end of it was so large I asked the clerk to read it to me twice. Eleven hundred and seventy-five million credits. Then I found I'd left a whole case of samples in Refrain's locker, twenty-one of them, and went back in with those too: another three hundred and ninety million. Fifteen hundred and sixty-six million credits, all told. One of the turquoise Tectonicas from Oochost came with a first-logged bonus on top, seventy-six million on its own, because nobody had recorded it on that world before me, and I keep thinking about that.</p>
+      <p>The cartographers took the rest: eighty-two systems, another twenty-seven million.</p>
+      <p>The Pilots Federation moved me up three grades in exobiology all at once. Taxonomist. I had to look up what it meant. And Li Yong-Rui's people, who I suppose like it when their pledged pilots come home rich, moved me up twice.</p>
+      <p>I had four hundred and sixty-eight million when I left. I've got more than two billion now. I don't know what to do with that, so for now I'm going to do nothing with it, and go to Sol.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-38">
+    <a class="row" href="#entry-38"><span class="no">Entry 38</span><span class="dt">Oct 3312</span><span class="t">The Cradle</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>undocked 14:45 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Two jumps. That's all it is from home to Sol. Two jumps, and in all the years I've been flying I never once stopped.</p>
+      <p>The first thing I heard when I dropped in was a cruise liner's announcer telling her passengers about the delightful views and the safety demonstration. I laughed out loud. I'd come to stand at the cradle of the species, and I was sharing it with a tour group.</p>
+      <p>I went to Earth first. There's a memorial in orbit for the Second Thargoid War, a listening post that plays the names and the voices, and I sat beside it with the engines idling and listened for a long time. Then the Pilots' Memorial. I didn't know anyone on it, not personally. I knew a lot of people like them.</p>
+      <p>And then the beacon they call the Cradle of Humanity. Earth below, blue and white and so ordinary it hurt, the way it must have looked to the first people who ever saw it from outside. Everyone I've ever met came from there, if you go back far enough. My parents. Their parents. Achenar was a long way down the line. I'd never felt that before, not in my body.</p>
+      <p>Mars after that, and the relic they found there, the thing that wasn't made by us.</p>
+      <p>Then I turned Hymn outward and flew for a long time, past all the planets, out to one of the old probes, the little machines people threw into the dark before anyone could follow them. It's tiny and battered and still going. I parked beside it and switched off the cabin lights and thought: that's us, that's what we've always been, something small sent a long way out to see what's there.</p>
+      <p>Colonia's twenty-two thousand light years further on. I think I'm ready.</p>
+      <p>Shut down at 15:42.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-39">
+    <a class="row" href="#entry-39"><span class="no">Entry 39</span><span class="dt">Oct 3312</span><span class="t">Halfway</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 18:42 GST</span><span class="loc">Sol</span></div>
+      <p>The course is plotted and fed into the nav computer. I've seen what I wanted to see in Sol. Now let's go and see the galaxy.</p>
+      <p>Rhapsody in Blue first, a blue-skied moon a few jumps out, and then the neutron stars started. I thought the one in Oochost had cured me of being afraid of them. It hasn't. Every time, Hymn bucks and groans like she's being wrung out, and the jump itself is strange: the sounds are wrong, lower somehow, and the colours in the tunnel are slightly off, as if someone's turned the whole universe a few degrees. Thirty-one of them on this run. I didn't get used to it.</p>
+      <p>The one at Bleia Eohn was the worst. You can see how fast it's spinning. You can feel it. I knew I had to make that jump, and my hands were shaking on the stick before I'd even lined up. Then I got caught in the cone. Usually you skim it and pull out and the charge is yours. This time she wouldn't come out. I fought her and the stream just kept carrying us, all the way to the far end of it, before the drive finally took the charge and let go. I sat there afterwards for a long time. I'm fairly certain I needed to change my flight suit after that one.</p>
+      <p>In Red Spider Sector, beside the nebula, a cloud of red gas, one of the Lagrange clouds, a Roseum the scanner said, and floating inside it, crystals. Purpureum Metallic Crystals, purple and metal-bright, turning slowly in the red. They're beautiful. I sat and watched them for a long while before I made myself move on and map the planets. And in the same system a second cloud, green this time, a Viride, full of red Rubeum crystals.</p>
+      <p>The Omega Nebula, the Lagoon, the Trifid, one after another, each one a different colour of light.</p>
+      <p>And then the Pillars of Creation. I've seen them in pictures. What person hasn't? But to sit at the centre of the Eagle Nebula, with the pillars standing there and a band of the Milky Way behind them, I don't have the words. I'm not going to try.</p>
+      <p>A green gas giant at Viridian Dreams. When it came up on the scanner I didn't believe it. I had to stop and look, properly, with my own eyes, and it really is green, glowing, like something out of a story.</p>
+      <p>The Collection of Wonders is a bit touristy, with its beacon and its brochure feel, but if you're out in this part of the galaxy you have to stop. And there is something about dropping into a system with two black holes in it that no beacon can make ordinary.</p>
+      <p>Now Skaudai, the place they call Campana Aurora, and three more of the phenomena. I didn't realise there was so much out here. There's nothing like this in the bubble. The first is a Luteolum cloud, orange-red, with yellow Flavum crystals and more of the purple Purpureum in it. The second is a Croceum, bright green to my eyes, with crystals and something new: Solid Mineral Spheres, perfect round stone things just hanging there. The third is a Viride, a duller green, with Rubeum crystals and Lattice Mineral Spheres.</p>
+      <p>Eleven thousand seven hundred light years from Sol now. More than halfway.</p>
+      <p>Shut down at 01:48.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-40">
+    <a class="row" href="#entry-40"><span class="no">Entry 40</span><span class="dt">Oct 3312</span><span class="t">Colonia</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 14:16 GST</span><span class="loc">Skaudai YP-O e6-17</span></div>
+      <p>The Fields of Elysium. I thought the name was hyperbole, the sort of thing an explorer writes when they've been alone too long. Then I arrived. Two Earth-like worlds, both of them ringed, so close together they share the sky. Blue and white and green, each one hanging over the other's horizon. They're stunning. I went away and came back again just to look a second time.</p>
+      <p>Arcane Allure, another green gas giant. In pictures they look fake. Nothing's that green, you think, someone's touched up the colours. But they're not, and it is. That green is real, and it's glowing at you.</p>
+      <p>Then Matryoshka, which I still don't quite believe. Three bodies whose orbits carry them straight through one another, sometimes all three at once. From the cockpit it looks impossible, like a mistake in the universe. The cartographers' explanation is that they share one orbit in some slow, patient resonance, and from almost every angle they pass so close they seem to overlap. Get near enough and there's always a gap. I'll take their word for it. I sat and watched them slide through each other and decided I liked not understanding it.</p>
+      <p>I stopped at Evelyn's Light to pay my respects. She was eleven. The beacon plays her heartbeat. I listened to the whole thing with the cabin lights off and didn't move for a long time afterwards.</p>
+      <p>On the way there the drive made the longest jump it ever has: five hundred and one light years in one breath. I didn't even flinch at the cone this time. Well. Not much.</p>
+      <p>A last moon full of life near Colonia: tussocks and red frutexa, both new to me.</p>
+      <p>And then Colonia. Twenty-two thousand light years from Sol. I've reached Colonia.</p>
+      <p>I'm surprised, honestly. I expected the drive to be in pieces after so many neutron stars, after all that bucking and groaning, but she came in at ninety-six and a half percent. The yard here put her right in no time at all. Hymn of the Long Night carried me across half the galaxy and barely needed a polish.</p>
+      <p>Vista Genomics paid three hundred and fifty million for six samples, every one of them a first: nobody had logged any of them before me. And I've sent for Hephaestus and Artemis. They'll follow me out from Diaguandri. It seems I'm staying a while.</p>
+      <p>Shut down at 01:51.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-41">
+    <a class="row" href="#entry-41"><span class="no">Entry 41</span><span class="dt">Oct 3312</span><span class="t">Settling In</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 20:07 GST</span><span class="loc">Jaques Station, Colonia</span></div>
+      <p>First proper look at the place I've come all this way for.</p>
+      <p>I went down to the moons. Colonia has settlements everywhere, farms and labs and a drilling outfit, small domes huddled on grey ground under a sky that's mostly nebula. I set down at five of them and walked about a bit at each. Hydroponics, genetics, a mine. People out here grow their own food because the nearest anything else is twenty-two thousand light years away. One of them didn't have a pad big enough for Hymn, which I'm choosing to take as a compliment to her.</p>
+      <p>Back at Jaques I had a missile rack fitted. Hymn's never carried a weapon before. It felt wrong, a little, like putting boots on a dancer, but out here there's no navy and no one coming if things go badly, and I'd rather have it and not need it.</p>
+      <p>Then I went to look at the neighbours. Kinesi, a proper Orbis station, busy and bright. Carcosa, where the asteroid base belongs to a faction calling itself The Nameless, which is exactly as reassuring as it sounds. They're at war with someone, and near one of the settlements on the moon somebody decided I was a target. I didn't stay to find out who. Up at the Dove Enigma, the megaship, there wasn't a berth to be had, so I went home to Jaques, took a courier job for the Colonia Council back out to Carcosa, and delivered it. Twenty thousand credits. My first honest day's work in Colonia.</p>
+      <p>Hephaestus and Artemis are still on their way out. When they get here it'll start to feel like I live here.</p>
+      <p>Shut down at 00:08, docked at Robardin Rock.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-42">
+    <a class="row" href="#entry-42"><span class="no">Entry 42</span><span class="dt">Oct 3312</span><span class="t">LFT 509</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 13:17 GST</span><span class="loc">Robardin Rock, Carcosa</span></div>
+      <p>The message came in from the Pilots Federation: they're issuing permits for LFT 509. A system that's been locked for as long as I can remember, open now. So I'm going back to the bubble. There's no way I'm not exploring a previously locked system. Colonia will keep.</p>
+      <p>I plotted the whole run and let Hymn have it. Eighty-four jumps, forty-six of them through neutron cones, twenty-three thousand light years, and I didn't stop once. Two hours and ten minutes from undocking at Jaques Station to the clamps at Ray Gateway. It took me two days to get out there with all the sightseeing. Coming home I just flew. Four of the jumps went past five hundred light years, longer than anything I've done before, and I barely noticed. That's how tired I was, or how used to it I've become. I'm not sure which.</p>
+      <p>I left Hymn at Ray Gateway and took Invictus. She has the limpets for this kind of work.</p>
+      <p>LFT 509 is busy. Half the bubble has had the same idea, and the comms were full of commanders all asking each other the same questions. At the centre of it all is a ship called the Perpetual Toil, sitting there in the dark with her uplinks still live. I linked to all five. They're logs, ship's records, the last things her crew wrote. The last one isn't words at all. Just a pattern of pulses, long and short, over and over, and the comms system can't decode it. Everyone on the channel has a theory about what it means, and no two of them agree. I sat there listening to it for a while and didn't come up with one of my own.</p>
+      <p>Down on one of the moons, B 3 b, there were ten more data logs scattered across the ground, abandoned, and I drove the Scarab from one to the next and pulled every one of them. Pieces of the same story, I think. The people who were here, trying to leave a trail for whoever came after. I've got them all now. I'll read them properly when I'm somewhere I can sleep.</p>
+      <p>On the way out I linked to the Toil one last time, then sent the limpets in to strip what I could from the debris around the system. And before I left, just to be safe, I ran a full decontamination sweep, hull and interior both. I don't know what happened to the Perpetual Toil's crew. I'd rather not carry it home with me.</p>
+      <p>Shut down at 20:47, back at Ray Gateway.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-43">
+    <a class="row" href="#entry-43"><span class="no">Entry 43</span><span class="dt">Oct 3312</span><span class="t">Rounds</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 00:26 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>Back in the bubble means back to the day job, so I took Invictus out on a round for Li Yong-Rui. Nav beacons in the systems next door, one after another: drop in, scan, move on. It's not glamorous, but it's the work that holds the territory together.</p>
+      <p>Somewhere up past Warkushodi the word came through that they've moved me up again. Rank eight. I'm not sure what that makes me now besides busier.</p>
+      <p>Then the power wreckage sites, picking through what's left after someone else's fight. One of them still had people in it: four escape pods, sealed and cold, their occupants asleep inside. I took them aboard as gently as I could and flew them home to Ray Gateway, with the black box and the scrap. It's a strange thing to carry sleeping strangers through witch space. I kept checking the readouts all the way back. Every one of them made it.</p>
+      <p>Shut down at 01:34.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-44">
+    <a class="row" href="#entry-44"><span class="no">Entry 44</span><span class="dt">Oct 3312</span><span class="t">Outbound</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 14:25 GST</span><span class="loc">Ray Gateway, Diaguandri</span></div>
+      <p>One more day of the day job before I go. I took Invictus out to the wreckage sites around Diaguandri, then Simarasir, then Volkhabe. More escape pods, fifteen of them by the end, some with people still asleep inside and some just damaged, and I brought every one back to Ray Gateway. At Volkhabe a Li Yong-Rui Anaconda was already on scene, sitting over the debris like it owned the place. I didn't argue with it. I collected what I came for and left.</p>
+      <p>Then something different. I took Void Runner up to Altair and filled her hold with Altairian Skin, ninety-five tonnes of it, and ran it back down to Volkhabe. They paid nearly nine times what I paid for it. Li Yong-Rui's people were pleased with that too. It's been a long time since I flew the Clipper for anything but salvage, and I'd forgotten how good she feels on a trade run.</p>
+      <p>In the evening I put Void Runner away and went down to Hymn. The yard had her fixed up, every scratch from the last crossing gone. Hephaestus and Artemis are waiting for me at Jaques Station. It's time I went to join them.</p>
+      <p>The first stretch was slow going, ordinary jumps out under the galactic plane until the neutron stars started. Then it was the old rhythm again: line up on the cone, let the drive drink it in, and throw her four or five hundred light years at a time. Thirteen of them tonight, one after another. It still doesn't feel ordinary.</p>
+      <p>Shut down at 01:01, out past Pyraleau, nearly seven thousand light years from Sol and a long way still to go.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-45">
+    <a class="row" href="#entry-45"><span class="no">Entry 45</span><span class="dt">Oct 3312</span><span class="t">Under One Roof</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 21:48 GST</span><span class="loc">Pyraleau HB-H b39-0</span></div>
+      <p>The crossing went the way the good ones do. Cone, jump, hop to the next star, cone again, five hundred light years at a time, until the sector names stopped meaning anything and became a rhythm. I stopped for a breath out past Boeph, eighteen thousand light years from home, and then went on. The last stretch into Colonia felt shorter than it was. Hymn knows the way now, and so do I.</p>
+      <p>At Dove Enigma I sold the charts from the crossing and had the yard look her over again. Then on to Jaques Station, where Hephaestus and Artemis were waiting on the pads, exactly where I'd asked them to be. Three of my ships under one roof, twenty-two thousand light years out. It looks like home.</p>
+      <p>I sat in Hymn's cockpit for a long while after the clamps took her, just looking out at the others. Last time I was here I was passing through. This time I think I'm staying a while.</p>
+      <p>Shut down at 02:14, docked at Jaques Station.</p>
+    </div>
+  </article>
+</section>
+
+<section class="chapter month" id="m-nov-3312">
+  <div class="label">November 3312</div>
+  <article class="jentry" id="entry-46">
+    <a class="row" href="#entry-46"><span class="no">Entry 46</span><span class="dt">Nov 3312</span><span class="t">Groundwork</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 14:57 GST</span><span class="loc">Jaques Station, Colonia</span></div>
+      <p>Hymn stayed on the pad this morning. I took Hephaestus out instead, the first time she's flown since they shipped her out here, and went to see what the rings around Colonia 4 had in them. Quite a lot, as it turns out. Platinum, palladium, a little painite, and a fair amount of osmium, which I wanted for a particular reason.</p>
+      <p>Marsha Hicks keeps her workshop at The Watchtower in Tir, sixteen light years from Jaques, and she doesn't open the door to anyone who turns up without ten tonnes of osmium. So I brought ten, and a few more to sell. She's brisk. She looked at Hephaestus's refinery, looked at me, and had it shielded properly before my tea was cold, five grades in one sitting. I've had engineers take a dozen visits to warm up to me, she did it in about a quarter of an hour. I'm not sure whether that's a compliment to me or to the materials.</p>
+      <p>Etienne Dorn was harder. He wants people. Twenty-five of them, in occupied escape pods, delivered to Kraken's Retreat in Los, and the only sensible way I could think of to get them was to turn the miner into a rescue ship for the afternoon. The prospector came out and a rescue controller went in, with a bigger fuel scoop and the shield generator she should of had all along. Then Luchtaine, where three distress calls had left pods scattered across a lot of empty space. Forty-four of them in the end. I spent most of an hour flying slow circles with the limpets out and the COVAS counting pods back to me in that patient voice I used to write for a living. Dorn took his twenty-five and let me in. The rest I handed in for the usual reward, and I tried not to think of the people inside as a currency, though that is more or less what they were today.</p>
+      <p>Then something for Hymn. Refrain does her landing for her, but there are places a Nomad can't take me, so I had the yard put a vehicle bay in her with two Scarabs to go in it. It costs her a bit over a light year of range. I can live with that.</p>
+      <p>I tried it out the same evening. Four settlements around Ogmar had lost power and Whirling Station was paying for someone to carry a regulator in and switch each one back on. Hymn's first landing was at Shen Astrophysics Forum, and she sat down on the ground better than I expected a ship her size to. The forum had company when I got there. Six of them, all wanted, all shooting. At Apte Genetics there were four more. Likedeeler of Colonia will pay for every one, which is the only reason I'm writing it down.</p>
+      <p>All four lights back on by the end. Shut down at 02:05 at Whirling Station, with the Scarab's tyres still full of Ogmar dust.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-47">
+    <a class="row" href="#entry-47"><span class="no">Entry 47</span><span class="dt">Nov 3312</span><span class="t">No Law Out Here</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:45 GST</span><span class="loc">Whirling Station, Ogmar</span></div>
+      <p>Started the evening with a short loop out to Asura and Santos Dumont and back, mostly to see Hymn's range after the vehicle bay went in. She doesn't seem to notice the extra weight. I notice it on the readout and nowhere else.</p>
+      <p>Then Carcosa, for something I'd been thinking about for a while. The Nameless hold a research outpost there, Oliveira Genetics Exploration, on one of the moons of CD 3. They're an anarchy outfit, no law and no courts, which means nobody files a report about what happens on their ground and nobody posts a bounty for it either. I'd just come off switching settlement lights back on for people who pay their taxes. This was the other kind of settlement.</p>
+      <p>Hymn sat down on their own pad, which still amuses me. I took the Scarab off it and walked the last part.</p>
+      <p>It was not quiet. I went through three medkits and an energy cell and threw my only grenade at a doorway I'd rather not of been standing near, and the suit's shield readout spent most of the raid somewhere I didn't like. But the stores were full. Optical lenses, memory chips, ion batteries, a suit schematic I hadn't expected to find, and a terminal that gave up its gene sequencing and virology files without much argument. The encryption on those systems is older than it should be for a genetics lab. I'd have fixed that on day one.</p>
+      <p>Hymn came down at the edge of the compound to pick the Scarab up, which saved me a walk, and we went home to Jaques. The bounties from Ogmar were waiting to be cashed, a little less after the broker took his quarter.</p>
+      <p>Shut down at 01:43. Hands still shaking a bit, honestly. Tea's helping.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-48">
+    <a class="row" href="#entry-48"><span class="no">Entry 48</span><span class="dt">Nov 3312</span><span class="t">Letters of Introduction</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 02:39 GST</span><span class="loc">Jaques Station, Colonia</span></div>
+      <p>Artemis hadn't left her cradle since the transport dropped her off out here. I'd half forgotten how she sits, low and heavy and impatient, nothing like Hymn. The power plant came up hot the way Hera Tani left it, and for a moment I was back at the Diaguandri beacon a lifetime ago doing exactly this.</p>
+      <p>Ogmar's nav beacon had a queue. A Type-7, a Sidewinder and a Viper, all with Likedeeler warrants on them, and the system security turned up halfway through the second one and helped, which I don't usually get. They scanned my hold afterwards anyway. Then a weapons-fire signal out by the first moon, and a man called Khalid in an Eagle who scanned me too, found nothing in the hold, called me something rude and opened fire. He should of kept flying.</p>
+      <p>The real reason I was out was Mel Brandon. Brandon works out of The Brig on Luchtaine, an old prison with a landing pad, and doesn't take visitors without an introduction. The Colonia Council will write you one if you carry a packet across to Colonia Dream for them, so I did that, and then the price of the door was proof I'd been doing useful work, in the form of a hundred thousand in bounty vouchers. I had a bit over four hundred thousand from Ogmar. Brandon took a hundred, the broker at The Brig took his cut of the rest.</p>
+      <p>So that's three engineers out here now, I have to start thinking about what I actually want each of them to do and in what order, which is a nicer problem than the one I had last month.</p>
+      <p>Shut down at 03:30, docked at The Brig.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-49">
+    <a class="row" href="#entry-49"><span class="no">Entry 49</span><span class="dt">Nov 3312</span><span class="t">Second Helping</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 00:23 GST</span><span class="loc">The Brig, Luchtaine</span></div>
+      <p>Took Artemis over to the beacon in Tenjin before heading home. It was busy. A Clipper, a Gunship and a Krait all lit up wanted on the scanner, and every one of them was the sort of fight I'd want a wingmate for, so I let them be and picked the Keelback instead. Laura Nigella, Colonia Research Department, two hundred thousand on her head across two factions. She didn't last long. The beacon gave up some encoded scraps too, including a scan archive I'd never seen before. No idea yet what reads it.</p>
+      <p>Rearmed at Balakor's Research Post, then back to Jaques to cash the voucher and change ships. Artemis back in her cradle, Hymn out of hers.</p>
+      <p>I'd marked Yoon's Installation the first time I flew over Carcosa and couldn't stop thinking about it. Another Nameless site, industrial this time, on AB 1 h. They saw me coming. The guns opened up on the Scarab before I'd got anywhere near the fence and there was a Vulture dropship hanging over the place the whole time, which did nothing for my nerves. I got the buggy in close, got out, got back in when that looked like a mistake, and then got out for good.</p>
+      <p>Four medkits and three energy cells, which is more than last time and says something about how it went. But their stores were deep: aerogel, tungsten carbide, circuit switches, supercapacitors, encrypted memory chips, a couple of insight data banks. Eighty-odd pieces in the locker by the end, data included. Nobody out here writes it down, and nobody's coming after me for it.</p>
+      <p>Hymn came down beside the compound to scoop up the Scarab and we lifted straight out. I'm sitting in supercruise over the moon with the locker full and my hands steadier than last time. Shut down at 02:00.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-50">
+    <a class="row" href="#entry-50"><span class="no">Entry 50</span><span class="dt">Nov 3312</span><span class="t">Short of Parts</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 23:26 GST</span><span class="loc">Carcosa</span></div>
+      <p>Woke up over AB 1 h with a crick in my neck and a man called Chris Hesketh going through my hold. He said he hoped I had something good in there, ran his scanner down Hymn's flank, found two empty tonnes and told me his children would go hungry tonight. I've had worse code reviews. I didn't even drop my tea, and then he went away, and I sat there feeling obscurely guilty about a family that almost certainly doesn't exist.</p>
+      <p>Then I did what I should of done before going back to Carcosa, I laid the locker manifest next to the lists and went down them line by line, and it doesn't add up. Colonia is too limited. I can't find the components I need to unlock the engineers out here and I can't build up what the suits want, and I've been running the same query against the same few settlements for a while now as if the table might have changed. Two raids have shown me exactly what these stores keep, which is plenty of everything except the line I'm looking for. So back to the bubble for now, until I've got it all. Artemis and Hephaestus stay at Jaques, I'm coming back for them.</p>
+      <p>The route took me through Colonia anyway. I didn't stop. I had Jaques on the scanner and the docking frequency up for rather longer than the plot required, knowing they were both in there with their power plants cold, and I know how that sounds. The counsellor at Ray Gateway would write it down. I left the channel open until the jump took it away.</p>
+      <p>After that it's rhythm. Cone, short hop, cone. Hymn takes the neutron streams with a shudder that comes up through the seat and settles behind your teeth, and with the COVAS turned down it's the only thing in the cockpit with an opinion. I was twenty-six jumps out before I noticed I still had the Maverick on, the right cuff had been working at the burn on my forearm the whole way and I'd just been flying around it. Peeled it off at Stuelou HA-T with the scoop open and a star filling the canopy and climbed into the flight suit one leg at a time, in the heat. There's still Carcosa grit in the boot seals. I'll deal with that later.</p>
+      <p>The one I'd been quietly worrying about since I plotted it was Nyeajaae EF-C. Every catalogue I could pull has the system on file and no star class against it, just an empty cell where the one value that matters ought to be, and I'd routed through it anyway the way you merge something you know you haven't tested. I came out of the jump with a bit under forty tonnes and two fingers going on the console. Red dwarf. Scoopable, and a brown dwarf keeping it company, and three metal-rich little worlds and a ring of rubble, and not one name on any of it. All that traffic between here and Colonia and nobody had ever stopped to look. I don't get sentimental about first discoveries as a rule. I did sit there a bit longer than the tank needed.</p>
+      <p>There was a white dwarf at Flyiedge as well, a DB, helium all the way down, a kind I'd somehow never logged. I went round it slowly with the cone hissing on the hull and took the readings properly. Fuel got down to about thirty tonnes around the Bleia Eohn stars, which is less than I like but it's what the plot said it would be, I'd checked it twice. Should have checked the kettle instead. It boiled dry somewhere past Stuelou and I only found out from the smell, and that's the second one this year, the Caspian's galley having clearly been designed by someone who has never once wanted a drink.</p>
+      <p>The last cone of the run was a pulsar with a catalogue number for a name, and then LHS 1442 and it was all familiar again, stars with people's names on them and the traffic chatter coming up on the comms, voices, more of them than I'd heard in days. It always takes me a minute. I turned that down as well.</p>
+      <p>Ray Gateway looked exactly the same. The yard fixed what the cones had done to her and didn't comment. Ten of my ships are in the hangars under that pad and the apartment's paid for and I stayed aboard, I'd only be looking at it. Then a short hop on to LHS 1163, where Hunziker Terminal sits so far out from its star that the tower turned me away for being too far off before I'd even got there. I sold the run's charts for six million or so, EF-C with them, and it felt odd to hand that one over a counter. Azimuth Biotech like me nearly as much as they're ever going to now.</p>
+      <p>Shut down at 01:56, docked at Hunziker, with the list still up on the side panel. The first line I think I can get from</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-51">
+    <a class="row" href="#entry-51"><span class="no">Entry 51</span><span class="dt">Nov 3312</span><span class="t">Starport Protocol</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 01:46 GST</span><span class="loc">Hunziker Terminal, LHS 1163</span></div>
+      <p>Graphene. That's where the last entry stopped, I went to see what the galley had left to boil water in and never came back to the sentence. Ninety-one wanted, ten in the locker. Hunziker sold me a kettle with an Azimuth Biotech logo on it, so that's one line closed. Another closed itself overnight, a donation to the New LHS 1163 Nationalists that I'd agreed to on my way to bed and let lapse. A hundred and twenty-five thousand for the cause. I never did find out what the cause was.</p>
+      <p>I sat at the Fiden beacon doing what I've been doing for weeks, pulling a system's records and going down them for a settlement nobody would miss, and a miner called James Morant came up on the open channel to no one in particular. "Looks like I'm done here, this cluster's a bust." I know, James. Two minutes later a Mark Smith ran his scanner down Hymn, asked what I was hauling and called it a wasted effort. I went over to Teleu to see if the neighbours had anything better, they didn't, and a Martin Burridge did the same thing there and went with "useless dreg". That's three this week. Hesketh at least brought his children into it, I feel the standard is slipping. Two empty tonnes might be the most insulted cargo rack in the bubble.</p>
+      <p>What I kept coming back to was Makonda, a leisure complex on an ice moon at thirty-seven kelvin, run by an outfit called the Brotherhood of Fiden, no law and no courts. I spent longer than I needed to trying to picture the brochure. I called in expecting guns and the tower granted me docking and told me to observe starport protocol during my visit, in that flat voice, and I knew that string. Nobody's touched it in years, it has exactly the rhythm of something a contractor wrote once on a Friday. I'd of cut the "pilot". I put Hymn down on their one big pad like a guest.</p>
+      <p>I'd like it noted that I then took the Scarab down the ramp and stepped out onto the ice in a flight suit. I'd never changed back after Stuelou. Sidearm in one hand and the helmet telling me things about the temperature I didn't need telling, and I was back inside in seven seconds with my teeth going, climbing into the Maverick in a space not designed for it and glad nobody was there to see. Then their guns found the Scarab and somebody was.</p>
+      <p>It's a holiday resort, so the stores were odd. Metal coils and memory chips and then crate after crate of Insight entertainment suites, which I suppose is what a leisure complex has instead of secrets. But there was graphene in the lockers, and health monitors, which I've been short of since I started the list and had stopped expecting to see. I ran the first load out to the Scarab and emptied the pack through the hatch with the shield readout flat, about ninety pieces all told, and that was the moment to drive away. I knew it was. I had the door open. I've told myself one more block at two in the morning with a fault nearly found more times than I can count, and I've never yet been right about how long a block is.</p>
+      <p>It was a good block, too. There were terminals on that side with data I'd have paid for, and more graphene.</p>
+      <p>The last guard on it was rated Harmless. I looked that up afterwards, it's the sort of thing you look up. Russ Winters. None of the second load is in the locker and the Scarab is still down there on their ice, so call it half a night's work. Four graphene where there should of been eight. Hymn's over the moon with the panels turned down and I haven't got the kettle out of its box. Shut down at 02:43.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-52">
+    <a class="row" href="#entry-52"><span class="no">Entry 52</span><span class="dt">Nov 3312</span><span class="t">Yes We Do</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 22:32 GST</span><span class="loc">Hymn of the Long Night, over Fiden AB 1 d</span></div>
+      <p>The kettle's out of its box. Azimuth Biotech logo turned to the bulkhead, because I have some standards, and it boils in about the time it takes Hymn to come down from orbit onto Makonda's pad, which I now know.</p>
+      <p>Same tower, same voice. Observe starport protocol during your visit, pilot. They let me land on the big pad like nothing had happened, and I suppose from where the tower sits nothing had. I was in the Maverick before I left the cockpit this time. I want that on the record.</p>
+      <p>It didn't help much. They'd been waiting for the Scarab. I got as far as the first block before the whole place lit up and I was back in the seat with the canopy full of tracer and the shield gone, reversing between buildings like a student driver, and for a while it was just me and the Scarab's hull readout having a frank conversation. I tucked her behind a ridge and sat there until my hands were mine again. Then I went back in on foot, because the list was still the list.</p>
+      <p>Three trips. Out to the Scarab, empty the pack through the hatch, back in. Ion batteries by the armful, epoxy, encrypted memory chips, and eleven graphene, which after the last time felt like the moon apologising. Five health monitors. Fourteen lots of personal documents from a holiday resort, and I didn't read any of them, I want that on the record too.</p>
+      <p>The guards here talk. Somewhere in the second trip one of them shouted "We don't have to do this!" and I had the comms up on my wrist and typed back "yes we do" before I'd thought about it. I wrote lines like that for most of a decade. I know exactly the sort of person who writes "We don't have to do this!" and I know he never expected anyone to answer it. It's the worst thing I've done this week and I'm still a bit pleased with myself.</p>
+      <p>Somewhere in the middle of all that the Pilots Federation decided I was Competent. In combat, they mean. And as a mercenary, Mostly Defenceless, which is a title nobody on our team would of signed off on.</p>
+      <p>At Ray Gateway the yard looked at Hymn's canopy and hull and cargo hatch, charged me half a million, and replaced the Scarab I'd left on Makonda's ice without a word. Then I walked the hangar. I don't do that enough. I sat in Helios for a bit, and in Horizon, who'd fit on any pad in the bubble, and in Compass Rose with two hundred empty tonnes behind me, and I picked Aurora because she was the one I wanted to fly, which is a bad reason and the only one I ever have.</p>
+      <p>Lymar's Obligation is a military camp on the next moon over, same Brotherhood. The tower told me they had no pad big enough for her. I'd just been sitting in a Hauler. So I put her down outside the wire and drove in and sent her up to wait, and I'll leave Lymar's Obligation there. Aurora only carries the one Scarab and its not coming home. Another one rated Harmless. I didn't look this one up.</p>
+      <p>Shut down at 00:21, aboard Aurora, over the moon. The kettle's still on Hymn.</p>
+    </div>
+  </article>
+  <article class="jentry" id="entry-53">
+    <a class="row" href="#entry-53"><span class="no">Entry 53</span><span class="dt">Nov 3312</span><span class="t">Stored in Stone</span></a>
+    <div class="full" hidden>
+      <div class="meta"><span>systems up 19:15 GST</span><span class="loc">Aurora, over Fiden AB 1 c</span></div>
+      <p>I've been out of the seat a while. I'm not going to account for it here. Some stretches don't want writing down and that was one of them, and Aurora was where I'd left her, turning slow circles over the moon with an empty hold and nobody asking where I'd been. The kettle is still on Hymn. I noticed that before I noticed anything else.</p>
+      <p>Ray Gateway said an ally like me is always welcome. On the way out Li Yong-Rui's security scanned my hold and said it was glad to see another ally around. Two lines in ten minutes telling me I belong somewhere. Somebody wrote both of those to land warm and they did, a bit, which is an embarrassing thing to admit about a string table.</p>
+      <p>Then east. Nine jumps, nearly a hundred light years each, to a little orange star the Guardians had long before anyone called it Synuefe EU-Q c21-10. Archangel's shields need parts nobody sells, and the parts are here.</p>
+      <p>The structure on A 3 is small. I'd read that. Reading doesn't cover the hum, or the way the sockets wake when you bring a relic close, or the sentinels. They came up the first time I touched anything and the Scarab spent most of the afternoon being shot at by machines that were built to guard this place a million years before anyone thought to name it. Hull at about three quarters by the end. I ferried relics to the sockets like a kid carrying water and got it wrong twice and had to go back for the one I'd dropped.</p>
+      <p>The obelisks are what I'll keep. You drive up, the scanner reaches, and something answers. Language first. Then culture, then technology. I've never held any of it before. I spent ten years making a machine sound like it cared whether you lived, and here is a whole people's voice, kept in stone all that time, with nobody left to say it out loud. I sat in the Scarab with the canopy ticking and didn't move for a minute. Then a sentinel found me and I moved.</p>
+      <p>I slept aboard with Aurora on the ground beside it. It hums all night. You stop hearing it about the time you've started to like it. I should of brought the kettle.</p>
+      <p>Up again late. There are carriers parked over the moon, three of them, like coaches outside a tourist site, which I suppose is what this is. The Orville. CHAOS KEEPER, who sold me fuel and ammunition for the price of a sandwich. And one calling itself BUYin Guardian 150K CR, which I flew over to on the strength of the name alone. Its market was empty. Not one thing listed. I've been sold to by better.</p>
+      <p>The second sweep went cleaner. I knew where the sentinels came up from this time. Power cells, conduits, and six of the technology components Archangel wants, which makes nine of the twenty, so not done, but its a start. Three more relics into the hold. Biology and history off the obelisks this time. The tablet and the urn and the totem I put back on the ground. They didn't seem to want to come.</p>
+      <p>Seven relics and an orb aboard. Shut down at 00:15, on the ground beside the structure, and the humming's back.</p>
+    </div>
+  </article>
+</section>
+
+<footer>
+  <div>Kept by Sarah Waters from 3308 to November 3312. Times are Galactic Standard. The two retrospective entries were written later, looking back on 3308 and 3310.</div>
+</footer>
+
+</main>
+
+<dialog class="reader" aria-labelledby="reader-title">
+  <div class="hd"><span><span class="no" id="reader-no"></span> · <span id="reader-dt"></span></span><button type="button" data-act="close">Close</button></div>
+  <div class="txt" id="reader-txt" tabindex="-1"><h2 id="reader-title"></h2><div id="reader-body"></div></div>
+  <div class="ft"><button type="button" data-act="prev">← Previous</button><button type="button" data-act="next">Next →</button></div>
+</dialog>
+
+<script>
+(() => {
+  // entries open in the reading modal; the URL hash (#entry-N) keeps each one linkable
+  const dlg = document.querySelector("dialog.reader"), entries = [...document.querySelectorAll("article.jentry")];
+  const $ = id => document.getElementById(id);
+  let cur = -1, opener = null;
+  const show = i => {
+    const a = entries[i], r = a.querySelector(".row");
+    cur = i;
+    $("reader-no").textContent = r.querySelector(".no").textContent;
+    $("reader-dt").textContent = r.querySelector(".dt").textContent;
+    $("reader-title").textContent = r.querySelector(".t").textContent;
+    $("reader-body").replaceChildren(...[...a.querySelector(".full").children].map(n => n.cloneNode(true)));
+    dlg.querySelector('[data-act="prev"]').disabled = i === 0;
+    dlg.querySelector('[data-act="next"]').disabled = i === entries.length - 1;
+    $("reader-txt").scrollTop = 0;
+    history.replaceState(null, "", "#" + a.id);
+    if (!dlg.open) dlg.showModal();
+    $("reader-txt").focus({ preventScroll: true });
+  };
+  const fromHash = () => { const i = entries.findIndex(a => "#" + a.id === location.hash); if (i >= 0) show(i); };
+  document.addEventListener("click", e => {
+    const link = e.target.closest('a[href^="#entry-"]');
+    if (!link) return;
+    const i = entries.findIndex(a => "#" + a.id === link.getAttribute("href"));
+    if (i < 0) return;
+    e.preventDefault();
+    opener = link;
+    show(i);
+  });
+  dlg.addEventListener("click", e => {
+    const act = e.target.closest("button")?.dataset.act;
+    if (act === "close" || e.target === dlg) dlg.close();
+    if (act === "prev" && cur > 0) show(cur - 1);
+    if (act === "next" && cur < entries.length - 1) show(cur + 1);
+  });
+  dlg.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft" && cur > 0) show(cur - 1);
+    if (e.key === "ArrowRight" && cur < entries.length - 1) show(cur + 1);
+  });
+  dlg.addEventListener("close", () => {
+    history.replaceState(null, "", location.pathname + location.search);
+    (opener && document.contains(opener) ? opener : entries[cur].querySelector(".row")).focus({ preventScroll: false });
+    opener = null;
+  });
+  addEventListener("hashchange", fromHash);
+  fromHash();
+})();
+</script>
+
+<script>
+(() => {
+  // phones: the site nav slides away while scrolling down and returns on any scroll up
+  const nav = document.querySelector(".site-nav"), mq = matchMedia("(max-width: 600px)");
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY;
+    nav.classList.toggle("away", mq.matches && y > lastY && y > nav.offsetHeight && !nav.contains(document.activeElement));
+    lastY = y;
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

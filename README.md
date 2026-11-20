@@ -9,6 +9,7 @@ Character site for CMDR Rislyss (Sarah Waters), an Elite Dangerous commander. St
 | `index.html` | Biography: Pilots Federation personnel file |
 | `chronicle.html` | Chronicle index: prologue, where she stands now, and the chapter list |
 | `chronicle/<n>.html` | One page per chronicle chapter, numbered from 1 |
+| `journal.html` | Sarah's personal journal: an index of her first-person entries by month, each opening in a reading modal |
 | `log.html` | Flight log built from the ship's journals |
 | `hangar.html` | One panel per ship with its screenshot |
 | `engineers.html` | Engineer grades and Inara award progress |
