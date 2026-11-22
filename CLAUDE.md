@@ -53,8 +53,10 @@ In the chronicle keep time frames ambiguous (no day dates or short durations, bu
     - The text is `<div class="full" hidden>`: a `div.meta` with the logbook header's GST time and place as `<span>`s (the place gets `class="loc"`, and the real-year bracket is dropped), then one `<p>` per paragraph.
   - **Modal.** Clicking a row, or any `#entry-N` link such as the latest card, opens the entry in `dialog.reader`, which has previous/next buttons and arrow keys. The script copies the row and the `.full` content into the dialog and keeps the URL hash in step, so `journal.html#entry-N` opens that entry on load.
   - **Order.** Entries run oldest first inside one `section.chapter.month` per month (`id="m-nov-3312"`). Entries 1 and 2 sit in `#looking-back`.
-- A new entry goes at the end of the latest month's section, or in a new month section with a link added to `nav.months`. Point the header's `nav.latest` card at it (entry number, month, title) and update the eyebrow's last-entry month and the footer's last month.
-- When a logbook entry is edited in GameDocs, carry the change onto the page.
+- Don't edit the entries by hand. GameDocs' `Elite Dangerous\Tools\sync_journal.py` writes them from the logbook (run by the `update-logs` skill, and after any logbook edit).
+  - It rewrites entries whose text changed and adds new ones at the end of their month's section, creating the section and its `nav.months` link for a new month.
+  - It points the header's `nav.latest` card at the last entry and updates the last-entry month in the eyebrow and footer.
+  - Layout and script changes are made here as usual; keep the markup above, since the script matches it.
 
 ## Hangar and gallery
 
