@@ -2,7 +2,7 @@
 
 Static character site for CMDR Rislyss (Sarah Waters), Elite Dangerous. Public repo `praclarush/rislyss`; GitHub Pages serves `main` at https://praclarush.github.io/rislyss/. No build step: edit the HTML directly. `README.md` maps the files; read it first.
 
-The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the game journal, `Elite Dangerous\Docs\` (character, medical and psychological source documents, Log Notes, Inara logbook) and `Elite Dangerous\Fleet\`. Its `Elite Dangerous\CLAUDE.md` (Flight Log section) holds the writing rules, and its `update-logs` skill runs the "update logs" workflow that edits this site. Follow both when changing content here.
+The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the game journal, `Elite Dangerous\Role Play\Character\` (character, medical and psychological source documents, Log Notes, Inara logbook) and `Elite Dangerous\In Game\Fleet\`. Its `Elite Dangerous\CLAUDE.md` (Flight Log section) holds the writing rules, and its `update-logs` skill runs the "update logs" workflow that edits this site. Follow both when changing content here.
 
 ## Publishing
 
@@ -47,13 +47,13 @@ In the chronicle keep time frames ambiguous (no day dates or short durations, bu
 
 ## Journal
 
-- `journal.html` carries the Inara logbook from GameDocs (`Elite Dangerous\Docs\rislyss-inara-logbook.md`) word for word.
+- `journal.html` carries the Inara logbook from GameDocs (`Elite Dangerous\Role Play\Logbook\rislyss-inara-logbook.md`) word for word.
   - **Markup.** Each entry is `<article class="jentry" id="entry-N">` holding a list row and the hidden text:
     - The row is `<a class="row" href="#entry-N">` with `<span class="no">Entry N</span><span class="dt">Mon 3312</span><span class="t">Title</span>`.
     - The text is `<div class="full" hidden>`: a `div.meta` with the logbook header's GST time and place as `<span>`s (the place gets `class="loc"`, and the real-year bracket is dropped), then one `<p>` per paragraph.
   - **Modal.** Clicking a row, or any `#entry-N` link such as the latest card, opens the entry in `dialog.reader`, which has previous/next buttons and arrow keys. The script copies the row and the `.full` content into the dialog and keeps the URL hash in step, so `journal.html#entry-N` opens that entry on load.
   - **Order.** Entries run oldest first inside one `section.chapter.month` per month (`id="m-nov-3312"`). Entries 1 and 2 sit in `#looking-back`.
-- Don't edit the entries by hand. GameDocs' `Elite Dangerous\Tools\sync_journal.py` writes them from the logbook (run by the `update-logs` skill, and after any logbook edit).
+- Don't edit the entries by hand. GameDocs' `Elite Dangerous\Tools\Scripts\sync_journal.py` writes them from the logbook (run by the `update-logs` skill, and after any logbook edit).
   - It rewrites entries whose text changed and adds new ones at the end of their month's section, creating the section and its `nav.months` link for a new month.
   - It points the header's `nav.latest` card at the last entry and updates the last-entry month in the eyebrow and footer.
   - Layout and script changes are made here as usual; keep the markup above, since the script matches it.
