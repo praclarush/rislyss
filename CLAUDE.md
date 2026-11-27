@@ -2,7 +2,7 @@
 
 Static character site for CMDR Rislyss (Sarah Waters), Elite Dangerous. Public repo `praclarush/rislyss`; GitHub Pages serves `main` at https://praclarush.github.io/rislyss/. No build step: edit the HTML directly. `README.md` maps the files; read it first.
 
-The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the game journal, `Elite Dangerous\Role Play\Character\` (character, medical and psychological source documents, Log Notes, Inara logbook) and `Elite Dangerous\In Game\Fleet\`. Its `Elite Dangerous\CLAUDE.md` (Flight Log section) holds the writing rules, and its `update-logs` skill runs the "update logs" workflow that edits this site. Follow both when changing content here.
+The content comes from the GameDocs repo (`%USERPROFILE%\Documents\Games`): the game journal, `Elite Dangerous\Role Play\Character\` (Story Profile, Character Profile, and the biography, medical and psychological records), `Elite Dangerous\Role Play\Logbook\` (Inara logbook, Log Notes) and `Elite Dangerous\In Game\Fleet\`. Its `Elite Dangerous\CLAUDE.md` (Flight Log section) holds the writing rules, and its `update-logs` skill runs the "update logs" workflow that edits this site. Follow both when changing content here.
 
 ## Publishing
 
